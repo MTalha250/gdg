@@ -195,7 +195,7 @@ const Hero = () => {
             initial="hidden"
             animate="visible"
           >
-            <WrapButton href="#">
+            <WrapButton href="#cta">
               <Users className="mx-1 animate-pulse" />
               Join Our Team
             </WrapButton>

@@ -21,7 +21,7 @@ export default function EventCard({
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="rounded-2xl border border-border bg-background-secondary/60 p-5 md:p-8 transition-all duration-300 hover:border-white/20 hover:shadow-xl">
+    <section className="rounded-2xl border border-border bg-background-secondary/60 p-5 md:p-8 transition-all duration-300 hover:border-white/20 hover:shadow-xl my-10">
       <div className="mb-4 flex items-center gap-2">
         <span className="inline-flex items-center gap-1 rounded-md border border-border bg-background-secondary px-2 py-1 text-[10px] uppercase tracking-wider text-white/60">
           Event

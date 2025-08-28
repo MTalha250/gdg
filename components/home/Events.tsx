@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import EventCard from "@/components/ui/event-card";
+import Reveal, { RevealGroup } from "../ui/reveal";
 
 type EventItem = {
   title: string;
@@ -44,28 +45,32 @@ const defaultEvents: EventItem[] = [
 export default function EventsSection({}) {
   return (
     <section id="events" className="px-8 md:px-16 lg:px-24 xl:px-32 py-20">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8 md:mb-12 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-space-grotesk font-bold mb-2">
-            Our Events
-          </h2>
-          <p className="text-white/65 text-base sm:text-lg md:text-xl leading-relaxed">
-            Check out our past events and stay updated with our upcoming ones.
-          </p>
-        </div>
+      <Reveal>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8 md:mb-12 text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-space-grotesk font-bold mb-2">
+              Our Events
+            </h2>
+            <p className="text-white/65 text-base sm:text-lg md:text-xl leading-relaxed">
+              Check out our past events and stay updated with our upcoming ones.
+            </p>
+          </div>
 
-        <div className="space-y-20 overflow-hidden">
-          {defaultEvents.map((ev, idx) => (
-            <EventCard
-              key={`${ev.title}-${idx}`}
-              title={ev.title}
-              description={ev.description}
-              images={ev.images}
-              reverse={idx % 2 === 1}
-            />
-          ))}
+          <div className="overflow-hidden">
+            <RevealGroup startDelay={0.1} interval={0.12} y={20}>
+              {defaultEvents.map((ev, idx) => (
+                <EventCard
+                  key={`${ev.title}-${idx}`}
+                  title={ev.title}
+                  description={ev.description}
+                  images={ev.images}
+                  reverse={idx % 2 === 1}
+                />
+              ))}
+            </RevealGroup>
+          </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

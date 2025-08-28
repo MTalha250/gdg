@@ -40,9 +40,9 @@ const Navbar = () => {
           </Link>
         </li>
       </ul>
-      <InteractiveHoverButton className="shrink-0">
-        Join Us
-      </InteractiveHoverButton>
+      <Link href="#cta">
+        <InteractiveHoverButton>Join Us</InteractiveHoverButton>
+      </Link>
     </div>
   );
 };

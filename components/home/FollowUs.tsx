@@ -4,6 +4,7 @@ import FlipLink from "@/components/ui/text-effect-flipper";
 import { QrCode } from "lucide-react";
 import { BGPattern } from "../ui/bg-pattern";
 import { CometCard } from "@/components/ui/comet-card";
+import Reveal from "../ui/reveal";
 
 export default function FollowUs() {
   const Icons = {
@@ -102,57 +103,59 @@ export default function FollowUs() {
       className="relative px-8 md:px-16 lg:px-24 xl:px-32 py-20"
     >
       <BGPattern variant="grid" mask="fade-center" />
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8 md:mb-12 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-space-grotesk font-bold mb-2 flex items-center justify-center gap-2">
-            <QrCode className="h-10 w-10" /> Follow Us
-          </h2>
-          <p className="text-white/65 text-base sm:text-lg md:text-xl leading-relaxed">
-            Scan the QR or use the links to stay updated.
-          </p>
-        </div>
+      <Reveal>
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8 md:mb-12 text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-space-grotesk font-bold mb-2 flex items-center justify-center gap-2">
+              <QrCode className="h-10 w-10" /> Follow Us
+            </h2>
+            <p className="text-white/65 text-base sm:text-lg md:text-xl leading-relaxed">
+              Scan the QR or use the links to stay updated.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <CometCard>
-            <div className="relative mx-auto w-full max-w-sm rounded-2xl border border-border bg-background-secondary p-4">
-              <div className="relative w-full aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/images/qr.png"
-                  alt="Scan to follow"
-                  loading="lazy"
-                  fill
-                  sizes="(min-width: 768px) 360px, 90vw"
-                  className="object-cover"
-                  priority={false}
-                />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+            <CometCard>
+              <div className="relative mx-auto w-full max-w-sm rounded-2xl border border-border bg-background-secondary p-4">
+                <div className="relative w-full aspect-square overflow-hidden rounded-lg">
+                  <Image
+                    src="/images/qr.png"
+                    alt="Scan to follow"
+                    loading="lazy"
+                    fill
+                    sizes="(min-width: 768px) 360px, 90vw"
+                    className="object-cover"
+                    priority={false}
+                  />
+                </div>
+                <div className="mt-4 text-center text-sm text-white/60">
+                  Scan with your camera
+                </div>
               </div>
-              <div className="mt-4 text-center text-sm text-white/60">
-                Scan with your camera
+            </CometCard>
+            <div className="space-y-4">
+              <div className="group flex items-center justify-center gap-3">
+                <Icons.instagram />
+                <FlipLink href="#" color="text-[#FD0AC1]">
+                  Instagram
+                </FlipLink>
               </div>
-            </div>
-          </CometCard>
-          <div className="space-y-4">
-            <div className="group flex items-center justify-center gap-3">
-              <Icons.instagram />
-              <FlipLink href="#" color="text-[#FD0AC1]">
-                Instagram
-              </FlipLink>
-            </div>
-            <div className="group flex items-center justify-center gap-3">
-              <FlipLink href="#" color="text-[#0B66C2]">
-                LinkedIn
-              </FlipLink>
-              <Icons.linkedin />
-            </div>
-            <div className="group flex items-center justify-center gap-3">
-              <Icons.google />
-              <FlipLink href="#" color="text-[#FF4645]">
-                Community
-              </FlipLink>
+              <div className="group flex items-center justify-center gap-3">
+                <FlipLink href="#" color="text-[#0B66C2]">
+                  LinkedIn
+                </FlipLink>
+                <Icons.linkedin />
+              </div>
+              <div className="group flex items-center justify-center gap-3">
+                <Icons.google />
+                <FlipLink href="#" color="text-[#FF4645]">
+                  Community
+                </FlipLink>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
