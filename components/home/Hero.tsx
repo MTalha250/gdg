@@ -144,7 +144,7 @@ const Hero = () => {
         />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 md:px-6">
+      <div className="relative z-10 container mx-auto px-4 md:px-6 py-20">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
             custom={0}
