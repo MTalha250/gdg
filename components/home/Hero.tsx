@@ -1,5 +1,5 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Circle, Users } from "lucide-react";
 import WrapButton from "@/components/ui/wrap-button";
 import { cn } from "@/lib/utils";
@@ -52,6 +52,9 @@ function ElegantShape({
         style={{
           width,
           height,
+          // Safari optimization
+          willChange: "transform",
+          transform: "translate3d(0, 0, 0)",
         }}
         className="relative"
       >
@@ -89,6 +92,11 @@ const Hero = () => {
     <div
       id="hero"
       className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#030303]"
+      style={{
+        // Safari performance optimization
+        willChange: "transform",
+        transform: "translate3d(0, 0, 0)",
+      }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
       <BackgroundLines
@@ -96,6 +104,7 @@ const Hero = () => {
         density="half"
         responsive={false}
         strokeWidth={1.6}
+        intensity="low"
       />
       <div className="absolute inset-0 overflow-hidden">
         <ElegantShape
