@@ -17,7 +17,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "GDG on Campus ITU",
-  description: "GDG on Campus ITU",
+  description:
+    "GDG on Campus ITU is a community of developers, designers, and students who are passionate about technology and innovation.",
 };
 
 export default function RootLayout({
