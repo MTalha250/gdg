@@ -153,7 +153,7 @@ const Hero = () => {
         />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 md:px-6 py-20">
+      <div className="relative z-10 container mx-auto px-4 md:px-6 py-28">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
             custom={0}
@@ -163,7 +163,7 @@ const Hero = () => {
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
           >
             <Circle className="h-2 w-2 fill-red animate-pulse" />
-            <span className="text-xs sm:text-sm text-white/60 tracking-wide">
+            <span className="text-xs sm:text-sm text-white/60 tracking-wide whitespace-nowrap">
               Recruitment ends on 8th September 2025!
             </span>
           </motion.div>
