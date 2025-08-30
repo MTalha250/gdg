@@ -58,15 +58,17 @@ export default function EventsSection({}) {
               </div>
             ) : (
               <RevealGroup startDelay={0.1} interval={0.12} y={20}>
-                {events.map((ev, idx) => (
-                  <EventCard
-                    key={ev._id}
-                    title={ev.title}
-                    description={ev.description}
-                    images={ev.images}
-                    reverse={idx % 2 === 1}
-                  />
-                ))}
+                {events &&
+                  events.length > 0 &&
+                  events.map((ev, idx) => (
+                    <EventCard
+                      key={ev._id}
+                      title={ev.title}
+                      description={ev.description}
+                      images={ev.images}
+                      reverse={idx % 2 === 1}
+                    />
+                  ))}
               </RevealGroup>
             )}
           </div>
