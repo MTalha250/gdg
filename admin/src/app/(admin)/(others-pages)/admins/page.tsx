@@ -318,7 +318,7 @@ const Admins = () => {
                 ) : null}
               </div>
             </div>
-            <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100 dark:border-white/[0.05]">
+            <div className="flex gap-3 flex-col md:flex-row items-center justify-between px-4 py-3 border-t border-gray-100 dark:border-white/[0.05]">
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 {totalEntries > 0 ? (
                   <>
