@@ -136,19 +136,28 @@ export default function FollowUs() {
             <div className="space-y-4">
               <div className="group flex items-center justify-center gap-3">
                 <Icons.instagram />
-                <FlipLink href="#" color="text-[#FD0AC1]">
+                <FlipLink
+                  href="https://www.instagram.com/gdgxitu"
+                  color="text-[#FD0AC1]"
+                >
                   Instagram
                 </FlipLink>
               </div>
               <div className="group flex items-center justify-center gap-3">
-                <FlipLink href="#" color="text-[#0B66C2]">
+                <FlipLink
+                  href="https://www.linkedin.com/company/dsc-itu/"
+                  color="text-[#0B66C2]"
+                >
                   LinkedIn
                 </FlipLink>
                 <Icons.linkedin />
               </div>
               <div className="group flex items-center justify-center gap-3">
                 <Icons.google />
-                <FlipLink href="#" color="text-[#FF4645]">
+                <FlipLink
+                  href="https://gdg.community.dev/gdg-on-campus-information-technology-university-lahore-pakistan/"
+                  color="text-[#FF4645]"
+                >
                   Community
                 </FlipLink>
               </div>
