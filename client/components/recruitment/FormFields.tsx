@@ -146,14 +146,42 @@ export function CheckboxField({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <label className="flex items-start gap-3 text-sm">
-      <input
-        type="checkbox"
-        className="mt-0.5 size-4 rounded border bg-background accent-foreground/80"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-      />
-      <span className="text-muted-foreground">{label}</span>
+    <label className="flex items-start gap-3 text-sm cursor-pointer select-none">
+      <div className="relative flex-shrink-0">
+        <input
+          type="checkbox"
+          className="sr-only"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+        />
+        <div
+          className={`
+          w-5 h-5 rounded border-2 transition-all duration-200 flex items-center justify-center
+          ${
+            checked
+              ? "border-blue bg-blue"
+              : "border-white/30 bg-black/20 hover:border-white/50"
+          }
+        `}
+        >
+          {checked && (
+            <svg
+              className="w-3 h-3 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={3}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          )}
+        </div>
+      </div>
+      <span className="text-white/80 leading-relaxed">{label}</span>
     </label>
   );
 }
