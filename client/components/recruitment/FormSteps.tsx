@@ -39,6 +39,10 @@ interface StepProps {
   update: <K extends keyof BaseFields>(key: K, val: BaseFields[K]) => void;
 }
 
+interface TeamRoleStepProps extends StepProps {
+  onRoleChange: (newRole: string) => void;
+}
+
 const TEAMS = [
   "Management Team",
   "Security Team",
@@ -59,6 +63,148 @@ const TEAMS = [
   "Event Experience & Audience Team",
   "Documentation Team",
 ];
+
+const teamDescriptions = {
+  "Management Team": {
+    purpose:
+      "To serve as the operational backbone of all GDG events, ensuring volunteers and team members execute their duties efficiently.",
+    memberDuties:
+      "Assist in assigning and monitoring volunteer tasks, maintain the event schedule, and act as on-the-ground problem-solvers.",
+    leadDuties:
+      "Coordinate the event workflow, manage the volunteer team, and ensure smooth on-the-day operations.",
+  },
+  "Security Team": {
+    purpose:
+      "To ensure safety, security, and controlled access during all GDG ITU events.",
+    memberDuties:
+      "Check entries, manage crowd control, prevent unauthorized access, and assist with emergency protocols.",
+    leadDuties:
+      "Develop and implement security protocols, train the team, and oversee event safety.",
+  },
+  "Protocol & Hospitality Team": {
+    purpose:
+      "To handle VIPs, guest speakers, sponsors, and faculty with professionalism, representing GDG ITU's hospitality, and managing all guest comforts and food services.",
+    memberDuties:
+      "Receive and escort VIPs, arrange refreshments, ensure their comfort, and serve guests on time.",
+    leadDuties:
+      "Manage all VIP interactions, create a hospitality plan for each event, oversee catering, and train the team on professional etiquette.",
+  },
+  "Logistics Team": {
+    purpose:
+      "To handle event setup, equipment, and material movement, ensuring all physical requirements are met.",
+    memberDuties:
+      "Set up stages, tables, chairs, AV equipment, lights, and screens; ensure power and sound are ready; and manage resource transportation.",
+    leadDuties:
+      "Plan and oversee all physical logistics, manage the inventory of event materials, and coordinate with other circles to ensure timely setup.",
+  },
+  "Outreach Team": {
+    purpose:
+      "To extend GDG ITU's reach beyond our campus by promoting events and the community at other universities in Lahore and across Pakistan.",
+    memberDuties:
+      "Visit other university campuses, set up booths, distribute flyers, and engage with students and faculty to spread awareness about GDG ITU.",
+    leadDuties:
+      "Develop an inter-university outreach strategy, coordinate travel and promotional materials for visits, and build relationships with student societies at other universities.",
+  },
+  "On-Campus Marketing Team": {
+    purpose:
+      "To physically promote events on campus to ensure strong participation.",
+    memberDuties:
+      "Place posters and banners, set up promotional booths, and distribute flyers.",
+    leadDuties:
+      "Develop a campus-wide marketing strategy, manage the budget for promotional materials, and oversee the team's activities.",
+  },
+  "Digital & Social Media Team": {
+    purpose:
+      "To digitally promote GDG events through multi-channel campaigns, from messaging and email newsletters to engaging social media content.",
+    memberDuties:
+      "Share event details in group chats, manage email newsletters, create reels and stories on platforms like Instagram and LinkedIn, and respond to online queries.",
+    leadDuties:
+      "Plan and execute a comprehensive digital marketing strategy, manage the team's content calendar, analyze engagement metrics, and oversee the community's communication channels.",
+  },
+  "Sponsorship Acquisition Team": {
+    purpose:
+      "To secure financial and in-kind sponsorships to support GDG operations.",
+    memberDuties:
+      "Identify potential sponsors, research their values, and assist in preparing pitch decks.",
+    leadDuties:
+      "Lead the sponsorship strategy, manage relationships with potential partners, and negotiate deals.",
+  },
+  "Community Partnerships Team": {
+    purpose:
+      "To build alliances with other societies and GDG chapters to enhance events.",
+    memberDuties:
+      "Identify potential partners and assist in communication and collaboration.",
+    leadDuties:
+      "Manage all external society and GDG collaborations, negotiate partnership terms, and coordinate joint events.",
+  },
+  "Media Team": {
+    purpose: "To capture high-quality event photos and videos.",
+    memberDuties:
+      "Ensure live coverage for social media and document events thoroughly through photography and videography.",
+    leadDuties:
+      "Lead the media team, create a shot list for each event, and manage the photo/video archives.",
+  },
+  "Graphics Team": {
+    purpose:
+      "To design all visual assets for GDG events, including posters, event screens, and sponsor decks.",
+    memberDuties:
+      "Create designs for social media and print materials, ensuring they adhere to brand guidelines.",
+    leadDuties:
+      "Oversee the team's creative output, manage design requests from other circles, and ensure brand consistency.",
+  },
+  "Content Creation Team": {
+    purpose: "To write engaging captions, blogs, and post-event stories.",
+    memberDuties:
+      "Craft compelling narratives about GDG ITU events and initiatives, and write all social media captions and blog posts.",
+    leadDuties:
+      "Develop a content strategy, edit and approve all written material, and ensure GDG's storytelling is consistent and impactful.",
+  },
+  "Video Editing & Reel Team": {
+    purpose: "To produce event highlights, reels, and teasers.",
+    memberDuties:
+      "Edit video footage from events, and create short, engaging clips optimized for social media.",
+    leadDuties:
+      "Manage the video editing workflow, oversee the creative direction of all video content, and ensure timely delivery of assets.",
+  },
+  "Technical Team": {
+    purpose:
+      "To serve as experts in various tech domains (Web, Mobile, AI/ML, etc.) and lead technical events.",
+    memberDuties:
+      "Assist in organizing workshops and hackathons, and help with speaker coordination.",
+    leadDuties:
+      "Plan and execute all technical events, coordinate with speakers and mentors, and ensure the quality of all technical programs.",
+  },
+  "Bevy Team": {
+    purpose:
+      "To manage GDG's official event platform (Bevy), including event creation, registration, and post-event content. This team will also manage event analytics and collaborate with multiple teams to ensure a seamless digital experience.",
+    memberDuties:
+      "Assist with creating and publishing event pages on Bevy, managing attendee registrations, uploading post-event photos, and coordinating with the Graphics and Media teams.",
+    leadDuties:
+      "Oversee all Bevy platform operations, ensure event data accuracy, manage analytics, and coordinate with other teams to integrate digital and on-ground efforts effectively.",
+  },
+  "Decor Team": {
+    purpose: "To create event aesthetics, banners, and stage designs.",
+    memberDuties:
+      "Assist in the creative design and physical setup of event decor, banners, and stage designs.",
+    leadDuties:
+      "Develop a decor theme for each event, manage the budget for decorations, and lead the team in all setup and teardown tasks.",
+  },
+  "Event Experience & Audience Team": {
+    purpose:
+      "To enhance the overall attendee journey, grow the community, and manage the flow of events. This team focuses on attendee satisfaction, engagement, and tracking key metrics.",
+    memberDuties:
+      "Organize games and networking activities, assist in collecting feedback, help coordinate speaker transitions to keep the event on schedule, and maintain attendance records.",
+    leadDuties:
+      "Design the attendee experience for each event, create and analyze feedback forms, create the master event schedule, and develop strategies to grow and retain the community.",
+  },
+  "Documentation Team": {
+    purpose: "To publish official updates and event documentation.",
+    memberDuties:
+      "Assist in publishing newsletters and press releases, and document events for the organization's portfolio.",
+    leadDuties:
+      "Manage all official documentation, coordinate with other circles to gather information, and ensure the GDG ITU portfolio is always up-to-date.",
+  },
+};
 
 const ROLES = ["member", "lead"];
 
@@ -134,7 +280,16 @@ export function AboutYouStep({ values, update }: StepProps) {
   );
 }
 
-export function TeamRoleStep({ values, update }: StepProps) {
+export function TeamRoleStep({
+  values,
+  update,
+  onRoleChange,
+}: TeamRoleStepProps) {
+  const selectedTeamInfo = values.selectedTeam
+    ? teamDescriptions[values.selectedTeam as keyof typeof teamDescriptions]
+    : null;
+  const isLead = values.selectedRole === "lead";
+
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <SelectField
@@ -148,9 +303,39 @@ export function TeamRoleStep({ values, update }: StepProps) {
         label="Role"
         options={ROLES}
         value={values.selectedRole}
-        onChange={(v) => update("selectedRole", v)}
+        onChange={(v) => onRoleChange(v)}
         required
       />
+
+      {/* Team Description Card */}
+      {selectedTeamInfo && (
+        <div className="sm:col-span-2 p-4 rounded-xl border border-white/[0.08] bg-black/20 backdrop-blur-sm">
+          <h4 className="text-lg font-semibold text-white mb-3">
+            {values.selectedTeam}
+          </h4>
+
+          <div className="space-y-3">
+            <div>
+              <h5 className="text-sm font-medium text-blue mb-1">Purpose</h5>
+              <p className="text-sm text-white/70 leading-relaxed">
+                {selectedTeamInfo.purpose}
+              </p>
+            </div>
+
+            <div>
+              <h5 className="text-sm font-medium text-green mb-1">
+                {isLead ? "Lead Duties" : "Member Duties"}
+              </h5>
+              <p className="text-sm text-white/70 leading-relaxed">
+                {isLead
+                  ? selectedTeamInfo.leadDuties
+                  : selectedTeamInfo.memberDuties}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <TextArea
         label="Why this team?"
         placeholder="Explain why you're interested in this specific team and how you can contribute to their goals."

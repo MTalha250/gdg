@@ -73,18 +73,26 @@ export default function RecruitmentPage() {
   const [step, setStep] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const steps = useMemo(
-    () => [
+  const steps = useMemo(() => {
+    const baseSteps = [
       { key: "basic", label: "Basic Info" },
       { key: "about", label: "About You" },
       { key: "team", label: "Team & Role" },
       { key: "skills", label: "Skills & Ideas" },
-      { key: "lead", label: "Leadership" },
+    ];
+
+    // Only show leadership step if lead role is selected
+    if (values.selectedRole === "lead") {
+      baseSteps.push({ key: "lead", label: "Leadership" });
+    }
+
+    baseSteps.push(
       { key: "agreements", label: "Agreements" },
-      { key: "review", label: "Review" },
-    ],
-    []
-  );
+      { key: "review", label: "Review" }
+    );
+
+    return baseSteps;
+  }, [values.selectedRole]);
 
   function update<K extends keyof BaseFields>(key: K, val: BaseFields[K]) {
     setValues((prev) => ({ ...prev, [key]: val }));
@@ -92,7 +100,9 @@ export default function RecruitmentPage() {
 
   function validateCurrentStep(): string[] {
     const errors: string[] = [];
-    if (steps[step].key === "basic") {
+    const currentStepKey = steps[step].key;
+
+    if (currentStepKey === "basic") {
       if (!values.fullName.trim()) errors.push("Full name is required");
       if (!/^[a-zA-Z0-9._%+-]+@itu\.edu\.pk$/.test(values.email))
         errors.push("Email must be a valid ITU email (ending with itu.edu.pk)");
@@ -107,22 +117,22 @@ export default function RecruitmentPage() {
       if (!values.degreeProgram.trim())
         errors.push("Degree program is required");
     }
-    if (steps[step].key === "about") {
+    if (currentStepKey === "about") {
       if (!values.whyJoin.trim()) errors.push("Tell us why you want to join");
     }
-    if (steps[step].key === "team") {
+    if (currentStepKey === "team") {
       if (!values.selectedTeam.trim()) errors.push("Select a team");
       if (!values.selectedRole.trim()) errors.push("Select a role");
       if (!values.whyThisTeam.trim()) errors.push("Tell us why this team");
     }
-    if (steps[step].key === "skills") {
+    if (currentStepKey === "skills") {
       if (!values.relevantSkills.trim()) errors.push("List relevant skills");
       if (!values.timeCommitment.trim())
         errors.push("Time commitment required");
       if (!values.improvementIdea.trim())
         errors.push("Share an improvement idea");
     }
-    if (steps[step].key === "lead" && values.selectedRole === "lead") {
+    if (currentStepKey === "lead" && values.selectedRole === "lead") {
       if (!values.whyLeadTeam.trim()) errors.push("Why lead the team?");
       if (!values.leadershipExperience.trim())
         errors.push("Leadership experience?");
@@ -132,7 +142,7 @@ export default function RecruitmentPage() {
         errors.push("Handling underperformers?");
       if (!values.teamVision.trim()) errors.push("Share your team vision");
     }
-    if (steps[step].key === "agreements") {
+    if (currentStepKey === "agreements") {
       if (!values.timeCommitmentAgreement)
         errors.push("Agree to time commitment");
       if (!values.attendanceCommitment)
@@ -156,21 +166,50 @@ export default function RecruitmentPage() {
     setStep((s) => Math.max(s - 1, 0));
   }
 
+  // Handle role change - reset step if needed
+  function handleRoleChange(newRole: string) {
+    if (newRole === "member" && step >= 4) {
+      // If switching from lead to member and we're past the leadership step, go back
+      setStep(3); // Go to skills step
+    }
+
+    // Clear leadership fields if switching from lead to member
+    if (newRole === "member") {
+      update("whyLeadTeam", "");
+      update("leadershipExperience", "");
+      update("teamOrganization", "");
+      update("handleUnderperformers", "");
+      update("teamVision", "");
+    }
+
+    update("selectedRole", newRole);
+  }
+
   async function submit() {
     const allErrors: string[] = [];
-    for (let i = 0; i < steps.length - 1; i++) {
-      const prevStep = step;
-      const savedStep = step;
-      setStep(i);
-      const errs = validateCurrentStep();
-      setStep(savedStep);
-      allErrors.push(...errs);
-      setStep(prevStep);
+
+    // Validate all steps including conditional leadership step
+    const stepsToValidate =
+      values.selectedRole === "lead"
+        ? ["basic", "about", "team", "skills", "lead", "agreements"]
+        : ["basic", "about", "team", "skills", "agreements"];
+
+    for (const stepKey of stepsToValidate) {
+      const stepIndex = steps.findIndex((s) => s.key === stepKey);
+      if (stepIndex !== -1) {
+        const prevStep = step;
+        setStep(stepIndex);
+        const errs = validateCurrentStep();
+        setStep(prevStep);
+        allErrors.push(...errs);
+      }
     }
+
     if (allErrors.length) {
       toast.error(allErrors[0]);
       return;
     }
+
     try {
       setIsSubmitting(true);
 
@@ -306,7 +345,11 @@ export default function RecruitmentPage() {
                   )}
 
                   {steps[step].key === "team" && (
-                    <TeamRoleStep values={values} update={update} />
+                    <TeamRoleStep
+                      values={values}
+                      update={update}
+                      onRoleChange={handleRoleChange}
+                    />
                   )}
 
                   {steps[step].key === "skills" && (
@@ -334,7 +377,7 @@ export default function RecruitmentPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={back}
                   disabled={step === 0 || isSubmitting}
-                  className="group flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 text-white/70 hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                  className="cursor-pointer group flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 text-white/70 hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                 >
                   <ArrowRight className="size-4 rotate-180 transition-transform group-hover:-translate-x-1" />
                   Back
@@ -346,7 +389,7 @@ export default function RecruitmentPage() {
                     whileTap={{ scale: 0.98 }}
                     onClick={next}
                     disabled={isSubmitting}
-                    className="group flex items-center gap-2 px-8 py-3 rounded-full bg-red text-white font-medium transition-all duration-200"
+                    className="cursor-pointer group flex items-center gap-2 px-8 py-3 rounded-full bg-red text-white font-medium transition-all duration-200"
                   >
                     Next
                     <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
@@ -357,7 +400,7 @@ export default function RecruitmentPage() {
                     whileTap={{ scale: 0.98 }}
                     onClick={submit}
                     disabled={isSubmitting}
-                    className="group flex items-center gap-2 px-8 py-3 rounded-full bg-green text-white font-medium transition-all duration-200 disabled:opacity-70"
+                    className="cursor-pointer group flex items-center gap-2 px-8 py-3 rounded-full bg-green text-white font-medium transition-all duration-200 disabled:opacity-70"
                   >
                     {isSubmitting ? (
                       <>
