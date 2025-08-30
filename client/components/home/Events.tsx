@@ -25,7 +25,7 @@ export default function EventsSection({}) {
           `${process.env.NEXT_PUBLIC_API_URL}/event/latest`
         );
 
-        setEvents(response.data.events);
+        setEvents(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);
         toast.error("Failed to load events.");
@@ -58,17 +58,15 @@ export default function EventsSection({}) {
               </div>
             ) : (
               <RevealGroup startDelay={0.1} interval={0.12} y={20}>
-                {events &&
-                  events.length > 0 &&
-                  events.map((ev, idx) => (
-                    <EventCard
-                      key={ev._id}
-                      title={ev.title}
-                      description={ev.description}
-                      images={ev.images}
-                      reverse={idx % 2 === 1}
-                    />
-                  ))}
+                {events.map((ev, idx) => (
+                  <EventCard
+                    key={ev._id}
+                    title={ev.title}
+                    description={ev.description}
+                    images={ev.images}
+                    reverse={idx % 2 === 1}
+                  />
+                ))}
               </RevealGroup>
             )}
           </div>
