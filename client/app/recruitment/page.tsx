@@ -288,7 +288,7 @@ export default function RecruitmentPage() {
         </Reveal>
         <Reveal delay={0.9}>
           <div className="mt-12 rounded-2xl border border-white/[0.08] bg-black/40 backdrop-blur-xl shadow-2xl overflow-hidden">
-            <div className="relative p-8">
+            <div className="relative p-4 md:p-8">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={steps[step].key}
