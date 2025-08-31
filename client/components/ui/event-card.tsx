@@ -52,7 +52,6 @@ export default function EventCard({
                   <img
                     src={image}
                     alt={title}
-                    loading="lazy"
                     className="h-auto w-full aspect-[4/5] object-cover rounded-xl border border-border bg-black/10 shadow-lg"
                   />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 rounded-b-xl bg-gradient-to-t from-black/50 to-transparent" />
@@ -87,7 +86,6 @@ export default function EventCard({
                   <img
                     src={image}
                     alt={`${title} thumbnail ${index + 1}`}
-                    loading="lazy"
                     className={`h-20 w-20 aspect-square object-cover rounded-lg border transition-all duration-200 ${
                       activeIndex === index
                         ? "border-white/80 opacity-100"

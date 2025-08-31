@@ -33,7 +33,7 @@ export default function PhotosUploader({
 
   const validateFiles = (files: any) => {
     const MAX_PHOTOS = maxPhotos;
-    const MAX_FILE_SIZE = 20 * 1024 * 1024; // Increased to 20MB for high-res images
+    const MAX_FILE_SIZE = 7 * 1024 * 1024;
 
     if (files.length + addedPhotos.length > MAX_PHOTOS) {
       throw new Error(`You can only upload ${MAX_PHOTOS} photos`);
@@ -41,7 +41,7 @@ export default function PhotosUploader({
 
     for (let i = 0; i < files.length; i++) {
       if (files[i].size > MAX_FILE_SIZE) {
-        throw new Error("File size should not exceed 20MB");
+        throw new Error("File size should not exceed 7MB");
       }
       if (!files[i].type.startsWith("image/")) {
         throw new Error("Uploaded file is not an image");
@@ -49,9 +49,18 @@ export default function PhotosUploader({
     }
   };
 
-  // Compression removed to maintain high resolution
   const compressImage = async (file: any) => {
-    return file; // Return original file without compression
+    const options = {
+      maxSizeMB: 5,
+      maxWidthOrHeight: 3000,
+      useWebWorker: true,
+    };
+    try {
+      return await imageCompression(file, options);
+    } catch (error) {
+      console.error("Error occurred while compressing image", error);
+      return file;
+    }
   };
 
   const handleImageUpload = async (e: any) => {
