@@ -50,7 +50,7 @@ export default function EventsSection({}) {
             </p>
           </div>
 
-          <div>
+          <div className="overflow-hidden">
             {loading ? (
               <div className="text-center py-8">
                 <div className="inline-block w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>

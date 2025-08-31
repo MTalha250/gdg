@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
-import { EffectCards, Thumbs } from "swiper/modules";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { EffectCards } from "swiper/modules";
 
 type EventCardProps = {
   title: string;
@@ -50,7 +49,7 @@ export default function EventCard({
                 className="!flex items-center justify-center"
               >
                 <div className="relative w-full">
-                  <LazyLoadImage
+                  <img
                     src={image}
                     alt={title}
                     className="h-auto w-full aspect-[4/5] object-cover rounded-xl border border-border bg-black/10 shadow-lg"
@@ -72,7 +71,7 @@ export default function EventCard({
             <div className="flex flex-wrap gap-3">
               {images.map((image, index) => (
                 <div key={`${image}-${index}`} className="flex-shrink-0">
-                  <LazyLoadImage
+                  <img
                     src={image}
                     alt={`${title} thumbnail ${index + 1}`}
                     className={`h-20 w-20 aspect-square object-cover rounded-lg border transition-all duration-200 cursor-pointer ${
