@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { EffectCards, Thumbs } from "swiper/modules";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 type EventCardProps = {
   title: string;
@@ -17,7 +18,7 @@ export default function EventCard({
   images,
   reverse = false,
 }: EventCardProps) {
-  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
@@ -37,9 +38,9 @@ export default function EventCard({
           <Swiper
             effect={"cards"}
             grabCursor
-            modules={[EffectCards, Thumbs]}
+            modules={[EffectCards]}
             className="mySwiper w-full"
-            thumbs={{ swiper: thumbsSwiper }}
+            onSwiper={setMainSwiper}
             onSlideChange={(s) => setActiveIndex(s.activeIndex)}
             cardsEffect={{}}
           >
@@ -49,7 +50,7 @@ export default function EventCard({
                 className="!flex items-center justify-center"
               >
                 <div className="relative w-full">
-                  <img
+                  <LazyLoadImage
                     src={image}
                     alt={title}
                     className="h-auto w-full aspect-[4/5] object-cover rounded-xl border border-border bg-black/10 shadow-lg"
@@ -68,33 +69,27 @@ export default function EventCard({
             {description}
           </p>
           <div>
-            <Swiper
-              modules={[Thumbs]}
-              watchSlidesProgress
-              onSwiper={setThumbsSwiper}
-              slidesPerView={6}
-              breakpoints={{
-                640: { slidesPerView: 7 },
-                768: { slidesPerView: 8 },
-                1024: { slidesPerView: 9 },
-              }}
-              spaceBetween={12}
-              className="thumb-swiper"
-            >
+            <div className="flex flex-wrap gap-3">
               {images.map((image, index) => (
-                <SwiperSlide key={`${image}-${index}`} className="!w-auto">
-                  <img
+                <div key={`${image}-${index}`} className="flex-shrink-0">
+                  <LazyLoadImage
                     src={image}
                     alt={`${title} thumbnail ${index + 1}`}
-                    className={`h-20 w-20 aspect-square object-cover rounded-lg border transition-all duration-200 ${
+                    className={`h-20 w-20 aspect-square object-cover rounded-lg border transition-all duration-200 cursor-pointer ${
                       activeIndex === index
                         ? "border-white/80 opacity-100"
                         : "border-border opacity-70 hover:opacity-90"
                     }`}
+                    onClick={() => {
+                      if (mainSwiper) {
+                        mainSwiper.slideTo(index);
+                      }
+                      setActiveIndex(index);
+                    }}
                   />
-                </SwiperSlide>
+                </div>
               ))}
-            </Swiper>
+            </div>
           </div>
         </div>
       </div>
