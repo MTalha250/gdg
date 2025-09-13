@@ -269,6 +269,19 @@ const Recruitments = () => {
     }
   };
 
+  const copyVisibleEmails = () => {
+    const visibleEmails = applications
+      .map((app) => app.email)
+      .filter((email): email is string => Boolean(email));
+
+    if (visibleEmails.length > 0) {
+      copyToClipboard(visibleEmails.join(", "));
+      toast.success(`${visibleEmails.length} emails copied to clipboard`);
+    } else {
+      toast.error("No emails found on this page");
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     // Handle undefined or null status
     if (!status) {
@@ -420,6 +433,14 @@ const Recruitments = () => {
                   Export CSV
                 </button>
                 
+                <button
+                  onClick={copyVisibleEmails}
+                  className="inline-flex items-center px-3 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
+                >
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy Visible Emails
+                </button>
+
                 <button
                   onClick={() => copyEmails("all")}
                   className="inline-flex items-center px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
