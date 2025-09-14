@@ -66,9 +66,15 @@ const useTimer = (unit: string) => {
   }, []);
 
   const handleCountdown = async () => {
-    const end = new Date(COUNTDOWN_FROM);
+    // Target end date (assuming it's in Pakistani time)
+    const end = new Date(COUNTDOWN_FROM + "T23:59:59");
+
+    // Get current time and convert to Pakistani timezone
     const now = new Date();
-    const distance = +end - +now;
+    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+    const pakistaniTime = new Date(utcTime + 5 * 3600000); // PKT is UTC+5
+
+    const distance = +end - +pakistaniTime;
 
     let newTime = 0;
 

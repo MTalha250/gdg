@@ -34,8 +34,8 @@ const About = () => {
 
               {/* Stats strip */}
               <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4">
-                <Stat label="Members" value="1k+" />
-                <Stat label="Events/Year" value="20+" />
+                <Stat label="Members" value="50+" />
+                <Stat label="Events/Year" value="10+" />
                 <Stat label="Project Tracks" value="4" />
               </div>
             </div>
