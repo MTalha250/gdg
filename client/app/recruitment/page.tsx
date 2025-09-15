@@ -113,6 +113,13 @@ export default function RecruitmentPage() {
         errors.push(
           "Roll number must be 9 characters starting with 'bs' (e.g., bscs23051)"
         );
+      } else if (
+        values.rollNumber.toLowerCase().startsWith("bscs") ||
+        values.rollNumber.toLowerCase().startsWith("bsai")
+      ) {
+        errors.push(
+          "Sorry, the application deadline for ASTP Campus has passed. You can apply for Barki Campus only."
+        );
       }
       if (!values.degreeProgram.trim())
         errors.push("Degree program is required");

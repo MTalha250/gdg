@@ -18,7 +18,7 @@ export default function CTASection() {
       <Reveal>
         <div className="max-w-7xl mx-auto space-y-5 flex flex-col items-center">
           <div className="inline-flex items-center gap-2 rounded-md border border-border bg-background-secondary px-2.5 py-1 text-sm uppercase tracking-wider text-white/60">
-            Open Call
+            Barki Campus Only
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-space-grotesk font-bold text-center">
             Applications close in

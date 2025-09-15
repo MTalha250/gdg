@@ -164,7 +164,7 @@ const Hero = () => {
           >
             <Circle className="h-2 w-2 fill-red animate-pulse" />
             <span className="text-xs sm:text-sm text-white/60 tracking-wide whitespace-nowrap">
-              Recruitment ends on 15th September 2025!
+              Recruitment ends on 30th September 2025! (Barki Campus Only)
             </span>
           </motion.div>
 
