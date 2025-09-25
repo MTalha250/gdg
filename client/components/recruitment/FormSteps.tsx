@@ -206,7 +206,7 @@ const teamDescriptions = {
   },
 };
 
-const ROLES = ["member", "lead"];
+const ROLES = ["member"];
 
 const TIME_COMMITMENTS = [
   "1-5 hours/week",
