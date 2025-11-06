@@ -9,13 +9,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Badge from "@/components/ui/badge/Badge";
+import { Modal } from "@/components/ui/modal";
 import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, Trash2, Loader2, Eye, Gamepad2, Users } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Trash2,
+  Loader2,
+  Eye,
+  Gamepad2,
+  Users,
+  User,
+  Mail,
+  Phone,
+  IdCard,
+  Building2,
+  CreditCard
+} from "lucide-react";
 import axios from "axios";
 import useAuthStore from "@/store/authStore";
 import toast from "react-hot-toast";
 import { BrainGamesRegistration } from "@/types/brainGames";
-import BrainGamesDetailModal from "@/components/brain-games/DetailModal";
 
 const BrainGames = () => {
   const [registrations, setRegistrations] = useState<BrainGamesRegistration[]>([]);
@@ -409,16 +423,198 @@ const BrainGames = () => {
         </ComponentCard>
       </div>
 
-      {/* Detail Modal */}
-      {selectedRegistration && (
-        <BrainGamesDetailModal
-          isOpen={modalOpen}
-          onClose={closeModal}
-          registration={selectedRegistration}
-          onStatusUpdate={handleStatusUpdate}
-          onDelete={handleDeleteRegistration}
-        />
-      )}
+      {/* Registration Detail Modal */}
+      <Modal isOpen={modalOpen} onClose={closeModal} className="max-w-4xl">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-h-[90vh] overflow-y-auto">
+          {selectedRegistration && (
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-pink-100 dark:bg-pink-900/20 rounded-full flex items-center justify-center">
+                  <Gamepad2 className="w-6 h-6 text-pink-600 dark:text-pink-400" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+                    {selectedRegistration.teamName}
+                  </h3>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    Registered on {new Date(selectedRegistration.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
+              </div>
+
+              {/* Status Section */}
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-lg font-medium text-gray-800 dark:text-white">
+                    Registration Status
+                  </h4>
+                  {getStatusBadge(selectedRegistration.status)}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleStatusUpdate(selectedRegistration._id, "submitted")}
+                    className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
+                      selectedRegistration.status === "submitted"
+                        ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                        : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500"
+                    }`}
+                  >
+                    Submitted
+                  </button>
+                  <button
+                    onClick={() => handleStatusUpdate(selectedRegistration._id, "accepted")}
+                    className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
+                      selectedRegistration.status === "accepted"
+                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                        : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500"
+                    }`}
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => handleStatusUpdate(selectedRegistration._id, "rejected")}
+                    className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
+                      selectedRegistration.status === "rejected"
+                        ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                        : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500"
+                    }`}
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
+
+              {/* Team Members */}
+              <div>
+                <h4 className="text-lg font-medium text-gray-800 dark:text-white mb-3">
+                  Team Members ({selectedRegistration.members.length})
+                </h4>
+                <div className="space-y-3">
+                  {selectedRegistration.members.map((member, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <User className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                          <span className="font-semibold text-gray-900 dark:text-white">
+                            {member.name}
+                          </span>
+                        </div>
+                        {member.isTeamLead && (
+                          <Badge color="info">Team Lead</Badge>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                        {member.email && (
+                          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                            <Mail className="w-4 h-4" />
+                            <span>{member.email}</span>
+                          </div>
+                        )}
+                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                          <Phone className="w-4 h-4" />
+                          <span>{member.phone}</span>
+                        </div>
+                        {member.rollNumber && (
+                          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                            <IdCard className="w-4 h-4" />
+                            <span>Roll: {member.rollNumber}</span>
+                          </div>
+                        )}
+                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                          <Building2 className="w-4 h-4" />
+                          <span>{member.university}</span>
+                        </div>
+                        {member.cnic && (
+                          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                            <CreditCard className="w-4 h-4" />
+                            <span>CNIC: {member.cnic}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Payment Proof */}
+              <div>
+                <h4 className="text-lg font-medium text-gray-800 dark:text-white mb-3">
+                  Payment Proof
+                </h4>
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                  <div className="relative group">
+                    <img
+                      src={selectedRegistration.proofOfPayment}
+                      alt="Payment Proof"
+                      className="w-full h-auto object-contain rounded-lg border border-gray-200 dark:border-gray-600"
+                    />
+                    <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-200 rounded-lg flex items-center justify-center">
+                      <button
+                        onClick={() => window.open(selectedRegistration.proofOfPayment, '_blank')}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-white bg-black bg-opacity-50 px-3 py-1 rounded"
+                      >
+                        View Full
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Information */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                <h4 className="text-lg font-medium text-blue-900 dark:text-blue-100 mb-3">
+                  Payment Details Reference
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-blue-800 dark:text-blue-200">
+                  <div>
+                    <span className="font-semibold">Amount:</span> Rs 900
+                  </div>
+                  <div>
+                    <span className="font-semibold">Bank:</span> MEEZAN BANK
+                  </div>
+                  <div className="md:col-span-2">
+                    <span className="font-semibold">Account Name:</span> MUHAMMAD FASIH UDDIN
+                  </div>
+                  <div>
+                    <span className="font-semibold">Account:</span> 02860110211843
+                  </div>
+                  <div>
+                    <span className="font-semibold">IBAN:</span> PK39MEZN0002860110211843
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex justify-between pt-4 border-t border-gray-200 dark:border-gray-600">
+                <button
+                  onClick={() => {
+                    handleDeleteRegistration(selectedRegistration._id, selectedRegistration.teamName);
+                    closeModal();
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Delete Registration
+                </button>
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 rounded-lg"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </Modal>
     </>
   );
 };
