@@ -31,7 +31,7 @@ export default function CTASection() {
           <p className="text-white/65 text-base sm:text-lg md:text-xl leading-relaxed">
             Don’t miss your chance to be part of the Brain Games 2025.
           </p>
-          <WrapButton href="/recruitment" className="mt-1 w-fit">
+          <WrapButton href="/brain-games" className="mt-1 w-fit">
             Register Now
           </WrapButton>
           <p className="text-xs text-white/40">It takes less than 5 minutes.</p>
