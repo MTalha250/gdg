@@ -308,7 +308,9 @@ export default function BrainGamesPage() {
                   >
                     <div className="flex items-center justify-between">
                       <h4 className="font-semibold text-white">
-                        {index === 0 ? "👑 Team Lead (ITU Student)" : `Member ${index + 1}`}
+                        {index === 0
+                          ? "👑 Team Lead (ITU Student)"
+                          : `Member ${index + 1}`}
                       </h4>
                       {index > 0 && (
                         <button
@@ -361,7 +363,11 @@ export default function BrainGamesPage() {
                               type="text"
                               value={member.rollNumber}
                               onChange={(e) =>
-                                updateMember(index, "rollNumber", e.target.value)
+                                updateMember(
+                                  index,
+                                  "rollNumber",
+                                  e.target.value
+                                )
                               }
                               placeholder="bscs23051"
                               maxLength={9}
@@ -440,7 +446,7 @@ export default function BrainGamesPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-blue via-green to-yellow text-white font-bold text-lg transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-green text-white font-bold text-lg transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>
