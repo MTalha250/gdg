@@ -22,8 +22,10 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://gdg-client.vercel.app",
-      "https://gdg-admin.vercel.app"
+      "https://gdg-itu.vercel.app",
+      "https://gdg-itu-admin.vercel.app",
+      "https://gdg-itu.netlify.app",
+      "https://gdg.itu.edu.pk",
     ],
   })
 );
