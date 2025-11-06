@@ -19,7 +19,12 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: "*",
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://gdg-client.vercel.app",
+      "https://gdg-admin.vercel.app"
+    ],
   })
 );
 
