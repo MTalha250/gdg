@@ -17,11 +17,11 @@ export default function CTASection() {
 
       <Reveal>
         <div className="max-w-7xl mx-auto space-y-5 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 rounded-md border border-border bg-background-secondary px-2.5 py-1 text-sm uppercase tracking-wider text-white/60">
+          {/* <div className="inline-flex items-center gap-2 rounded-md border border-border bg-background-secondary px-2.5 py-1 text-sm uppercase tracking-wider text-white/60">
             Barki Campus Only
-          </div>
+          </div> */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-space-grotesk font-bold text-center">
-            Applications close in
+            Registrations close in
           </h2>
           <div className="rounded-xl p-[1px] bg-gradient-to-br from-indigo-500/50 via-rose-500/40 to-amber-400/40 w-full max-w-2xl mx-auto">
             <div className="rounded-[0.7rem] overflow-hidden border border-border bg-black/40">
@@ -29,13 +29,13 @@ export default function CTASection() {
             </div>
           </div>
           <p className="text-white/65 text-base sm:text-lg md:text-xl leading-relaxed">
-            Don’t miss your chance to be part of the GDG on Campus community.
+            Don’t miss your chance to be a part of this exciting event.
           </p>
-          <WrapButton href="/recruitment" className="mt-1 w-fit">
-            Join Now
+          <WrapButton href="/events" className="mt-1 w-fit">
+            Register Now
           </WrapButton>
           <p className="text-xs text-white/40">
-            It takes less than 10 minutes.
+            It takes just a minute.
           </p>
         </div>
       </Reveal>

@@ -8,7 +8,7 @@ import {
   GridIcon,
   HorizontaLDots,
 } from "../icons/index";
-import { ChevronDown, Settings, MessageSquare, Users, Calendar, UserCheck } from "lucide-react";
+import { ChevronDown, Settings, MessageSquare, Users, Calendar, UserCheck, CalendarClock } from "lucide-react";
 
 type NavItem = {
   name: string;
@@ -22,6 +22,11 @@ const navItems: NavItem[] = [
     icon: <GridIcon />,
     name: "Dashboard",
     path: "/",
+  },
+  {
+    icon: <CalendarClock />,
+    name: "Current Event",
+    path: "/current-event",
   },
   {
     icon: <UserCheck />,

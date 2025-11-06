@@ -157,3 +157,168 @@ export const sendRecruitmentConfirmation = async (
     throw error;
   }
 };
+
+// Event Registration email
+export const sendEventRegistrationConfirmation = async (
+  userEmail,
+  userName,
+  teamName
+) => {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: {
+      name: "GDG on Campus ITU",
+      address: process.env.SMTP_EMAIL,
+    },
+    to: userEmail,
+    subject: "GDG ITU - Event Registration Received ✅",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;">
+        <h2 style="text-align:center; color:#34A853;">Registration Received 🎉</h2>
+
+        <p>Hi <strong>${userName}</strong>,</p>
+        <p>
+          Thank you for registering your team <strong>${teamName}</strong>!
+          Your payment receipt and details have been received.
+        </p>
+
+        <p style="background:#fef3c7; padding:12px; border-left:4px solid #eab308;">
+          <strong>Status:</strong> <span style="color:#eab308;">Pending Verification</span><br>
+          Our team will manually verify your payment and team details. 
+          You will receive another email once your registration is approved.
+        </p>
+
+        <p>Best of luck! 🚀</p>
+
+        <p>
+          Regards,<br>
+          <strong>GDG on Campus ITU Team</strong>
+        </p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Registration email sent to ${userEmail}`);
+  } catch (error) {
+    console.error("Error sending recruitment confirmation email:", error);
+    throw error;
+  }
+};
+
+
+// Event approval email
+export const sendEventApprovalEmail = async (userEmail, userName, teamName) => {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: {
+      name: "GDG on Campus ITU",
+      address: process.env.SMTP_EMAIL,
+    },
+    to: userEmail,
+    subject: "GDG ITU - Event Registration Approved ✅",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 620px; margin: auto; padding: 25px;">
+        <h2 style="text-align:center; color:#34A853;">Registration Approved 🎉</h2>
+
+        <p>Hi <strong>${userName}</strong>,</p>
+
+        <p>
+          Congratulations! Your team <strong>${teamName}</strong> has been 
+          <span style="color:#34A853; font-weight:600;">successfully approved</span> for the event.
+        </p>
+
+        <p>
+          Your registration and payment are verified. We’re excited to have you on board!
+        </p>
+
+        <div style="margin: 20px 0; padding: 18px; background:#ecfdf5; border-left:4px solid #34A853; border-radius:8px;">
+          <p style="margin: 0; color:#166534;">
+            ✅ You're officially registered — see you at the event!
+          </p>
+        </div>
+
+        <p>Keep an eye on your email for event schedule and important updates.</p>
+
+        <p style="margin-top:30px;">
+          Best Regards,<br/>
+          <strong>GDG on Campus ITU Team</strong>
+        </p>
+
+        <hr style="margin: 30px 0; border:none; border-top:1px solid #ddd;" />
+
+        <p style="font-size:12px; color:#888; text-align:center;">
+          This is an automated email. Please do not reply.
+        </p>
+      </div>
+    `,
+  };
+
+ try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Approval email sent to ${userEmail}`);
+  } catch (error) {
+    console.error("Error sending recruitment confirmation email:", error);
+    throw error;
+  }
+};
+
+
+// Rejection email
+export const sendEventRejectionEmail = async (userEmail, userName, teamName) => {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: {
+      name: "GDG on Campus ITU",
+      address: process.env.SMTP_EMAIL,
+    },
+    to: userEmail,
+    subject: "GDG ITU - Registration Update",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 620px; margin: auto; padding: 25px;">
+        <h2 style="text-align:center; color:#dc2626;">Registration Update ⚠️</h2>
+
+        <p>Hi <strong>${userName}</strong>,</p>
+
+        <p>
+          Thank you for registering your team <strong>${teamName}</strong>.
+          After reviewing your submission, we regret to inform you that your registration 
+          <span style="color:#dc2626; font-weight:600;">could not be approved</span>.
+        </p>
+
+        <div style="margin: 20px 0; padding: 18px; background:#fef2f2; border-left:4px solid #dc2626; border-radius:8px;">
+          <p style="margin: 0; color:#7f1d1d;">
+            ❗ This decision may be due to incomplete payment verification or eligibility requirements.
+          </p>
+        </div>
+
+        <p>
+          You are still welcome to attend our upcoming sessions and participate in future events! 🌟
+        </p>
+
+        <p style="margin-top:30px;">
+          Best Regards,<br/>
+          <strong>GDG on Campus ITU Team</strong>
+        </p>
+
+        <hr style="margin: 30px 0; border:none; border-top:1px solid #ddd;" />
+
+        <p style="font-size:12px; color:#888; text-align:center;">
+          This is an automated email. Please do not reply.
+        </p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Rejection email sent to ${userEmail}`);
+  } catch (error) {
+    console.error("Error sending recruitment confirmation email:", error);
+    throw error;
+  }
+};
