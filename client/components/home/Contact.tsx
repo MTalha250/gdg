@@ -89,10 +89,10 @@ export default function ContactSection() {
                   Be our sponsor
                 </span>
                 <a
-                  href="mailto:developerstudentsclub-itu@itu.edu.pk"
+                  href="mailto:googledevelopergroup@itu.edu.pk"
                   className="text-sm sm:text-base text-blue underline break-all"
                 >
-                  developerstudentsclub-itu@itu.edu.pk
+                  googledevelopergroup@itu.edu.pk
                 </a>
               </div>
             </div>
