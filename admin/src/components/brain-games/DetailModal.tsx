@@ -27,7 +27,7 @@ const BrainGamesDetailModal: React.FC<BrainGamesDetailModalProps> = ({
       case "accepted":
         return <Badge color="success">Accepted</Badge>;
       case "rejected":
-        return <Badge color="danger">Rejected</Badge>;
+        return <Badge color="error">Rejected</Badge>;
       default:
         return <Badge color="warning">Submitted</Badge>;
     }

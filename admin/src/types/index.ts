@@ -66,7 +66,12 @@ export interface DashboardStats {
   contactCount: number;
   eventCount: number;
   recruitmentCount: number;
+  brainGamesCount: number;
   recruitmentStats: {
+    _id: string;
+    count: number;
+  }[];
+  brainGamesStats: {
     _id: string;
     count: number;
   }[];
@@ -82,6 +87,7 @@ export interface DashboardStats {
     contacts: number;
     recruitments: number;
     events: number;
+    brainGames: number;
   };
   latestApplications: Recruitment[];
   latestContacts: Contact[];

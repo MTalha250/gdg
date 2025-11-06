@@ -68,6 +68,7 @@ const BrainGames = () => {
     if (token) {
       fetchRegistrations();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, statusFilter, token]);
 
   useEffect(() => {
@@ -79,6 +80,7 @@ const BrainGames = () => {
 
       return () => clearTimeout(timeoutId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, token]);
 
   const handleDeleteRegistration = async (id: string, teamName: string) => {
@@ -138,7 +140,7 @@ const BrainGames = () => {
       case "accepted":
         return <Badge color="success">Accepted</Badge>;
       case "rejected":
-        return <Badge color="danger">Rejected</Badge>;
+        return <Badge color="error">Rejected</Badge>;
       default:
         return <Badge color="warning">Submitted</Badge>;
     }
@@ -156,15 +158,9 @@ const BrainGames = () => {
 
   return (
     <>
-      <PageBreadcrumb
-        title="Brain Games 2025"
-        items={[
-          { title: "Dashboard", link: "/" },
-          { title: "Brain Games", link: "/brain-games" },
-        ]}
-      />
+      <PageBreadcrumb pageTitle="Brain Games 2025" />
 
-      <ComponentCard title="">
+      <ComponentCard title="Brain Games Registrations">
         <div className="mb-6 space-y-4">
           {/* Search and Filters */}
           <div className="flex flex-col md:flex-row gap-4">
@@ -227,20 +223,25 @@ const BrainGames = () => {
                       <TableRow
                         key={registration._id}
                         className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
-                        onClick={() => openModal(registration)}
                       >
-                        <TableCell>{registration.teamName}</TableCell>
                         <TableCell>
-                          <div>
+                            {registration.teamName}
+                        </TableCell>
+                        <TableCell>
                             <div className="font-medium">{teamLead?.name || "N/A"}</div>
                             <div className="text-sm text-gray-500">{teamLead?.email || "N/A"}</div>
-                          </div>
                         </TableCell>
-                        <TableCell>{registration.members.length}</TableCell>
-                        <TableCell>{getStatusBadge(registration.status)}</TableCell>
-                        <TableCell>{formatDate(registration.createdAt)}</TableCell>
                         <TableCell>
-                          <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                            {registration.members.length}
+                        </TableCell>
+                        <TableCell>
+                            {getStatusBadge(registration.status)}
+                        </TableCell>
+                        <TableCell>
+                            {formatDate(registration.createdAt)}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex gap-2">
                             <button
                               onClick={() => openModal(registration)}
                               className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
