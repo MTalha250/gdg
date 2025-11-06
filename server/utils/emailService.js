@@ -164,7 +164,10 @@ export const sendBrainGamesConfirmation = async (registration) => {
 
   const teamLead = registration.members.find((m) => m.isTeamLead);
   const membersList = registration.members
-    .map((member, index) => `<li>${index + 1}. ${member.name} ${member.isTeamLead ? "(Team Lead)" : ""}</li>`)
+    .map(
+      (member, index) =>
+        `<li>${member.name} ${member.isTeamLead ? "(Team Lead)" : ""}</li>`
+    )
     .join("");
 
   const mailOptions = {
@@ -263,7 +266,9 @@ export const sendBrainGamesStatusUpdate = async (registration) => {
 
   const statusColor = isAccepted ? "#16803c" : "#dc2626";
   const statusBgColor = isAccepted ? "#f0fdf4" : "#fef2f2";
-  const statusText = isAccepted ? "Registration Confirmed ✅" : "Registration Not Approved ❌";
+  const statusText = isAccepted
+    ? "Registration Confirmed ✅"
+    : "Registration Not Approved ❌";
 
   const mailOptions = {
     from: {
@@ -271,7 +276,9 @@ export const sendBrainGamesStatusUpdate = async (registration) => {
       address: process.env.SMTP_EMAIL,
     },
     to: teamLead.email,
-    subject: `Brain Games 2025 - ${isAccepted ? "Registration Confirmed" : "Registration Update"}`,
+    subject: `Brain Games 2025 - ${
+      isAccepted ? "Registration Confirmed" : "Registration Update"
+    }`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
