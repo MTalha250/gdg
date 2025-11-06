@@ -293,7 +293,7 @@ export default function BrainGamesPage() {
                   {formData.members.length < 3 && (
                     <button
                       onClick={addMember}
-                      className="flex items-center gap-2 px-4 py-2 bg-green/20 border border-green/30 text-green rounded-lg hover:bg-green/30 transition-colors"
+                      className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-green/20 border border-green/30 text-green rounded-lg hover:bg-green/30 transition-colors"
                     >
                       <Plus className="w-4 h-4" />
                       Add Member
@@ -315,7 +315,7 @@ export default function BrainGamesPage() {
                       {index > 0 && (
                         <button
                           onClick={() => removeMember(index)}
-                          className="text-red hover:text-red/80 transition-colors"
+                          className="cursor-pointer text-red hover:text-red/80 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -442,11 +442,9 @@ export default function BrainGamesPage() {
 
               {/* Submit Button */}
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-green text-white font-bold text-lg transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="cursor-pointer w-full flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-green text-white font-bold text-lg transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>
