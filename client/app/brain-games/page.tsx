@@ -341,7 +341,7 @@ export default function BrainGamesPage() {
                         <>
                           <div>
                             <label className="block text-sm text-white/60 mb-1">
-                              Email * (@itu.edu.pk)
+                              Email *
                             </label>
                             <input
                               type="email"
@@ -349,14 +349,14 @@ export default function BrainGamesPage() {
                               onChange={(e) =>
                                 updateMember(index, "email", e.target.value)
                               }
-                              placeholder="your.email@itu.edu.pk"
+                              placeholder="e.g. bscs23051@itu.edu.pk"
                               className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-blue/50 transition-colors"
                             />
                           </div>
 
                           <div>
                             <label className="block text-sm text-white/60 mb-1">
-                              Roll Number * (9 chars, starts with bs)
+                              Roll Number *
                             </label>
                             <input
                               type="text"
@@ -368,7 +368,7 @@ export default function BrainGamesPage() {
                                   e.target.value
                                 )
                               }
-                              placeholder="bscs23051"
+                              placeholder="e.g. bs23051"
                               maxLength={9}
                               className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-blue/50 transition-colors"
                             />
@@ -386,7 +386,7 @@ export default function BrainGamesPage() {
                           onChange={(e) =>
                             updateMember(index, "phone", e.target.value)
                           }
-                          placeholder="03001234567"
+                          placeholder="e.g. +92 324 4264800"
                           className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-blue/50 transition-colors"
                         />
                       </div>
@@ -401,7 +401,7 @@ export default function BrainGamesPage() {
                           onChange={(e) =>
                             updateMember(index, "university", e.target.value)
                           }
-                          placeholder="University name"
+                          placeholder="e.g. Information Technology University"
                           disabled={index === 0}
                           className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-blue/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         />
