@@ -293,7 +293,7 @@ export default function BrainGamesPage() {
                   {formData.members.length < 3 && (
                     <button
                       onClick={addMember}
-                      className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-green/20 border border-green/30 text-green rounded-lg hover:bg-green/30 transition-colors"
+                      className="cursor-pointer flex items-center gap-2 text-sm p-2 bg-green/20 border border-green/30 text-green rounded-lg hover:bg-green/30 transition-colors"
                     >
                       <Plus className="w-4 h-4" />
                       Add Member
