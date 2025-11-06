@@ -164,7 +164,7 @@ const Hero = () => {
           >
             <Circle className="h-2 w-2 fill-green animate-pulse" />
             <span className="text-xs sm:text-sm text-white/60 tracking-wide whitespace-nowrap">
-              Brain Games 2025 • Registration Ends Nov 22
+              Brain Games • Registration Ends Nov 22
             </span>
           </motion.div>
 
@@ -206,7 +206,7 @@ const Hero = () => {
           >
             <WrapButton href="/brain-games">
               <Users className="mx-1 animate-pulse" />
-              Register for Brain Games
+              Brain Games 2025
             </WrapButton>
           </motion.div>
         </div>
