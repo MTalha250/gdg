@@ -8,6 +8,7 @@ import contactRoutes from "./routes/contact.js";
 import dashboardStatsRoutes from "./routes/dashboardStats.js";
 import recruitmentRoutes from "./routes/recruitment.js";
 import eventRoutes from "./routes/event.js";
+import brainGamesRoutes from "./routes/brainGames.js";
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/dashboard", dashboardStatsRoutes);
 app.use("/api/recruitment", recruitmentRoutes);
 app.use("/api/event", eventRoutes);
+app.use("/api/brain-games", brainGamesRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

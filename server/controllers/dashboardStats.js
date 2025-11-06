@@ -1,6 +1,7 @@
 import Contact from "../models/contact.js";
 import Event from "../models/event.js";
 import Recruitment from "../models/recruitment.js";
+import BrainGames from "../models/brainGames.js";
 
 export const getDashboardStats = async (req, res) => {
   try {
@@ -8,6 +9,7 @@ export const getDashboardStats = async (req, res) => {
     const contactCount = await Contact.countDocuments();
     const eventCount = await Event.countDocuments();
     const recruitmentCount = await Recruitment.countDocuments();
+    const brainGamesCount = await BrainGames.countDocuments();
 
     // Recruitment status breakdown
     const recruitmentStats = await Recruitment.aggregate([
@@ -55,6 +57,20 @@ export const getDashboardStats = async (req, res) => {
       createdAt: { $gte: sevenDaysAgo },
     });
 
+    const recentBrainGames = await BrainGames.countDocuments({
+      createdAt: { $gte: sevenDaysAgo },
+    });
+
+    // Brain Games stats
+    const brainGamesStats = await BrainGames.aggregate([
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
     // Latest applications (last 5)
     const latestApplications = await Recruitment.find()
       .sort({ createdAt: -1 })
@@ -72,17 +88,22 @@ export const getDashboardStats = async (req, res) => {
       contactCount,
       eventCount,
       recruitmentCount,
+      brainGamesCount,
 
       // Recruitment analytics
       recruitmentStats,
       teamStats,
       roleStats,
 
+      // Brain Games analytics
+      brainGamesStats,
+
       // Recent activity (last 7 days)
       recentActivity: {
         contacts: recentContacts,
         recruitments: recentRecruitments,
         events: recentEvents,
+        brainGames: recentBrainGames,
       },
 
       // Latest items

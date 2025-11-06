@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Users, Calendar, UserCheck, MessageSquare, Activity, TrendingUp } from "lucide-react";
+import { Users, Calendar, UserCheck, MessageSquare, Activity, TrendingUp, Gamepad2 } from "lucide-react";
 import axios from "axios";
 import useAuthStore from "@/store/authStore";
 import { DashboardStats } from "@/types";
@@ -33,7 +33,7 @@ export const Metrics = () => {
 
   const getRecentActivityTotal = () => {
     if (!stats?.recentActivity) return 0;
-    return stats.recentActivity.contacts + stats.recentActivity.recruitments + stats.recentActivity.events;
+    return stats.recentActivity.contacts + stats.recentActivity.recruitments + stats.recentActivity.events + (stats.recentActivity.brainGames || 0);
   };
 
   const getAcceptedApplications = () => {
@@ -71,6 +71,15 @@ export const Metrics = () => {
       description: "Recruitment applications",
     },
     {
+      title: "Brain Games",
+      value: stats?.brainGamesCount || 0,
+      icon: Gamepad2,
+      color: "pink",
+      bgColor: "bg-pink-100 dark:bg-pink-900/20",
+      iconColor: "text-pink-600 dark:text-pink-400",
+      description: "Team registrations",
+    },
+    {
       title: "Accepted Members",
       value: getAcceptedApplications(),
       icon: Users,
@@ -87,15 +96,6 @@ export const Metrics = () => {
       bgColor: "bg-orange-100 dark:bg-orange-900/20",
       iconColor: "text-orange-600 dark:text-orange-400",
       description: "Last 7 days",
-    },
-    {
-      title: "Member Applications",
-      value: stats?.roleStats?.find(stat => stat._id === "member")?.count || 0,
-      icon: TrendingUp,
-      color: "indigo",
-      bgColor: "bg-indigo-100 dark:bg-indigo-900/20",
-      iconColor: "text-indigo-600 dark:text-indigo-400",
-      description: "Member role applications",
     },
   ];
 

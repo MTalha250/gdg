@@ -8,7 +8,7 @@ import {
   GridIcon,
   HorizontaLDots,
 } from "../icons/index";
-import { ChevronDown, Settings, MessageSquare, Users, Calendar, UserCheck } from "lucide-react";
+import { ChevronDown, Settings, MessageSquare, Users, Calendar, UserCheck, Gamepad2 } from "lucide-react";
 
 type NavItem = {
   name: string;
@@ -27,6 +27,11 @@ const navItems: NavItem[] = [
     icon: <UserCheck />,
     name: "Recruitments",
     path: "/recruitments",
+  },
+  {
+    icon: <Gamepad2 />,
+    name: "Brain Games",
+    path: "/brain-games",
   },
   {
     icon: <MessageSquare />,

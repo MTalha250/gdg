@@ -49,8 +49,8 @@ const Navbar = () => {
           </Link>
         </li>
       </ul>
-      <Link href="/#cta">
-        <InteractiveHoverButton>Join Us</InteractiveHoverButton>
+      <Link href="/brain-games">
+        <InteractiveHoverButton>Register Now</InteractiveHoverButton>
       </Link>
     </motion.div>
   );

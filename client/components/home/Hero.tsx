@@ -162,10 +162,9 @@ const Hero = () => {
             animate="visible"
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
           >
-            <Circle className="h-2 w-2 fill-red animate-pulse" />
+            <Circle className="h-2 w-2 fill-green animate-pulse" />
             <span className="text-xs sm:text-sm text-white/60 tracking-wide whitespace-nowrap">
-              Recruitment ends on <br /> 30th September 2025! (Barki Campus
-              Only)
+              Brain Games 2025 • Registration Ends Nov 22
             </span>
           </motion.div>
 
@@ -205,9 +204,9 @@ const Hero = () => {
             initial="hidden"
             animate="visible"
           >
-            <WrapButton href="#cta">
+            <WrapButton href="/brain-games">
               <Users className="mx-1 animate-pulse" />
-              Join Our Team
+              Register for Brain Games
             </WrapButton>
           </motion.div>
         </div>
