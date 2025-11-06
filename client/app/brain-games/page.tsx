@@ -295,7 +295,6 @@ export default function BrainGamesPage() {
                       onClick={addMember}
                       className="cursor-pointer flex items-center gap-2 text-sm p-2 bg-green/20 border border-green/30 text-green rounded-lg hover:bg-green/30 transition-colors"
                     >
-                      <Plus className="w-4 h-4" />
                       Add Member
                     </button>
                   )}
