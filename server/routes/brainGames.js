@@ -8,8 +8,8 @@ import {
   getRegistrationStats,
   getAllRegistrations,
 } from "../controllers/brainGames.js";
-import { verifyToken } from "../middlewares/verifyToken.js";
-import { verifyAdmin } from "../middlewares/verifyAdmin.js";
+import verifyToken from "../middlewares/verifyToken.js";
+import verifyAdmin from "../middlewares/verifyAdmin.js";
 
 const router = express.Router();
 
