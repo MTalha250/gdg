@@ -240,7 +240,7 @@ export default function BrainGamesPage() {
 
         <Reveal delay={0.7}>
           <div className="max-w-4xl mx-auto rounded-2xl border border-white/[0.08] bg-black/40 backdrop-blur-xl shadow-2xl overflow-hidden">
-            <div className="p-6 md:p-10 space-y-8">
+            <div className="p-4 md:p-8 space-y-8">
               {/* Payment Information */}
               <div className="bg-blue/10 border border-blue/20 rounded-lg p-6">
                 <h3 className="text-xl font-bold text-blue mb-4">
