@@ -3,7 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Reveal, { RevealGroup } from "@/components/ui/reveal";
 import { motion } from "motion/react";
-import { Circle, Sparkles, Plus, Trash2 } from "lucide-react";
+import { Circle, Sparkles, Trash2 } from "lucide-react";
 import ElegantShape from "@/components/recruitment/ElegantShape";
 import PhotoUploader from "@/components/ui/photo-uploader";
 import axios from "axios";
@@ -238,9 +238,122 @@ export default function BrainGamesPage() {
           </div>
         </RevealGroup>
 
+        {/* Event Information Section */}
         <Reveal delay={0.7}>
+          <div className="max-w-4xl mx-auto mb-8 rounded-2xl border border-white/[0.08] bg-black/40 backdrop-blur-xl shadow-2xl overflow-hidden">
+            <div className="p-4 md:p-8 space-y-6">
+              <h2 className="text-3xl font-bold text-white mb-6">
+                📋 Event Information
+              </h2>
+
+              {/* Team Structure */}
+              <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+                <h3 className="text-xl font-semibold text-blue mb-3">
+                  Team Structure
+                </h3>
+                <ul className="space-y-2 text-white/70">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green">•</span>
+                    <span>Teams can have <strong>1 to 3 members</strong></span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green">•</span>
+                    <span>At least <strong>one member must be from ITU</strong></span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Event Details */}
+              <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+                <h3 className="text-xl font-semibold text-yellow mb-3">
+                  Event Overview
+                </h3>
+                <ul className="space-y-2 text-white/70">
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow">•</span>
+                    <span><strong>Date:</strong> 22nd November 2025 at ASTP</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow">•</span>
+                    <span><strong>Duration:</strong> One-day event (approx. 5–6 hours)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow">•</span>
+                    <span><strong>Reporting Time:</strong> Will be communicated via email</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-yellow">•</span>
+                    <span><strong>Difficulty Level:</strong> Mostly moderate</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Competition Format */}
+              <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+                <h3 className="text-xl font-semibold text-red mb-3">
+                  Competition Format
+                </h3>
+                <p className="text-white/70 mb-3">
+                  Multiple eliminatory rounds, including:
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                  <div className="bg-white/5 border border-red/30 rounded-lg p-3 text-center">
+                    <span className="text-red font-semibold">🧩 Puzzle Round</span>
+                  </div>
+                  <div className="bg-white/5 border border-red/30 rounded-lg p-3 text-center">
+                    <span className="text-red font-semibold">⚡ Rapid Fire Round</span>
+                  </div>
+                  <div className="bg-white/5 border border-red/30 rounded-lg p-3 text-center">
+                    <span className="text-red font-semibold">🔔 Buzzer Round</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Categories */}
+              <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+                <h3 className="text-xl font-semibold text-green mb-3">
+                  Categories Covered
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-white/70">
+                  <div className="flex items-center gap-2">
+                    <span className="text-green">✓</span>
+                    <span>Problem Solving</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green">✓</span>
+                    <span>Logical & Analytical Thinking</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green">✓</span>
+                    <span>Mathematics</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green">✓</span>
+                    <span>Science</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green">✓</span>
+                    <span>General Knowledge</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Important Note */}
+              <div className="bg-blue/10 border border-blue/30 rounded-lg p-4">
+                <p className="text-white/80 text-sm">
+                  <strong className="text-blue">📢 Important:</strong> Updates and announcements will be shared via email and on our official GDG page story. Please ensure your team is ready and punctual for all rounds.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.9}>
           <div className="max-w-4xl mx-auto rounded-2xl border border-white/[0.08] bg-black/40 backdrop-blur-xl shadow-2xl overflow-hidden">
             <div className="p-4 md:p-8 space-y-8">
+              <h2 className="text-3xl font-bold text-white mb-6">
+                🎮 Registration Form
+              </h2>
               {/* Payment Information */}
               <div className="bg-blue/10 border border-blue/20 rounded-lg p-6">
                 <h3 className="text-xl font-bold text-blue mb-4">
