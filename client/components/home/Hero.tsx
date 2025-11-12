@@ -164,7 +164,7 @@ const Hero = () => {
           >
             <Circle className="h-2 w-2 fill-green animate-pulse" />
             <span className="text-xs sm:text-sm text-white/60 tracking-wide whitespace-nowrap">
-              Brain Games • Registration Ends Nov 22
+              Brain Games • Registration Ends Nov 19
             </span>
           </motion.div>
 

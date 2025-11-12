@@ -123,7 +123,9 @@ export default function BrainGamesPage() {
       if (!member.university.trim()) {
         errors.push(`Member ${memberNum} university is required`);
       }
-      if (member.cnic && !/^\d{5}-?\d{7}-?\d{1}$/.test(member.cnic)) {
+      if (!member.cnic || !member.cnic.trim()) {
+        errors.push(`Member ${memberNum} CNIC is required`);
+      } else if (!/^\d{5}-?\d{7}-?\d{1}$/.test(member.cnic)) {
         errors.push(`Member ${memberNum} CNIC format is invalid (13 digits)`);
       }
     });
@@ -207,7 +209,7 @@ export default function BrainGamesPage() {
             >
               <Circle className="h-2 w-2 fill-green animate-pulse" />
               <span className="text-xs text-white/60 tracking-wide whitespace-nowrap">
-                Brain Games 2025 • Registration Ends Nov 22
+                Brain Games 2025 • Registration Ends Nov 19
               </span>
             </motion.div>
 
@@ -271,7 +273,7 @@ export default function BrainGamesPage() {
                 <ul className="space-y-2 text-white/70">
                   <li className="flex items-start gap-2">
                     <span className="text-yellow">•</span>
-                    <span><strong>Date:</strong> 22nd November 2025 at ASTP</span>
+                    <span><strong>Date:</strong> 19th November 2025 at ASTP</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-yellow">•</span>
@@ -338,11 +340,18 @@ export default function BrainGamesPage() {
                 </div>
               </div>
 
-              {/* Important Note */}
-              <div className="bg-blue/10 border border-blue/30 rounded-lg p-4">
-                <p className="text-white/80 text-sm">
-                  <strong className="text-blue">📢 Important:</strong> Updates and announcements will be shared via email and on our official GDG page story. Please ensure your team is ready and punctual for all rounds.
-                </p>
+              {/* Important Notes */}
+              <div className="space-y-3">
+                <div className="bg-blue/10 border border-blue/30 rounded-lg p-4">
+                  <p className="text-white/80 text-sm">
+                    <strong className="text-blue">📢 Important:</strong> Updates and announcements will be shared via email and on our official GDG page story. Please ensure your team is ready and punctual for all rounds.
+                  </p>
+                </div>
+                <div className="bg-yellow/10 border border-yellow/30 rounded-lg p-4">
+                  <p className="text-white/80 text-sm">
+                    <strong className="text-yellow">🪪 Entry Requirement:</strong> All non-ITU participants must bring their original CNIC or B-Form for entry verification at ASTP on the event day.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -523,7 +532,7 @@ export default function BrainGamesPage() {
                       {index > 0 && (
                         <div>
                           <label className="block text-sm text-white/60 mb-1">
-                            CNIC (13 digits)
+                            CNIC (13 digits) *
                           </label>
                           <input
                             type="text"
