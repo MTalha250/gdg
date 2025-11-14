@@ -257,6 +257,110 @@ export const sendBrainGamesConfirmation = async (registration) => {
   }
 };
 
+// Brain Games admin notification email
+export const sendBrainGamesAdminNotification = async (registration) => {
+  const transporter = createTransporter();
+
+  const teamLead = registration.members.find((m) => m.isTeamLead);
+  const membersList = registration.members
+    .map(
+      (member, index) =>
+        `<li>${member.name} ${member.email ? `(${member.email})` : ""} ${
+          member.isTeamLead ? "- <strong>Team Lead</strong>" : ""
+        }</li>`
+    )
+    .join("");
+
+  const registrationDate = new Date(registration.createdAt).toLocaleString(
+    "en-US",
+    {
+      dateStyle: "full",
+      timeStyle: "short",
+      timeZone: "Asia/Karachi",
+    }
+  );
+
+  const mailOptions = {
+    from: {
+      name: "GDG on Campus ITU",
+      address: process.env.SMTP_EMAIL,
+    },
+    to: "googledevelopergroup@itu.edu.pk",
+    subject: `New Brain Games 2025 Registration - ${registration.teamName}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+          <h1 style="color: #1c4ed8; margin: 0;">GDG on Campus ITU</h1>
+          <p style="color: #666; margin: 5px 0;">Brain Games 2025 - Admin Notification</p>
+        </div>
+
+        <div style="background: #dbeafe; padding: 30px; border-radius: 10px; border-left: 4px solid #1c4ed8;">
+          <h2 style="color: #1e293b; margin-top: 0;">New Team Registration! 🎮</h2>
+
+          <p style="color: #475569; line-height: 1.6; margin: 15px 0;">
+            A new team has registered for Brain Games 2025. Please review the details below:
+          </p>
+
+          <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #e5e7eb;">
+            <h3 style="color: #1e293b; margin-top: 0; margin-bottom: 15px;">📋 Registration Details:</h3>
+            <p style="margin: 8px 0; color: #475569;"><strong>Team Name:</strong> ${registration.teamName}</p>
+            <p style="margin: 8px 0; color: #475569;"><strong>Team Lead:</strong> ${teamLead.name}</p>
+            <p style="margin: 8px 0; color: #475569;"><strong>Team Lead Email:</strong> ${teamLead.email}</p>
+            <p style="margin: 8px 0; color: #475569;"><strong>Team Lead Roll Number:</strong> ${teamLead.rollNumber}</p>
+            <p style="margin: 8px 0; color: #475569;"><strong>Number of Members:</strong> ${registration.members.length}</p>
+            <p style="margin: 8px 0; color: #475569;"><strong>Registration Time:</strong> ${registrationDate}</p>
+            <p style="margin: 8px 0; color: #475569;"><strong>Status:</strong> <span style="color: #eab305; font-weight: 500;">Pending Verification</span></p>
+          </div>
+
+          <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #e5e7eb;">
+            <h3 style="color: #1e293b; margin-top: 0; margin-bottom: 15px;">👥 Team Members:</h3>
+            <ol style="color: #475569; margin: 0; padding-left: 20px;">
+              ${membersList}
+            </ol>
+          </div>
+
+          <div style="margin: 25px 0; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 3px solid #eab305;">
+            <p style="margin: 0; color: #92400e; font-weight: 500;">
+              ⏰ Action Required:
+            </p>
+            <ul style="color: #92400e; margin: 10px 0 0 0; padding-left: 20px;">
+              <li>Review the payment proof in the admin panel</li>
+              <li>Verify team member details</li>
+              <li>Update registration status (Accept/Reject)</li>
+            </ul>
+          </div>
+
+          <div style="text-align: center; margin-top: 25px;">
+            <a href="${process.env.ADMIN_URL || "http://localhost:3001"}/brain-games"
+               style="display: inline-block; background: #1c4ed8; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 500;">
+              View in Admin Panel
+            </a>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+          <p style="color: #64748b; font-size: 14px; margin: 0;">
+            <strong>GDG on Campus ITU - Admin Notification System</strong>
+          </p>
+          <p style="color: #94a3b8; font-size: 12px; margin: 10px 0 0 0;">
+            This is an automated admin notification email.
+          </p>
+        </div>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(
+      `Brain Games admin notification sent to googledevelopergroup@itu.edu.pk`
+    );
+  } catch (error) {
+    console.error("Error sending Brain Games admin notification:", error);
+    throw error;
+  }
+};
+
 // Brain Games status update email
 export const sendBrainGamesStatusUpdate = async (registration) => {
   const transporter = createTransporter();

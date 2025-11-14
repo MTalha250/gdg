@@ -1,5 +1,5 @@
 import BrainGames from "../models/brainGames.js";
-import { sendBrainGamesConfirmation, sendBrainGamesStatusUpdate } from "../utils/emailService.js";
+import { sendBrainGamesConfirmation, sendBrainGamesStatusUpdate, sendBrainGamesAdminNotification } from "../utils/emailService.js";
 
 // Create a new Brain Games registration
 export const createRegistration = async (req, res) => {
@@ -54,11 +54,19 @@ export const createRegistration = async (req, res) => {
 
     await registration.save();
 
-    // Send confirmation email
+    // Send confirmation email to team lead
     try {
       await sendBrainGamesConfirmation(registration);
     } catch (emailError) {
       console.error("Failed to send confirmation email:", emailError);
+      // Don't fail the registration if email fails
+    }
+
+    // Send admin notification email
+    try {
+      await sendBrainGamesAdminNotification(registration);
+    } catch (emailError) {
+      console.error("Failed to send admin notification email:", emailError);
       // Don't fail the registration if email fails
     }
 
