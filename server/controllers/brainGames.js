@@ -27,26 +27,6 @@ export const createRegistration = async (req, res) => {
       });
     }
 
-    // Check for duplicate email
-    const existingByEmail = await BrainGames.findOne({
-      "members.email": teamLead.email,
-    });
-    if (existingByEmail) {
-      return res.status(400).json({
-        message: "This email is already registered",
-      });
-    }
-
-    // Check for duplicate roll number
-    const existingByRoll = await BrainGames.findOne({
-      "members.rollNumber": teamLead.rollNumber,
-    });
-    if (existingByRoll) {
-      return res.status(400).json({
-        message: "This roll number is already registered",
-      });
-    }
-
     // Validate other members' CNIC if provided
     for (let i = 1; i < members.length; i++) {
       const member = members[i];

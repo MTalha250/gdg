@@ -273,7 +273,7 @@ export default function BrainGamesPage() {
                 <ul className="space-y-2 text-white/70">
                   <li className="flex items-start gap-2">
                     <span className="text-yellow">•</span>
-                    <span><strong>Date:</strong> 19th November 2025 at ASTP</span>
+                    <span><strong>Date:</strong> 23rd November 2025 (Sunday) at ASTP</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-yellow">•</span>
