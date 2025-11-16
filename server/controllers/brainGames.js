@@ -13,25 +13,32 @@ export const createRegistration = async (req, res) => {
       });
     }
 
-    // Validate team lead (first member)
-    const teamLead = members[0];
-    if (!teamLead.email || !teamLead.email.endsWith("@itu.edu.pk")) {
-      return res.status(400).json({
-        message: "Team lead must have a valid ITU email address (@itu.edu.pk)"
-      });
-    }
-
-    if (!teamLead.rollNumber || teamLead.rollNumber.length !== 9 || !teamLead.rollNumber.toLowerCase().startsWith("bs")) {
-      return res.status(400).json({
-        message: "Team lead must have a valid roll number (9 characters starting with 'bs')"
-      });
-    }
-
-    // Validate other members' CNIC if provided
-    for (let i = 1; i < members.length; i++) {
+    // Validate all members (including team lead)
+    for (let i = 0; i < members.length; i++) {
       const member = members[i];
-      if (member.cnic) {
-        // Remove hyphens for validation
+      const memberNum = i + 1;
+
+      // Each member must have either roll number OR CNIC
+      const hasRollNumber = member.rollNumber && member.rollNumber.trim();
+      const hasCNIC = member.cnic && member.cnic.trim();
+
+      if (!hasRollNumber && !hasCNIC) {
+        return res.status(400).json({
+          message: `Member ${memberNum} (${member.name}) must provide either Roll Number or CNIC`
+        });
+      }
+
+      // Validate roll number format if provided
+      if (hasRollNumber) {
+        if (member.rollNumber.length !== 9 || !member.rollNumber.toLowerCase().startsWith("bs")) {
+          return res.status(400).json({
+            message: `Invalid roll number for ${member.name}. Must be 9 characters starting with 'bs'`
+          });
+        }
+      }
+
+      // Validate CNIC format if provided
+      if (hasCNIC) {
         const cnicDigits = member.cnic.replace(/-/g, "");
         if (cnicDigits.length !== 13 || !/^\d+$/.test(cnicDigits)) {
           return res.status(400).json({
@@ -39,6 +46,14 @@ export const createRegistration = async (req, res) => {
           });
         }
       }
+    }
+
+    // Validate team lead email
+    const teamLead = members[0];
+    if (!teamLead.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(teamLead.email)) {
+      return res.status(400).json({
+        message: "Team lead must have a valid email address"
+      });
     }
 
     // Mark first member as team lead
