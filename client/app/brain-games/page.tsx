@@ -12,9 +12,7 @@ type Member = {
   name: string;
   email?: string;
   phone: string;
-  rollNumber?: string;
-  university: string;
-  cnic?: string;
+  rollNumber: string;
   isTeamLead: boolean;
 };
 
@@ -32,8 +30,6 @@ const initialFormData: FormData = {
       email: "",
       phone: "",
       rollNumber: "",
-      cnic: "",
-      university: "",
       isTeamLead: true,
     },
   ],
@@ -68,8 +64,7 @@ export default function BrainGamesPage() {
         {
           name: "",
           phone: "",
-          university: "",
-          cnic: "",
+          rollNumber: "",
           isTeamLead: false,
         },
       ],
@@ -110,40 +105,20 @@ export default function BrainGamesPage() {
         errors.push(`${memberLabel} phone is required`);
       }
 
-      // Email is only required for team lead
+      // Email is only required for team lead (must be ITU email)
       if (index === 0) {
         if (!member.email?.trim()) {
           errors.push("Team lead email is required");
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(member.email)) {
-          errors.push("Team lead must have a valid email address");
+        } else if (!/^[a-zA-Z0-9._%+-]+@itu\.edu\.pk$/.test(member.email)) {
+          errors.push("Team lead must have a valid ITU email (@itu.edu.pk)");
         }
       }
 
-      // University is required for all
-      if (!member.university.trim()) {
-        errors.push(`${memberLabel} university is required`);
-      }
-
-      // Each member must have either roll number OR CNIC
-      const hasRollNumber = member.rollNumber?.trim();
-      const hasCNIC = member.cnic?.trim();
-
-      if (!hasRollNumber && !hasCNIC) {
-        errors.push(`${memberLabel} must provide either Roll Number or CNIC`);
-      }
-
-      // Validate roll number format if provided
-      if (hasRollNumber) {
-        if (!/^bs[a-zA-Z0-9]{7}$/i.test(member.rollNumber!)) {
-          errors.push(`${memberLabel} roll number must be 9 characters starting with 'bs'`);
-        }
-      }
-
-      // Validate CNIC format if provided
-      if (hasCNIC) {
-        if (!/^\d{5}-?\d{7}-?\d{1}$/.test(member.cnic!)) {
-          errors.push(`${memberLabel} CNIC format is invalid (13 digits)`);
-        }
+      // Roll number is required for all members (ITU students only)
+      if (!member.rollNumber.trim()) {
+        errors.push(`${memberLabel} roll number is required`);
+      } else if (!/^bs[a-zA-Z0-9]{7}$/i.test(member.rollNumber)) {
+        errors.push(`${memberLabel} roll number must be 9 characters starting with 'bs'`);
       }
     });
 
@@ -226,7 +201,7 @@ export default function BrainGamesPage() {
             >
               <Circle className="h-2 w-2 fill-green animate-pulse" />
               <span className="text-xs text-white/60 tracking-wide whitespace-nowrap">
-                Brain Games 2025 • Registration Ends Nov 19
+                Brain Games 2025 • Registration Ends Nov 20
               </span>
             </motion.div>
 
@@ -277,15 +252,15 @@ export default function BrainGamesPage() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-green">•</span>
-                    <span>Members can be from <strong>any university</strong></span>
+                    <span><strong>All members must be ITU students</strong></span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-green">•</span>
-                    <span>ITU students should provide their <strong>roll number</strong></span>
+                    <span>Team lead must have a valid <strong>ITU email (@itu.edu.pk)</strong></span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-green">•</span>
-                    <span>Non-ITU students should provide their <strong>CNIC</strong></span>
+                    <span>All members must provide their <strong>roll number</strong></span>
                   </li>
                 </ul>
               </div>
@@ -455,8 +430,8 @@ export default function BrainGamesPage() {
                     <div className="flex items-center justify-between">
                       <h4 className="font-semibold text-white">
                         {index === 0
-                          ? "👑 Team Lead"
-                          : `Member ${index + 1}`}
+                          ? "👑 Team Lead (ITU Student)"
+                          : `Member ${index + 1} (ITU Student)`}
                       </h4>
                       {index > 0 && (
                         <button
@@ -487,7 +462,7 @@ export default function BrainGamesPage() {
                       {index === 0 && (
                         <div>
                           <label className="block text-sm text-white/60 mb-1">
-                            Email *
+                            ITU Email *
                           </label>
                           <input
                             type="email"
@@ -495,7 +470,7 @@ export default function BrainGamesPage() {
                             onChange={(e) =>
                               updateMember(index, "email", e.target.value)
                             }
-                            placeholder="e.g. student@university.edu.pk"
+                            placeholder="e.g. bscs23051@itu.edu.pk"
                             className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-blue/50 transition-colors"
                           />
                         </div>
@@ -518,22 +493,7 @@ export default function BrainGamesPage() {
 
                       <div>
                         <label className="block text-sm text-white/60 mb-1">
-                          University *
-                        </label>
-                        <input
-                          type="text"
-                          value={member.university}
-                          onChange={(e) =>
-                            updateMember(index, "university", e.target.value)
-                          }
-                          placeholder="e.g. Information Technology University"
-                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-blue/50 transition-colors"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm text-white/60 mb-1">
-                          Roll Number (if ITU student)
+                          Roll Number *
                         </label>
                         <input
                           type="text"
@@ -541,32 +501,12 @@ export default function BrainGamesPage() {
                           onChange={(e) =>
                             updateMember(index, "rollNumber", e.target.value)
                           }
-                          placeholder="e.g. bs23051"
+                          placeholder="e.g. bscs23051"
                           maxLength={9}
                           className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-blue/50 transition-colors"
                         />
                       </div>
-
-                      <div>
-                        <label className="block text-sm text-white/60 mb-1">
-                          CNIC (if non-ITU student)
-                        </label>
-                        <input
-                          type="text"
-                          value={member.cnic}
-                          onChange={(e) =>
-                            updateMember(index, "cnic", e.target.value)
-                          }
-                          placeholder="12345-1234567-1"
-                          className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-white/30 focus:outline-none focus:border-blue/50 transition-colors"
-                        />
-                      </div>
                     </div>
-
-                    {/* Help text for Roll Number OR CNIC */}
-                    <p className="text-xs text-white/40 mt-2">
-                      * Provide either Roll Number (for ITU students) or CNIC (for non-ITU students)
-                    </p>
                   </div>
                 ))}
               </div>
