@@ -24,7 +24,9 @@ import {
   Phone,
   IdCard,
   Building2,
-  CreditCard
+  CreditCard,
+  Download,
+  Copy
 } from "lucide-react";
 import axios from "axios";
 import useAuthStore from "@/store/authStore";
@@ -149,6 +151,95 @@ const BrainGames = () => {
     setSelectedRegistration(null);
   };
 
+  const handleExportCSV = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/brain-games/all`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const allRegistrations: BrainGamesRegistration[] = response.data;
+
+      // Build CSV content
+      const headers = ["Team Name", "Team Lead", "Email", "Roll Number", "Members Count", "Status", "Registration Date"];
+      const csvRows = [headers.join(",")];
+
+      allRegistrations.forEach((reg) => {
+        const teamLead = reg.members.find((m) => m.isTeamLead);
+        const row = [
+          `"${reg.teamName}"`,
+          `"${teamLead?.name || ""}"`,
+          `"${teamLead?.email || ""}"`,
+          `"${teamLead?.rollNumber || ""}"`,
+          reg.members.length,
+          reg.status,
+          new Date(reg.createdAt).toLocaleDateString(),
+        ];
+        csvRows.push(row.join(","));
+      });
+
+      // Create and download CSV file
+      const csvContent = csvRows.join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `brain-games-registrations-${new Date().toISOString().split("T")[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast.success("CSV exported successfully");
+    } catch (error) {
+      console.error("Error exporting CSV:", error);
+      toast.error("Failed to export CSV");
+    }
+  };
+
+  const handleCopyCNICs = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/brain-games/all`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const allRegistrations: BrainGamesRegistration[] = response.data;
+
+      // Collect all CNICs from members who have them
+      const cnics: string[] = [];
+      allRegistrations.forEach((reg) => {
+        reg.members.forEach((member) => {
+          if (member.cnic) {
+            cnics.push(member.cnic);
+          }
+        });
+      });
+
+      if (cnics.length === 0) {
+        toast.error("No CNICs found in registrations");
+        return;
+      }
+
+      // Copy to clipboard (newline-separated)
+      const cnicsText = cnics.join("\n");
+      await navigator.clipboard.writeText(cnicsText);
+
+      toast.success(`Copied ${cnics.length} CNICs to clipboard`);
+    } catch (error) {
+      console.error("Error copying CNICs:", error);
+      toast.error("Failed to copy CNICs");
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "accepted":
@@ -218,7 +309,7 @@ const BrainGames = () => {
       <div className="space-y-6">
         <ComponentCard title="Team Registrations">
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 border-b border-gray-100 dark:border-white/[0.05]">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 border-b border-gray-100 dark:border-white/[0.05] gap-3">
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                 <div className="relative w-full sm:w-64">
                   <input
@@ -242,6 +333,22 @@ const BrainGames = () => {
                   <option value="accepted">Accepted</option>
                   <option value="rejected">Rejected</option>
                 </select>
+              </div>
+              <div className="flex gap-2 w-full sm:w-auto">
+                <button
+                  onClick={handleExportCSV}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex-1 sm:flex-initial justify-center"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Export CSV</span>
+                </button>
+                <button
+                  onClick={handleCopyCNICs}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex-1 sm:flex-initial justify-center"
+                >
+                  <Copy className="w-4 h-4" />
+                  <span>Copy CNICs</span>
+                </button>
               </div>
             </div>
 
