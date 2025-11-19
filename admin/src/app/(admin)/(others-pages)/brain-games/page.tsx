@@ -240,6 +240,38 @@ const BrainGames = () => {
     }
   };
 
+  const handleCopyTeamNames = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/brain-games/all`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const allRegistrations: BrainGamesRegistration[] = response.data;
+
+      // Collect all team names
+      const teamNames = allRegistrations.map((reg) => reg.teamName);
+
+      if (teamNames.length === 0) {
+        toast.error("No team names found");
+        return;
+      }
+
+      // Copy to clipboard (newline-separated)
+      const teamNamesText = teamNames.join("\n");
+      await navigator.clipboard.writeText(teamNamesText);
+
+      toast.success(`Copied ${teamNames.length} team names to clipboard`);
+    } catch (error) {
+      console.error("Error copying team names:", error);
+      toast.error("Failed to copy team names");
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "accepted":
@@ -334,17 +366,24 @@ const BrainGames = () => {
                   <option value="rejected">Rejected</option>
                 </select>
               </div>
-              <div className="flex gap-2 w-full sm:w-auto">
+              <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                 <button
                   onClick={handleExportCSV}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex-1 sm:flex-initial justify-center"
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors justify-center text-sm"
                 >
                   <Download className="w-4 h-4" />
                   <span>Export CSV</span>
                 </button>
                 <button
+                  onClick={handleCopyTeamNames}
+                  className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors justify-center text-sm"
+                >
+                  <Copy className="w-4 h-4" />
+                  <span>Copy Teams</span>
+                </button>
+                <button
                   onClick={handleCopyCNICs}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex-1 sm:flex-initial justify-center"
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors justify-center text-sm"
                 >
                   <Copy className="w-4 h-4" />
                   <span>Copy CNICs</span>
