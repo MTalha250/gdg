@@ -242,8 +242,8 @@ const BrainGames = () => {
         return;
       }
 
-      // Copy to clipboard (newline-separated)
-      const cnicsText = cnics.join("\n");
+      // Copy to clipboard (comma-separated like recruitment page)
+      const cnicsText = cnics.join(", ");
       copyToClipboard(cnicsText);
 
       toast.success(`Copied ${cnics.length} CNICs to clipboard`);
@@ -274,8 +274,8 @@ const BrainGames = () => {
         return;
       }
 
-      // Copy to clipboard (newline-separated)
-      const teamNamesText = teamNames.join("\n");
+      // Copy to clipboard (comma-separated like recruitment page)
+      const teamNamesText = teamNames.join(", ");
       copyToClipboard(teamNamesText);
 
       toast.success(`Copied ${teamNames.length} team names to clipboard`);
