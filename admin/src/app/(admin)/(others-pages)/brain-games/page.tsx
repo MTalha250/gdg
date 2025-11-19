@@ -201,6 +201,19 @@ const BrainGames = () => {
     }
   };
 
+  // Simple clipboard copy function (same as recruitment page)
+  const copyToClipboard = (text: string) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "-9999px";
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+  };
+
   const handleCopyCNICs = async () => {
     try {
       const response = await axios.get(
@@ -231,7 +244,7 @@ const BrainGames = () => {
 
       // Copy to clipboard (newline-separated)
       const cnicsText = cnics.join("\n");
-      await navigator.clipboard.writeText(cnicsText);
+      copyToClipboard(cnicsText);
 
       toast.success(`Copied ${cnics.length} CNICs to clipboard`);
     } catch (error) {
@@ -263,7 +276,7 @@ const BrainGames = () => {
 
       // Copy to clipboard (newline-separated)
       const teamNamesText = teamNames.join("\n");
-      await navigator.clipboard.writeText(teamNamesText);
+      copyToClipboard(teamNamesText);
 
       toast.success(`Copied ${teamNames.length} team names to clipboard`);
     } catch (error) {
