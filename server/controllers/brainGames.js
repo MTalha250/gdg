@@ -13,46 +13,32 @@ export const createRegistration = async (req, res) => {
       });
     }
 
-    // Validate all members (including team lead)
+    // Validate all members (all must be ITU students with roll numbers)
     for (let i = 0; i < members.length; i++) {
       const member = members[i];
       const memberNum = i + 1;
+      const memberLabel = i === 0 ? "Team lead" : `Member ${memberNum}`;
 
-      // Each member must have either roll number OR CNIC
-      const hasRollNumber = member.rollNumber && member.rollNumber.trim();
-      const hasCNIC = member.cnic && member.cnic.trim();
-
-      if (!hasRollNumber && !hasCNIC) {
+      // All members must have roll number
+      if (!member.rollNumber || !member.rollNumber.trim()) {
         return res.status(400).json({
-          message: `Member ${memberNum} (${member.name}) must provide either Roll Number or CNIC`
+          message: `${memberLabel} must have a roll number (ITU students only)`
         });
       }
 
-      // Validate roll number format if provided
-      if (hasRollNumber) {
-        if (member.rollNumber.length !== 9 || !member.rollNumber.toLowerCase().startsWith("bs")) {
-          return res.status(400).json({
-            message: `Invalid roll number for ${member.name}. Must be 9 characters starting with 'bs'`
-          });
-        }
-      }
-
-      // Validate CNIC format if provided
-      if (hasCNIC) {
-        const cnicDigits = member.cnic.replace(/-/g, "");
-        if (cnicDigits.length !== 13 || !/^\d+$/.test(cnicDigits)) {
-          return res.status(400).json({
-            message: `Invalid CNIC format for ${member.name}. Must be 13 digits.`,
-          });
-        }
+      // Validate roll number format (9 characters starting with 'bs')
+      if (member.rollNumber.length !== 9 || !member.rollNumber.toLowerCase().startsWith("bs")) {
+        return res.status(400).json({
+          message: `Invalid roll number for ${memberLabel}. Must be 9 characters starting with 'bs'`
+        });
       }
     }
 
-    // Validate team lead email
+    // Validate team lead email (must be ITU email)
     const teamLead = members[0];
-    if (!teamLead.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(teamLead.email)) {
+    if (!teamLead.email || !teamLead.email.endsWith("@itu.edu.pk")) {
       return res.status(400).json({
-        message: "Team lead must have a valid email address"
+        message: "Team lead must have a valid ITU email address (@itu.edu.pk)"
       });
     }
 

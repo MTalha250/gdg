@@ -3,7 +3,7 @@ export interface BrainGamesMember {
   email?: string;
   phone: string;
   rollNumber?: string;
-  university: string;
+  university?: string;
   cnic?: string;
   isTeamLead: boolean;
 }

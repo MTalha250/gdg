@@ -528,10 +528,12 @@ const BrainGames = () => {
                             <span>Roll: {member.rollNumber}</span>
                           </div>
                         )}
-                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                          <Building2 className="w-4 h-4" />
-                          <span>{member.university}</span>
-                        </div>
+                        {member.university && (
+                          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                            <Building2 className="w-4 h-4" />
+                            <span>{member.university}</span>
+                          </div>
+                        )}
                         {member.cnic && (
                           <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
                             <CreditCard className="w-4 h-4" />
