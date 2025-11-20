@@ -300,7 +300,7 @@ const BrainGames = () => {
 
       const allRegistrations: BrainGamesRegistration[] = response.data;
 
-      // Collect all members with CNICs
+      // Collect all members with CNICs from database
       const membersWithCNIC: Array<{ name: string; cnic: string }> = [];
       allRegistrations.forEach((reg) => {
         reg.members.forEach((member) => {
@@ -313,7 +313,24 @@ const BrainGames = () => {
         });
       });
 
-      if (membersWithCNIC.length === 0) {
+      // Add hard-coded additional members
+      const additionalMembers = [
+        { name: "Mujeeb", cnic: "4220116486633" },
+        { name: "Muhammad Rehman", cnic: "3540147212229" },
+        { name: "Usman", cnic: "3520297596519" },
+        { name: "Khola Ahmad Butt", cnic: "35201-8666452-0" },
+        { name: "Aimen Faisal Zaeem", cnic: "64334-2402174-4" },
+        { name: "Afnan akhtar", cnic: "34101-6939991-7" },
+        { name: "MUHAMMAD AHMED", cnic: "35201-2557534-5" },
+      ];
+
+      // Merge database CNICs with hard-coded ones
+      const allMembers = [...membersWithCNIC, ...additionalMembers];
+
+      // Sort alphabetically by name
+      allMembers.sort((a, b) => a.name.localeCompare(b.name));
+
+      if (allMembers.length === 0) {
         toast.error("No members with CNICs found");
         return;
       }
@@ -359,7 +376,7 @@ const BrainGames = () => {
         doc.setFontSize(10);
         yPosition += 10;
 
-        membersWithCNIC.forEach((member, index) => {
+        allMembers.forEach((member, index) => {
           if (yPosition > 280) {
             doc.addPage();
             yPosition = 20;
@@ -387,7 +404,7 @@ const BrainGames = () => {
 
         // Save PDF
         doc.save(`brain-games-cnics-${new Date().toISOString().split("T")[0]}.pdf`);
-        toast.success(`PDF generated with ${membersWithCNIC.length} members`);
+        toast.success(`PDF generated with ${allMembers.length} members`);
       };
 
       logo.onerror = () => {
@@ -417,7 +434,7 @@ const BrainGames = () => {
         doc.setFontSize(10);
         yPosition += 10;
 
-        membersWithCNIC.forEach((member, index) => {
+        allMembers.forEach((member, index) => {
           if (yPosition > 280) {
             doc.addPage();
             yPosition = 20;
@@ -443,7 +460,7 @@ const BrainGames = () => {
         }
 
         doc.save(`brain-games-cnics-${new Date().toISOString().split("T")[0]}.pdf`);
-        toast.success(`PDF generated with ${membersWithCNIC.length} members`);
+        toast.success(`PDF generated with ${allMembers.length} members`);
       };
     } catch (error) {
       console.error("Error generating PDF:", error);
