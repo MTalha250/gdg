@@ -22,7 +22,6 @@ const memberSchema = new mongoose.Schema({
   },
   university: {
     type: String,
-    required: true,
     trim: true,
   },
   cnic: {
