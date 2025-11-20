@@ -26,12 +26,14 @@ import {
   Building2,
   CreditCard,
   Download,
-  Copy
+  Copy,
+  FileText
 } from "lucide-react";
 import axios from "axios";
 import useAuthStore from "@/store/authStore";
 import toast from "react-hot-toast";
 import { BrainGamesRegistration } from "@/types/brainGames";
+import jsPDF from "jspdf";
 
 const BrainGames = () => {
   const [registrations, setRegistrations] = useState<BrainGamesRegistration[]>([]);
@@ -285,6 +287,170 @@ const BrainGames = () => {
     }
   };
 
+  const handleExportPDF = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/brain-games/all`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const allRegistrations: BrainGamesRegistration[] = response.data;
+
+      // Collect all members with CNICs
+      const membersWithCNIC: Array<{ name: string; cnic: string }> = [];
+      allRegistrations.forEach((reg) => {
+        reg.members.forEach((member) => {
+          if (member.cnic) {
+            membersWithCNIC.push({
+              name: member.name,
+              cnic: member.cnic,
+            });
+          }
+        });
+      });
+
+      if (membersWithCNIC.length === 0) {
+        toast.error("No members with CNICs found");
+        return;
+      }
+
+      // Create PDF
+      const doc = new jsPDF();
+
+      // Add GDG logo
+      const logo = new Image();
+      logo.src = "/images/logo/logo.png";
+
+      logo.onload = () => {
+        // Add logo (centered at top)
+        doc.addImage(logo, "PNG", 80, 10, 50, 20);
+
+        // Add title
+        doc.setFontSize(18);
+        doc.setFont("helvetica", "bold");
+        doc.text("Brain Games 2025", 105, 40, { align: "center" });
+
+        doc.setFontSize(14);
+        doc.text("Members with CNIC", 105, 48, { align: "center" });
+
+        // Add date
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, 55, { align: "center" });
+
+        // Table headers
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        let yPosition = 70;
+        doc.text("Sr.", 15, yPosition);
+        doc.text("Name", 30, yPosition);
+        doc.text("CNIC", 120, yPosition);
+
+        // Draw header line
+        doc.setLineWidth(0.5);
+        doc.line(15, yPosition + 2, 195, yPosition + 2);
+
+        // Table data
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        yPosition += 10;
+
+        membersWithCNIC.forEach((member, index) => {
+          if (yPosition > 280) {
+            doc.addPage();
+            yPosition = 20;
+          }
+
+          doc.text(`${index + 1}.`, 15, yPosition);
+          doc.text(member.name, 30, yPosition);
+          doc.text(member.cnic, 120, yPosition);
+          yPosition += 8;
+        });
+
+        // Add footer
+        const pageCount = doc.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          doc.setFontSize(8);
+          doc.setTextColor(128);
+          doc.text(
+            `Page ${i} of ${pageCount}`,
+            105,
+            290,
+            { align: "center" }
+          );
+        }
+
+        // Save PDF
+        doc.save(`brain-games-cnics-${new Date().toISOString().split("T")[0]}.pdf`);
+        toast.success(`PDF generated with ${membersWithCNIC.length} members`);
+      };
+
+      logo.onerror = () => {
+        // If logo fails to load, generate PDF without logo
+        doc.setFontSize(18);
+        doc.setFont("helvetica", "bold");
+        doc.text("Brain Games 2025", 105, 20, { align: "center" });
+
+        doc.setFontSize(14);
+        doc.text("Members with CNIC", 105, 28, { align: "center" });
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, 35, { align: "center" });
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        let yPosition = 50;
+        doc.text("Sr.", 15, yPosition);
+        doc.text("Name", 30, yPosition);
+        doc.text("CNIC", 120, yPosition);
+
+        doc.setLineWidth(0.5);
+        doc.line(15, yPosition + 2, 195, yPosition + 2);
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        yPosition += 10;
+
+        membersWithCNIC.forEach((member, index) => {
+          if (yPosition > 280) {
+            doc.addPage();
+            yPosition = 20;
+          }
+
+          doc.text(`${index + 1}.`, 15, yPosition);
+          doc.text(member.name, 30, yPosition);
+          doc.text(member.cnic, 120, yPosition);
+          yPosition += 8;
+        });
+
+        const pageCount = doc.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          doc.setFontSize(8);
+          doc.setTextColor(128);
+          doc.text(
+            `Page ${i} of ${pageCount}`,
+            105,
+            290,
+            { align: "center" }
+          );
+        }
+
+        doc.save(`brain-games-cnics-${new Date().toISOString().split("T")[0]}.pdf`);
+        toast.success(`PDF generated with ${membersWithCNIC.length} members`);
+      };
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast.error("Failed to generate PDF");
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "accepted":
@@ -400,6 +566,13 @@ const BrainGames = () => {
                 >
                   <Copy className="w-4 h-4" />
                   <span>Copy CNICs</span>
+                </button>
+                <button
+                  onClick={handleExportPDF}
+                  className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors justify-center text-sm"
+                >
+                  <FileText className="w-4 h-4" />
+                  <span>Export PDF</span>
                 </button>
               </div>
             </div>
