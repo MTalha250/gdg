@@ -85,32 +85,6 @@ export default function BrainGamesPage() {
               <h2 className="text-3xl font-bold text-white mb-6">
                 📋 Event Information
               </h2>
-
-              {/* Team Structure */}
-              <div className="bg-white/5 border border-white/10 rounded-lg p-4">
-                <h3 className="text-xl font-semibold text-blue mb-3">
-                  Team Structure
-                </h3>
-                <ul className="space-y-2 text-white/70">
-                  <li className="flex items-start gap-2">
-                    <span className="text-green">•</span>
-                    <span>Teams can have <strong>1 to 3 members</strong></span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green">•</span>
-                    <span><strong>All members must be ITU students</strong></span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green">•</span>
-                    <span>Team lead must have a valid <strong>ITU email (@itu.edu.pk)</strong></span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-green">•</span>
-                    <span>All members must provide their <strong>roll number</strong></span>
-                  </li>
-                </ul>
-              </div>
-
               {/* Event Details */}
               <div className="bg-white/5 border border-white/10 rounded-lg p-4">
                 <h3 className="text-xl font-semibold text-yellow mb-3">
@@ -119,19 +93,29 @@ export default function BrainGamesPage() {
                 <ul className="space-y-2 text-white/70">
                   <li className="flex items-start gap-2">
                     <span className="text-yellow">•</span>
-                    <span><strong>Date:</strong> 23rd November 2025 (Sunday) at ASTP</span>
+                    <span>
+                      <strong>Date:</strong> 23rd November 2025 (Sunday) at ASTP
+                    </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-yellow">•</span>
-                    <span><strong>Duration:</strong> One-day event (approx. 5–6 hours)</span>
+                    <span>
+                      <strong>Duration:</strong> One-day event (approx. 5–6
+                      hours)
+                    </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-yellow">•</span>
-                    <span><strong>Reporting Time:</strong> Will be communicated via email</span>
+                    <span>
+                      <strong>Reporting Time:</strong> Will be communicated via
+                      email
+                    </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-yellow">•</span>
-                    <span><strong>Difficulty Level:</strong> Mostly moderate</span>
+                    <span>
+                      <strong>Difficulty Level:</strong> Mostly moderate
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -146,13 +130,19 @@ export default function BrainGamesPage() {
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                   <div className="bg-white/5 border border-red/30 rounded-lg p-3 text-center">
-                    <span className="text-red font-semibold">🧩 Puzzle Round</span>
+                    <span className="text-red font-semibold">
+                      🧩 Puzzle Round
+                    </span>
                   </div>
                   <div className="bg-white/5 border border-red/30 rounded-lg p-3 text-center">
-                    <span className="text-red font-semibold">⚡ Rapid Fire Round</span>
+                    <span className="text-red font-semibold">
+                      ⚡ Rapid Fire Round
+                    </span>
                   </div>
                   <div className="bg-white/5 border border-red/30 rounded-lg p-3 text-center">
-                    <span className="text-red font-semibold">🔔 Buzzer Round</span>
+                    <span className="text-red font-semibold">
+                      🔔 Buzzer Round
+                    </span>
                   </div>
                 </div>
               </div>
@@ -190,12 +180,19 @@ export default function BrainGamesPage() {
               <div className="space-y-3">
                 <div className="bg-blue/10 border border-blue/30 rounded-lg p-4">
                   <p className="text-white/80 text-sm">
-                    <strong className="text-blue">📢 Important:</strong> Updates and announcements will be shared via email and on our official GDG page story. Please ensure your team is ready and punctual for all rounds.
+                    <strong className="text-blue">📢 Important:</strong> Updates
+                    and announcements will be shared via email and on our
+                    official GDG page story. Please ensure your team is ready
+                    and punctual for all rounds.
                   </p>
                 </div>
                 <div className="bg-yellow/10 border border-yellow/30 rounded-lg p-4">
                   <p className="text-white/80 text-sm">
-                    <strong className="text-yellow">🪪 Entry Requirement:</strong> All non-ITU participants must bring their original CNIC or B-Form for entry verification at ASTP on the event day.
+                    <strong className="text-yellow">
+                      🪪 Entry Requirement:
+                    </strong>{" "}
+                    All non-ITU participants must bring their original CNIC or
+                    B-Form for entry verification at ASTP on the event day.
                   </p>
                 </div>
               </div>
@@ -217,11 +214,14 @@ export default function BrainGamesPage() {
                   Registration Period Has Ended
                 </h3>
                 <p className="text-white/70 text-lg max-w-xl mx-auto">
-                  Thank you for your interest in Brain Games 2025! The registration deadline has passed and we are no longer accepting new registrations.
+                  Thank you for your interest in Brain Games 2025! The
+                  registration deadline has passed and we are no longer
+                  accepting new registrations.
                 </p>
                 <div className="bg-yellow/10 border border-yellow/30 rounded-lg p-4 mt-6">
                   <p className="text-white/80">
-                    <strong className="text-yellow">📅 Event Date:</strong> 23rd November 2025 (Sunday) at ASTP
+                    <strong className="text-yellow">📅 Event Date:</strong> 23rd
+                    November 2025 (Sunday) at ASTP
                   </p>
                   <p className="text-white/70 text-sm mt-2">
                     Registered teams will receive further details via email.
