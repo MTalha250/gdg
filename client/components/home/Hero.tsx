@@ -162,9 +162,9 @@ const Hero = () => {
             animate="visible"
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
           >
-            <Circle className="h-2 w-2 fill-green animate-pulse" />
+            <Circle className="h-2 w-2 fill-red animate-pulse" />
             <span className="text-xs sm:text-sm text-white/60 tracking-wide whitespace-nowrap">
-              Brain Games • Registration Ends Nov 20
+              Brain Games • Event on Nov 23
             </span>
           </motion.div>
 
