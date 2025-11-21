@@ -410,13 +410,28 @@ export const sendBrainGamesStatusUpdate = async (registration) => {
 
           <div style="margin: 25px 0; padding: 15px; background: #dbeafe; border-radius: 8px; border-left: 3px solid #1c4ed8;">
             <p style="margin: 0; color: #1e40af; font-weight: 500;">
-              📅 Next Steps:
+              📅 Important - Action Required:
             </p>
             <ul style="color: #1e40af; margin: 10px 0 0 0; padding-left: 20px;">
+              <li><strong>Join the WhatsApp group:</strong> <a href="https://chat.whatsapp.com/Dy7JKr7dXhn2KOkZgv95Cf?mode=hqrt3" style="color: #1c4ed8;">Click here to join</a></li>
+              <li><strong>Download EZBuzzer app (Team Lead only):</strong>
+                <ul style="margin-top: 5px;">
+                  <li>iPhone: <a href="https://apps.apple.com/app/id1635404640" style="color: #1c4ed8;">Download from App Store</a></li>
+                  <li>Android: <a href="https://play.google.com/store/apps/details?id=com.braultomatic.ezbuzzer" style="color: #1c4ed8;">Download from Play Store</a></li>
+                </ul>
+              </li>
               <li>Keep an eye on your email for event details</li>
-              <li>Join our social media channels for updates</li>
               <li>Prepare your team for the competition</li>
             </ul>
+          </div>
+
+          <div style="margin: 25px 0; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 3px solid #eab305;">
+            <p style="margin: 0; color: #92400e; font-weight: 500;">
+              ⚠️ Important Note:
+            </p>
+            <p style="color: #92400e; margin: 10px 0 0 0;">
+              The <strong>team lead must download the EZBuzzer app</strong> before coming to the event. This app will be used during the buzzer rounds of the competition.
+            </p>
           </div>
 
           <p style="color: #475569; line-height: 1.6; margin: 15px 0;">
