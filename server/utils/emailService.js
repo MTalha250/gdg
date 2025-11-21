@@ -408,9 +408,18 @@ export const sendBrainGamesStatusUpdate = async (registration) => {
             Your payment has been verified and your registration is now confirmed. Get ready for an exciting competition!
           </p>
 
+          <div style="margin: 25px 0; padding: 20px; background: #f0fdf4; border-radius: 8px; border-left: 3px solid #16803c;">
+            <p style="margin: 0 0 10px 0; color: #16803c; font-weight: 600; font-size: 16px;">
+              📅 Event Details:
+            </p>
+            <p style="margin: 5px 0; color: #166534;"><strong>Date:</strong> Sunday, 23rd November 2025</p>
+            <p style="margin: 5px 0; color: #166534;"><strong>Reporting Time:</strong> 9:30 AM</p>
+            <p style="margin: 5px 0; color: #166534;"><strong>Venue:</strong> ASTP, ITU</p>
+          </div>
+
           <div style="margin: 25px 0; padding: 15px; background: #dbeafe; border-radius: 8px; border-left: 3px solid #1c4ed8;">
             <p style="margin: 0; color: #1e40af; font-weight: 500;">
-              📅 Important - Action Required:
+              📋 Important - Action Required:
             </p>
             <ul style="color: #1e40af; margin: 10px 0 0 0; padding-left: 20px;">
               <li><strong>Join the WhatsApp group:</strong> <a href="https://chat.whatsapp.com/Dy7JKr7dXhn2KOkZgv95Cf?mode=hqrt3" style="color: #1c4ed8;">Click here to join</a></li>
@@ -420,7 +429,7 @@ export const sendBrainGamesStatusUpdate = async (registration) => {
                   <li>Android: <a href="https://play.google.com/store/apps/details?id=com.braultomatic.ezbuzzer" style="color: #1c4ed8;">Download from Play Store</a></li>
                 </ul>
               </li>
-              <li>Keep an eye on your email for event details</li>
+              <li>Keep an eye on your email for event updates</li>
               <li>Prepare your team for the competition</li>
             </ul>
           </div>
