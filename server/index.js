@@ -9,6 +9,9 @@ import dashboardStatsRoutes from "./routes/dashboardStats.js";
 import recruitmentRoutes from "./routes/recruitment.js";
 import eventRoutes from "./routes/event.js";
 import brainGamesRoutes from "./routes/brainGames.js";
+import coderushRoutes from "./routes/coderush.js";
+import voucherRoutes from "./routes/voucher.js";
+import sponsorRoutes from "./routes/sponsor.js";
 
 dotenv.config();
 
@@ -57,6 +60,9 @@ app.use("/api/dashboard", dashboardStatsRoutes);
 app.use("/api/recruitment", recruitmentRoutes);
 app.use("/api/event", eventRoutes);
 app.use("/api/brain-games", brainGamesRoutes);
+app.use("/api/coderush", coderushRoutes);
+app.use("/api/vouchers", voucherRoutes);
+app.use("/api/sponsors", sponsorRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

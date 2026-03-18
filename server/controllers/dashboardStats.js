@@ -2,6 +2,9 @@ import Contact from "../models/contact.js";
 import Event from "../models/event.js";
 import Recruitment from "../models/recruitment.js";
 import BrainGames from "../models/brainGames.js";
+import Coderush from "../models/coderush.js";
+import Voucher from "../models/voucher.js";
+import Sponsor from "../models/sponsor.js";
 
 export const getDashboardStats = async (req, res) => {
   try {
@@ -10,6 +13,9 @@ export const getDashboardStats = async (req, res) => {
     const eventCount = await Event.countDocuments();
     const recruitmentCount = await Recruitment.countDocuments();
     const brainGamesCount = await BrainGames.countDocuments();
+    const coderushCount = await Coderush.countDocuments();
+    const voucherCount = await Voucher.countDocuments({ isActive: true });
+    const sponsorCount = await Sponsor.countDocuments();
 
     // Recruitment status breakdown
     const recruitmentStats = await Recruitment.aggregate([
@@ -63,13 +69,22 @@ export const getDashboardStats = async (req, res) => {
 
     // Brain Games stats
     const brainGamesStats = await BrainGames.aggregate([
-      {
-        $group: {
-          _id: "$status",
-          count: { $sum: 1 },
-        },
-      },
+      { $group: { _id: "$status", count: { $sum: 1 } } },
     ]);
+
+    // Coderush stats
+    const coderushStats = await Coderush.aggregate([
+      { $group: { _id: "$status", count: { $sum: 1 } } },
+    ]);
+
+    const coderushByCompetition = await Coderush.aggregate([
+      { $group: { _id: "$competition", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ]);
+
+    const recentCoderush = await Coderush.countDocuments({
+      createdAt: { $gte: sevenDaysAgo },
+    });
 
     // Latest applications (last 5)
     const latestApplications = await Recruitment.find()
@@ -89,6 +104,9 @@ export const getDashboardStats = async (req, res) => {
       eventCount,
       recruitmentCount,
       brainGamesCount,
+      coderushCount,
+      voucherCount,
+      sponsorCount,
 
       // Recruitment analytics
       recruitmentStats,
@@ -98,12 +116,17 @@ export const getDashboardStats = async (req, res) => {
       // Brain Games analytics
       brainGamesStats,
 
+      // Coderush analytics
+      coderushStats,
+      coderushByCompetition,
+
       // Recent activity (last 7 days)
       recentActivity: {
         contacts: recentContacts,
         recruitments: recentRecruitments,
         events: recentEvents,
         brainGames: recentBrainGames,
+        coderush: recentCoderush,
       },
 
       // Latest items

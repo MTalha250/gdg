@@ -9,6 +9,7 @@
   --blue: #1c4ed8;
   --red: #dc2625;
   --green: #16803c;
+  --cr-green: #22c55e;
   --yellow: #eab305;
   --radius: 0.625rem;
   --background: #030303;
@@ -51,6 +52,7 @@
   --color-blue: var(--blue);
   --color-red: var(--red);
   --color-green: var(--green);
+  --color-cr-green: var(--cr-green);
   --color-yellow: var(--yellow);
   --font-space-grotesk: var(--font-space-grotesk);
   --font-inter: var(--font-inter);

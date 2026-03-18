@@ -164,7 +164,7 @@ const Hero = () => {
           >
             <Circle className="h-2 w-2 fill-red animate-pulse" />
             <span className="text-xs sm:text-sm text-white/60 tracking-wide whitespace-nowrap">
-              Brain Games • Event on Nov 23
+              CodeRush 2026 • May 8–10
             </span>
           </motion.div>
 
@@ -204,9 +204,9 @@ const Hero = () => {
             initial="hidden"
             animate="visible"
           >
-            <WrapButton href="/brain-games">
+            <WrapButton href="/coderush">
               <Users className="mx-1 animate-pulse" />
-              Brain Games 2025
+              CodeRush 2026
             </WrapButton>
           </motion.div>
         </div>

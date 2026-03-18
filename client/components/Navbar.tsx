@@ -49,7 +49,7 @@ const Navbar = () => {
           </Link>
         </li>
       </ul>
-      <Link href="/brain-games">
+      <Link href="/coderush">
         <InteractiveHoverButton>Register Now</InteractiveHoverButton>
       </Link>
     </motion.div>

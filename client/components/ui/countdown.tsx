@@ -1,7 +1,7 @@
 import { useAnimate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-const COUNTDOWN_FROM = "2025-11-23";
+const COUNTDOWN_FROM = "2026-05-08";
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
@@ -89,6 +89,12 @@ const useTimer = (unit: string) => {
     }
 
     if (newTime !== timeRef.current) {
+      if (!ref.current) {
+        timeRef.current = newTime;
+        setTime(newTime);
+        return;
+      }
+
       // Exit animation
       await animate(
         ref.current,
@@ -100,6 +106,7 @@ const useTimer = (unit: string) => {
       setTime(newTime);
 
       // Enter animation
+      if (!ref.current) return;
       await animate(
         ref.current,
         { y: ["50%", "0%"], opacity: [0, 1] },
