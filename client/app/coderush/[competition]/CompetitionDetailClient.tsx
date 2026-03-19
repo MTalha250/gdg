@@ -317,8 +317,8 @@ export default function CompetitionDetailClient({ competition }: { competition: 
 
           {/* PDF + Register row */}
           <Reveal delay={0.2}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* PDF */}
+            <div className="grid grid-cols-1 gap-4">
+              {/* PDF — hidden until documents are ready
               <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl border border-cr-green/20 bg-cr-green/[0.06] flex items-center justify-center shrink-0">
                   <ExternalLink className="w-4 h-4 text-cr-green" />
@@ -336,6 +336,7 @@ export default function CompetitionDetailClient({ competition }: { competition: 
                   View PDF
                 </a>
               </div>
+              */}
 
               {/* Register CTA */}
               <div className="relative rounded-2xl border border-cr-green/25 bg-cr-green/[0.05] p-6 overflow-hidden flex items-center gap-4">

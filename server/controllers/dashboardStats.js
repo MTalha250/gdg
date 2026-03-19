@@ -5,6 +5,8 @@ import BrainGames from "../models/brainGames.js";
 import Coderush from "../models/coderush.js";
 import Voucher from "../models/voucher.js";
 import Sponsor from "../models/sponsor.js";
+import Ambassador from "../models/ambassador.js";
+import Partner from "../models/partner.js";
 
 export const getDashboardStats = async (req, res) => {
   try {
@@ -16,6 +18,8 @@ export const getDashboardStats = async (req, res) => {
     const coderushCount = await Coderush.countDocuments();
     const voucherCount = await Voucher.countDocuments({ isActive: true });
     const sponsorCount = await Sponsor.countDocuments();
+    const ambassadorCount = await Ambassador.countDocuments();
+    const partnerCount = await Partner.countDocuments();
 
     // Recruitment status breakdown
     const recruitmentStats = await Recruitment.aggregate([
@@ -107,6 +111,8 @@ export const getDashboardStats = async (req, res) => {
       coderushCount,
       voucherCount,
       sponsorCount,
+      ambassadorCount,
+      partnerCount,
 
       // Recruitment analytics
       recruitmentStats,

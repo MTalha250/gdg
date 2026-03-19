@@ -12,6 +12,8 @@ import brainGamesRoutes from "./routes/brainGames.js";
 import coderushRoutes from "./routes/coderush.js";
 import voucherRoutes from "./routes/voucher.js";
 import sponsorRoutes from "./routes/sponsor.js";
+import ambassadorRoutes from "./routes/ambassador.js";
+import partnerRoutes from "./routes/partner.js";
 
 dotenv.config();
 
@@ -63,6 +65,8 @@ app.use("/api/brain-games", brainGamesRoutes);
 app.use("/api/coderush", coderushRoutes);
 app.use("/api/vouchers", voucherRoutes);
 app.use("/api/sponsors", sponsorRoutes);
+app.use("/api/ambassadors", ambassadorRoutes);
+app.use("/api/partners", partnerRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

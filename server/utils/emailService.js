@@ -661,6 +661,174 @@ export const sendBrainGamesStatusUpdate = async (registration) => {
   }
 };
 
+// ─── AMBASSADOR EMAILS ───────────────────────────────────────────────────────
+
+export const sendAmbassadorConfirmation = async (ambassador) => {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: { name: "CodeRush 2026", address: process.env.SMTP_EMAIL },
+    to: ambassador.email,
+    subject: "CodeRush 2026 — Ambassador Application Received",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #000; color: #fff; padding: 0; border-radius: 12px; overflow: hidden;">
+        <div style="background: linear-gradient(135deg, #000 0%, #0a1a0a 100%); padding: 40px 40px 30px; border-bottom: 1px solid #22c55e30;">
+          <h1 style="margin: 0 0 6px; font-size: 28px; font-weight: 900; color: #22c55e;">CodeRush 2026</h1>
+          <p style="margin: 0; color: #ffffff60; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">GDG on Campus · Information Technology University</p>
+        </div>
+        <div style="padding: 36px 40px;">
+          <h2 style="color: #fff; margin: 0 0 8px; font-size: 20px;">Hi ${ambassador.fullName},</h2>
+          <p style="color: #ffffff80; line-height: 1.7; margin: 0 0 24px;">
+            Thank you for applying to become a <strong style="color: #22c55e;">CodeRush 2026 Ambassador</strong>! We've received your application and our team will review it and get back to you soon.
+          </p>
+          <div style="background: #0d0d0d; border: 1px solid #22c55e20; border-radius: 10px; padding: 20px; margin-bottom: 24px;">
+            <p style="margin: 0 0 14px; font-size: 11px; color: #22c55e80; text-transform: uppercase; letter-spacing: 2px;">Application Summary</p>
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+              <tr><td style="padding: 6px 0; color: #ffffff50; width: 40%;">Name</td><td style="color: #fff; font-weight: 600;">${ambassador.fullName}</td></tr>
+              <tr><td style="padding: 6px 0; color: #ffffff50;">University</td><td style="color: #fff;">${ambassador.university}</td></tr>
+              <tr><td style="padding: 6px 0; color: #ffffff50;">City</td><td style="color: #fff;">${ambassador.city}</td></tr>
+              <tr><td style="padding: 6px 0; color: #ffffff50;">Program</td><td style="color: #fff;">${ambassador.degree} · ${ambassador.yearOfStudy}</td></tr>
+            </table>
+          </div>
+          <p style="color: #ffffff50; font-size: 13px; line-height: 1.6;">
+            If you have any questions, feel free to reach out at <a href="mailto:${process.env.SMTP_EMAIL}" style="color: #22c55e;">${process.env.SMTP_EMAIL}</a> or follow us on Instagram <a href="https://www.instagram.com/coderush_itu/" style="color: #22c55e;">@coderush_itu</a>.
+          </p>
+        </div>
+        <div style="padding: 20px 40px; border-top: 1px solid #ffffff08; text-align: center;">
+          <p style="margin: 0; color: #ffffff25; font-size: 12px;">CodeRush 2026 · May 8–10 · Information Technology University, Lahore</p>
+        </div>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Ambassador confirmation email sent to ${ambassador.email}`);
+  } catch (error) {
+    console.error("Error sending ambassador confirmation email:", error);
+    throw error;
+  }
+};
+
+export const sendAmbassadorAdminNotification = async (ambassador) => {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: { name: "CodeRush 2026", address: process.env.SMTP_EMAIL },
+    to: process.env.SMTP_EMAIL,
+    subject: `[CodeRush] New Ambassador Application — ${ambassador.fullName} (${ambassador.university})`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background: #f8fafc; border-radius: 10px;">
+        <h2 style="color: #000; margin: 0 0 20px;">New Ambassador Application</h2>
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b; width: 35%;">Name</td><td style="padding: 10px; font-weight: 600;">${ambassador.fullName}</td></tr>
+          <tr><td style="padding: 10px; color: #64748b;">Email</td><td style="padding: 10px;">${ambassador.email}</td></tr>
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b;">Phone</td><td style="padding: 10px;">${ambassador.phone}</td></tr>
+          <tr><td style="padding: 10px; color: #64748b;">WhatsApp</td><td style="padding: 10px;">${ambassador.whatsapp}</td></tr>
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b;">City</td><td style="padding: 10px;">${ambassador.city}</td></tr>
+          <tr><td style="padding: 10px; color: #64748b;">University</td><td style="padding: 10px;">${ambassador.university}</td></tr>
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b;">Program</td><td style="padding: 10px;">${ambassador.degree} · ${ambassador.yearOfStudy}</td></tr>
+          <tr><td style="padding: 10px; color: #64748b;">Prior Experience</td><td style="padding: 10px;">${ambassador.hasExperience ? "Yes" : "No"}${ambassador.experienceDetails ? ` — ${ambassador.experienceDetails}` : ""}</td></tr>
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b;">Available</td><td style="padding: 10px;">${ambassador.isAvailable ? "Yes" : "No"}</td></tr>
+          <tr><td style="padding: 10px; color: #64748b;">Promotion</td><td style="padding: 10px;">${ambassador.promotionMethods.join(", ")}</td></tr>
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b;">LinkedIn</td><td style="padding: 10px;">${ambassador.linkedIn}</td></tr>
+          ${ambassador.instagram ? `<tr><td style="padding: 10px; color: #64748b;">Instagram</td><td style="padding: 10px;">${ambassador.instagram}</td></tr>` : ""}
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b;">Motivation</td><td style="padding: 10px;">${ambassador.motivation}</td></tr>
+        </table>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Ambassador admin notification sent`);
+  } catch (error) {
+    console.error("Error sending ambassador admin notification:", error);
+    throw error;
+  }
+};
+
+// ─── PARTNER EMAILS ──────────────────────────────────────────────────────────
+
+export const sendPartnerConfirmation = async (partner) => {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: { name: "CodeRush 2026", address: process.env.SMTP_EMAIL },
+    to: partner.email,
+    subject: "CodeRush 2026 — Community Partnership Application Received",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #000; color: #fff; padding: 0; border-radius: 12px; overflow: hidden;">
+        <div style="background: linear-gradient(135deg, #000 0%, #0a1a0a 100%); padding: 40px 40px 30px; border-bottom: 1px solid #22c55e30;">
+          <h1 style="margin: 0 0 6px; font-size: 28px; font-weight: 900; color: #22c55e;">CodeRush 2026</h1>
+          <p style="margin: 0; color: #ffffff60; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">GDG on Campus · Information Technology University</p>
+        </div>
+        <div style="padding: 36px 40px;">
+          <h2 style="color: #fff; margin: 0 0 8px; font-size: 20px;">Hi ${partner.representativeName},</h2>
+          <p style="color: #ffffff80; line-height: 1.7; margin: 0 0 24px;">
+            Thank you for your interest in a community partnership with <strong style="color: #22c55e;">CodeRush 2026</strong>! We've received your application for <strong style="color: #fff;">${partner.societyName}</strong> and our team will review it and get back to you soon.
+          </p>
+          <div style="background: #0d0d0d; border: 1px solid #22c55e20; border-radius: 10px; padding: 20px; margin-bottom: 24px;">
+            <p style="margin: 0 0 14px; font-size: 11px; color: #22c55e80; text-transform: uppercase; letter-spacing: 2px;">Application Summary</p>
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+              <tr><td style="padding: 6px 0; color: #ffffff50; width: 40%;">Society / Community</td><td style="color: #fff; font-weight: 600;">${partner.societyName}</td></tr>
+              <tr><td style="padding: 6px 0; color: #ffffff50;">Representative</td><td style="color: #fff;">${partner.representativeName}</td></tr>
+              <tr><td style="padding: 6px 0; color: #ffffff50;">University</td><td style="color: #fff;">${partner.university}</td></tr>
+              <tr><td style="padding: 6px 0; color: #ffffff50;">Campus Visit</td><td style="color: #22c55e; font-weight: 700;">${partner.campusVisitDate}</td></tr>
+            </table>
+          </div>
+          <p style="color: #ffffff50; font-size: 13px; line-height: 1.6;">
+            If you have any questions, feel free to reach out at <a href="mailto:${process.env.SMTP_EMAIL}" style="color: #22c55e;">${process.env.SMTP_EMAIL}</a> or follow us on Instagram <a href="https://www.instagram.com/coderush_itu/" style="color: #22c55e;">@coderush_itu</a>.
+          </p>
+        </div>
+        <div style="padding: 20px 40px; border-top: 1px solid #ffffff08; text-align: center;">
+          <p style="margin: 0; color: #ffffff25; font-size: 12px;">CodeRush 2026 · May 8–10 · Information Technology University, Lahore</p>
+        </div>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Partner confirmation email sent to ${partner.email}`);
+  } catch (error) {
+    console.error("Error sending partner confirmation email:", error);
+    throw error;
+  }
+};
+
+export const sendPartnerAdminNotification = async (partner) => {
+  const transporter = createTransporter();
+
+  const mailOptions = {
+    from: { name: "CodeRush 2026", address: process.env.SMTP_EMAIL },
+    to: process.env.SMTP_EMAIL,
+    subject: `[CodeRush] New Community Partnership — ${partner.societyName} (${partner.university})`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background: #f8fafc; border-radius: 10px;">
+        <h2 style="color: #000; margin: 0 0 20px;">New Community Partnership Application</h2>
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b; width: 35%;">Society / Community</td><td style="padding: 10px; font-weight: 600;">${partner.societyName}</td></tr>
+          <tr><td style="padding: 10px; color: #64748b;">Representative</td><td style="padding: 10px;">${partner.representativeName}</td></tr>
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b;">Email</td><td style="padding: 10px;">${partner.email}</td></tr>
+          <tr><td style="padding: 10px; color: #64748b;">Phone</td><td style="padding: 10px;">${partner.phone}</td></tr>
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b;">CNIC</td><td style="padding: 10px;">${partner.cnic}</td></tr>
+          <tr><td style="padding: 10px; color: #64748b;">University</td><td style="padding: 10px;">${partner.university}</td></tr>
+          <tr style="background: #f1f5f9;"><td style="padding: 10px; color: #64748b;">Campus Visit</td><td style="padding: 10px; font-weight: 700; color: #22c55e;">${partner.campusVisitDate}</td></tr>
+        </table>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Partner admin notification sent`);
+  } catch (error) {
+    console.error("Error sending partner admin notification:", error);
+    throw error;
+  }
+};
+
 // ─── SPONSOR EMAILS ───────────────────────────────────────────────────────────
 
 const PACKAGE_LABELS = {
