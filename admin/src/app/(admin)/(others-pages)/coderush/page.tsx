@@ -48,6 +48,7 @@ const COMPETITIONS: { value: string; label: string }[] = [
   { value: "robotics", label: "Robotics" },
   { value: "game-jam", label: "Game Jam" },
   { value: "machine-learning", label: "Machine Learning" },
+  { value: "ctf", label: "Capture The Flag" },
 ];
 
 const CoderushPage = () => {

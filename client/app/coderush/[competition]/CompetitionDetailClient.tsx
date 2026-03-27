@@ -119,6 +119,21 @@ const COMPETITION_DATA: Record<string, any> = {
       { title: "Marking Criteria", items: ["Algorithm Logic: Preference for elegant, simple solutions.", "Data Analysis: Quality of EDA, visualizations, and correlation insights.", "Presentation: Technical defense, clarity, and handling of the Hidden Test Set."] },
     ],
   },
+  ctf: {
+    name: "Capture The Flag",
+    logo: "/images/coderush/ctf.png", logoHover: "/images/coderush/ctf-hover.png",
+    tagline: "Hack. Exploit. Capture.",
+    fee: 2500, earlyBird: 2200,
+    prizes: ["PKR 15,000", "PKR 10,000"],
+    teamSize: "Up to 3 members", duration: "6–8 hours", format: "On-campus Jeopardy-style CTF",
+    overview: "A cybersecurity challenge where teams solve a series of increasingly difficult security puzzles across multiple domains. Flags are hidden in vulnerable systems, encrypted messages, and obfuscated code — find them before time runs out.",
+    sections: [
+      { title: "Challenge Categories", items: ["Web Exploitation: SQL injection, XSS, CSRF, authentication bypasses.", "Cryptography: Classical ciphers, RSA, AES, hashing challenges.", "Reverse Engineering: Binary analysis, decompilation, and patching.", "Forensics: Disk images, packet captures, steganography.", "Miscellaneous: OSINT, scripting, logic puzzles."] },
+      { title: "Rules & Environment", items: ["All challenges hosted on an isolated CTF platform.", "No attacking the infrastructure or other teams.", "No sharing flags or solutions between teams.", "Internet access: ALLOWED for research and tools."] },
+      { title: "Tools & Resources", items: ["Bring your own laptop with preferred tools pre-installed.", "Recommended: Kali Linux, Burp Suite, Wireshark, Ghidra, CyberChef.", "VMs and containers allowed for sandboxed testing."] },
+      { title: "Scoring", items: ["Dynamic scoring: Points decrease as more teams solve a challenge.", "First blood bonus for the first team to solve each challenge.", "Hints available at a point cost.", "Final rankings based on total points and tie-broken by solve time."] },
+    ],
+  },
 };
 
 export default function CompetitionDetailClient({ competition }: { competition: string }) {
@@ -144,6 +159,7 @@ export default function CompetitionDetailClient({ competition }: { competition: 
     : competition === "app-development" ? "App Development.pdf"
     : competition === "ui-ux" ? "UIUX Design.pdf"
     : competition === "robotics" ? "Robotics_Proposal.pdf"
+    : competition === "ctf" ? "Capture The Flag (CTF).pdf"
     : "Game Development (2).pdf";
 
   const prizeColors = ["text-yellow font-bold", "text-white/70 font-semibold", "text-white/40 font-medium"];

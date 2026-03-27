@@ -58,6 +58,13 @@ const COMPETITIONS = [
     fee: 2500,
     earlyBird: 2200,
   },
+  { id: "ctf", name: "Capture The Flag", fee: 2500, earlyBird: 2200 },
+];
+
+const ROBOTICS_MODULES = [
+  { id: "rc-car-race", name: "RC Car Race", desc: "Build or modify an RC robot/car to race through a designed track." },
+  { id: "line-following-robot", name: "Line Following Robot (LFR)", desc: "Autonomous robot that follows a predefined line using sensors." },
+  { id: "robo-soccer", name: "Robo Soccer", desc: "RC-based robots compete in a football-style arena to score goals." },
 ];
 
 interface Member {
@@ -106,6 +113,7 @@ function RegisterForm() {
   const initialComp = searchParams.get("competition") || "";
 
   const [competition, setCompetition] = useState(initialComp);
+  const [roboticsModule, setRoboticsModule] = useState("");
   const [teamName, setTeamName] = useState("");
   const [members, setMembers] = useState<Member[]>([emptyMember()]);
   const [voucherCode, setVoucherCode] = useState("");
@@ -150,6 +158,7 @@ function RegisterForm() {
   useEffect(() => {
     setVoucherStatus("idle");
     setVoucherData(null);
+    setRoboticsModule("");
   }, [competition]);
 
   const addMember = () => {
@@ -197,6 +206,10 @@ function RegisterForm() {
       toast.error("Please select a competition");
       return;
     }
+    if (competition === "robotics" && !roboticsModule) {
+      toast.error("Please select a robotics module");
+      return;
+    }
     if (!teamName.trim()) {
       toast.error("Please enter a team name");
       return;
@@ -226,6 +239,7 @@ function RegisterForm() {
         teamName: teamName.trim(),
         members: members.map((m, i) => ({ ...m, isTeamLead: i === 0 })),
         proofOfPayment,
+        roboticsModule: competition === "robotics" ? roboticsModule : undefined,
         voucherCode:
           voucherStatus === "valid"
             ? voucherCode.trim().toUpperCase()
@@ -455,6 +469,41 @@ function RegisterForm() {
               </AnimatePresence>
             </SectionCard>
           </motion.div>
+
+          {/* Robotics Module */}
+          <AnimatePresence>
+            {competition === "robotics" && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <SectionCard title="Select Module *" icon={<Trophy className="w-4 h-4" />}>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {ROBOTICS_MODULES.map((mod) => (
+                      <button
+                        key={mod.id}
+                        type="button"
+                        onClick={() => setRoboticsModule(mod.id)}
+                        className={`text-left p-4 rounded-xl border transition-all ${
+                          roboticsModule === mod.id
+                            ? "border-cr-green/50 bg-cr-green/[0.08]"
+                            : "border-white/[0.07] bg-white/[0.02] hover:border-white/[0.15]"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 mb-1">
+                          <div className={`w-3 h-3 rounded-full border-2 flex-shrink-0 ${roboticsModule === mod.id ? "border-cr-green bg-cr-green" : "border-white/20"}`} />
+                          <span className={`font-bold text-sm ${roboticsModule === mod.id ? "text-cr-green" : "text-white"}`}>{mod.name}</span>
+                        </div>
+                        <p className="text-white/35 text-xs pl-5">{mod.desc}</p>
+                      </button>
+                    ))}
+                  </div>
+                </SectionCard>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Team Name */}
           <motion.div

@@ -8,6 +8,7 @@ const COMPETITIONS = [
   "robotics",
   "game-jam",
   "machine-learning",
+  "ctf",
 ];
 
 const REGULAR_FEES = {
@@ -18,6 +19,7 @@ const REGULAR_FEES = {
   robotics: 1500,
   "game-jam": 3000,
   "machine-learning": 2500,
+  ctf: 2500,
 };
 
 const memberSchema = new mongoose.Schema({
@@ -79,6 +81,11 @@ const coderushSchema = new mongoose.Schema(
         },
         message: "Team must have between 1 and 3 members",
       },
+    },
+    roboticsModule: {
+      type: String,
+      enum: ["rc-car-race", "line-following-robot", "robo-soccer", ""],
+      default: "",
     },
     proofOfPayment: {
       type: String,

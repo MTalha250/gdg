@@ -5,7 +5,8 @@ export type Competition =
   | "ui-ux"
   | "robotics"
   | "game-jam"
-  | "machine-learning";
+  | "machine-learning"
+  | "ctf";
 
 export const COMPETITION_LABELS: Record<Competition, string> = {
   "competitive-programming": "Competitive Programming",
@@ -15,6 +16,7 @@ export const COMPETITION_LABELS: Record<Competition, string> = {
   robotics: "Robotics",
   "game-jam": "Game Jam",
   "machine-learning": "Machine Learning",
+  ctf: "Capture The Flag",
 };
 
 export const COMPETITION_COLORS: Record<Competition, string> = {
@@ -25,6 +27,7 @@ export const COMPETITION_COLORS: Record<Competition, string> = {
   robotics: "bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400",
   "game-jam": "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400",
   "machine-learning": "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400",
+  ctf: "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400",
 };
 
 export interface CoderushMember {

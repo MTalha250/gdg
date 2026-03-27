@@ -371,6 +371,7 @@ const COMPETITION_LABELS = {
   robotics: "Robotics",
   "game-jam": "Game Jam",
   "machine-learning": "Machine Learning",
+  ctf: "Capture The Flag",
 };
 
 // Coderush registration confirmation email (to team lead)

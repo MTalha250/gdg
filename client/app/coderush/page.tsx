@@ -85,6 +85,16 @@ const COMPETITIONS = [
     prizes: ["15k", "10k"],
     tagline: "Data → Model → Podium.",
   },
+  {
+    id: "ctf",
+    name: "Capture The Flag",
+    logo: "/images/coderush/ctf.png",
+    logoHover: "/images/coderush/ctf-hover.png",
+    fee: 2500,
+    earlyBird: 2200,
+    prizes: ["15k", "10k"],
+    tagline: "Hack. Exploit. Capture.",
+  },
 ];
 
 // Marquee ticker
@@ -96,6 +106,7 @@ const TICKER_ITEMS = [
   "Robotics",
   "Game Jam",
   "Machine Learning",
+  "Capture The Flag",
 ];
 
 function Marquee() {
