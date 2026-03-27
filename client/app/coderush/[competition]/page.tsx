@@ -8,6 +8,7 @@ const COMPETITION_SLUGS = [
   "robotics",
   "game-jam",
   "machine-learning",
+  "ctf",
 ];
 
 export function generateStaticParams() {
