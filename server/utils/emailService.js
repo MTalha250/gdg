@@ -778,6 +778,15 @@ export const sendPartnerConfirmation = async (partner) => {
               <tr><td style="padding: 6px 0; color: #ffffff50;">Campus Visit</td><td style="color: #22c55e; font-weight: 700;">${partner.campusVisitDate}</td></tr>
             </table>
           </div>
+          <div style="background: #0d1a0d; border: 1px solid #22c55e40; border-radius: 10px; padding: 20px; margin-bottom: 24px; text-align: center;">
+            <p style="margin: 0 0 10px; font-size: 11px; color: #22c55e; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Join the Partners Community</p>
+            <p style="margin: 0 0 16px; color: #ffffff80; font-size: 14px; line-height: 1.6;">
+              Connect with the CodeRush team and other community partners on WhatsApp for updates and coordination.
+            </p>
+            <a href="https://chat.whatsapp.com/JFDOlzLv5y32q0o9lOI20F?mode=gi_t" style="display: inline-block; background: #22c55e; color: #000; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px;">
+              Join WhatsApp Group
+            </a>
+          </div>
           <p style="color: #ffffff50; font-size: 13px; line-height: 1.6;">
             If you have any questions, feel free to reach out at <a href="mailto:${process.env.SMTP_EMAIL}" style="color: #22c55e;">${process.env.SMTP_EMAIL}</a> or follow us on Instagram <a href="https://www.instagram.com/coderush_itu/" style="color: #22c55e;">@coderush_itu</a>.
           </p>
