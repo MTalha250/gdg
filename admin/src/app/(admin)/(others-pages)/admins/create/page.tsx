@@ -32,6 +32,7 @@ const CreateAdmin = () => {
     password: string;
     password_confirmation: string;
     profileImage: string;
+    role: "admin" | "marketer";
   };
 
   const [admin, setAdmin] = useState<AdminForm>({
@@ -40,6 +41,7 @@ const CreateAdmin = () => {
     password: "",
     password_confirmation: "",
     profileImage: "",
+    role: "admin",
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof AdminForm, string>>>({});
@@ -142,6 +144,7 @@ const CreateAdmin = () => {
           username: admin.username,
           password: admin.password,
           profileImage: admin.profileImage,
+          role: admin.role,
         };
         
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/admin/register`, adminData, {
@@ -210,6 +213,19 @@ const CreateAdmin = () => {
               />
             </div>
             
+            <div>
+              <Label>Role *</Label>
+              <select
+                name="role"
+                value={admin.role}
+                onChange={(e) => setAdmin({ ...admin, role: e.target.value as "admin" | "marketer" })}
+                className="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+              >
+                <option value="admin">Admin (full access)</option>
+                <option value="marketer">Marketer (Coderush, Ambassadors, Partners only)</option>
+              </select>
+            </div>
+
             <div>
               <Label>Username *</Label>
               <Input

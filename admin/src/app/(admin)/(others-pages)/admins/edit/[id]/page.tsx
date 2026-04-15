@@ -21,6 +21,7 @@ interface AdminFormData {
   name: string;
   username: string;
   profileImage: string;
+  role: "admin" | "marketer";
 }
 
 const EditAdmin = () => {
@@ -35,6 +36,7 @@ const EditAdmin = () => {
     name: "",
     username: "",
     profileImage: "",
+    role: "admin",
   });
   
   const [errors, setErrors] = useState<Partial<Record<keyof AdminFormData, string>>>({});
@@ -60,6 +62,7 @@ const EditAdmin = () => {
         name: adminData.name || "",
         username: adminData.username || "",
         profileImage: adminData.profileImage || "",
+        role: adminData.role === "marketer" ? "marketer" : "admin",
       });
       
       // Set validation state for fetched fields
@@ -162,6 +165,7 @@ const EditAdmin = () => {
           name: admin.name,
           username: admin.username,
           profileImage: admin.profileImage,
+          role: admin.role,
         };
         
         await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/admin/${id}`, updateData, {
@@ -246,18 +250,31 @@ const EditAdmin = () => {
             
             <div>
               <Label>Username *</Label>
-              <Input 
-                type="text" 
+              <Input
+                type="text"
                 name="username"
                 value={admin.username}
                 onChange={handleChange}
                 error={!validation.username && admin.username !== ""}
                 success={validation.username && admin.username !== ""}
-                placeholder="johndoe123" 
+                placeholder="johndoe123"
                 hint={errors.username || "Username must be at least 3 characters"}
               />
             </div>
-            
+
+            <div className="xl:col-span-2">
+              <Label>Role *</Label>
+              <select
+                name="role"
+                value={admin.role}
+                onChange={(e) => setAdmin((p) => ({ ...p, role: e.target.value as "admin" | "marketer" }))}
+                className="w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+              >
+                <option value="admin">Admin (full access)</option>
+                <option value="marketer">Marketer (Coderush, Ambassadors, Partners only)</option>
+              </select>
+            </div>
+
             <div className="xl:col-span-2">
               <button
                 type="submit"

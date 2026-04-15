@@ -1,15 +1,25 @@
 import React from "react";
 
 // User/Admin Types
+export type AdminRole = "admin" | "marketer";
+
 export interface Admin {
   _id: string;
   profileImage: string;
   name: string;
   username: string;
   password?: string;
+  role: AdminRole;
   createdAt: string;
   updatedAt: string;
 }
+
+export const MARKETER_ALLOWED_PATHS = [
+  "/coderush",
+  "/ambassadors",
+  "/partners",
+  "/profile",
+];
 
 // Contact/Enquiry Types
 export interface Contact {

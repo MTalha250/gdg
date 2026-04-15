@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const createAdmin = async (req, res) => {
-  const { profileImage, name, username, password } = req.body;
+  const { profileImage, name, username, password, role } = req.body;
   try {
     const existingAdmin = await Admin.findOne({ username });
 
@@ -16,6 +16,7 @@ export const createAdmin = async (req, res) => {
       name,
       username,
       password: await bcrypt.hash(password, 12),
+      role: role === "marketer" ? "marketer" : "admin",
     });
     res.status(201).json({
       message: "Admin created successfully",
@@ -68,13 +69,11 @@ export const getAdmin = async (req, res) => {
 
 export const updateAdmin = async (req, res) => {
   const { id } = req.params;
-  const { profileImage, name, username } = req.body;
+  const { profileImage, name, username, role } = req.body;
   try {
-    const admin = await Admin.findByIdAndUpdate(
-      id,
-      { profileImage, name, username },
-      { new: true }
-    );
+    const updateData = { profileImage, name, username };
+    if (role === "admin" || role === "marketer") updateData.role = role;
+    const admin = await Admin.findByIdAndUpdate(id, updateData, { new: true });
     res.status(200).json({
       message: "Admin updated successfully",
       admin,

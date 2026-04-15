@@ -9,6 +9,7 @@ import {
   HorizontaLDots,
 } from "../icons/index";
 import { ChevronDown, Settings, MessageSquare, Users, Calendar, UserCheck, Gamepad2, Zap, Tag, Handshake, Megaphone, Building2 } from "lucide-react";
+import useAuthStore from "@/store/authStore";
 
 type NavItem = {
   name: string;
@@ -80,9 +81,15 @@ const navItems: NavItem[] = [
   },
 ];
 
+const MARKETER_PATHS = new Set(["/coderush", "/ambassadors", "/partners", "/profile"]);
+
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
+  const { user } = useAuthStore();
+  const visibleNavItems = user?.role === "marketer"
+    ? navItems.filter((n) => n.path && MARKETER_PATHS.has(n.path))
+    : navItems;
 
   const renderMenuItems = (navItems: NavItem[], menuType: "main") => (
     <ul className="flex flex-col gap-4">
@@ -327,7 +334,7 @@ const AppSidebar: React.FC = () => {
                   <HorizontaLDots />
                 )}
               </h2>
-              {renderMenuItems(navItems, "main")}
+              {renderMenuItems(visibleNavItems, "main")}
             </div>
           </div>
         </nav>

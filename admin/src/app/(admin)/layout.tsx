@@ -4,7 +4,11 @@ import { useSidebar } from "@/context/SidebarContext";
 import AppHeader from "@/layout/AppHeader";
 import AppSidebar from "@/layout/AppSidebar";
 import Backdrop from "@/layout/Backdrop";
-import React from "react";
+import useAuthStore from "@/store/authStore";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+
+const MARKETER_ALLOWED_PREFIXES = ["/coderush", "/ambassadors", "/partners", "/profile"];
 
 export default function AdminLayout({
   children,
@@ -12,6 +16,16 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
+  const { user } = useAuthStore();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user?.role === "marketer") {
+      const allowed = MARKETER_ALLOWED_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + "/"));
+      if (!allowed) router.replace("/coderush");
+    }
+  }, [user, pathname, router]);
 
   // Dynamic class for main content margin based on sidebar state
   const mainContentMargin = isMobileOpen

@@ -8,6 +8,10 @@ const verifyAdmin = async (req, res, next) => {
       res.status(404).json({ message: "You are not an admin" });
       return;
     }
+    if (admin.role && admin.role !== "admin") {
+      res.status(403).json({ message: "Admin access required" });
+      return;
+    }
     next();
   } catch (error) {
     console.log(error);

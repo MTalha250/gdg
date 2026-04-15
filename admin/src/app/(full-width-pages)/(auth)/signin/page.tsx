@@ -10,7 +10,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (user) {
-      router.push("/");
+      router.push(user.role === "marketer" ? "/coderush" : "/");
     }
   }, [user, router]);
 
