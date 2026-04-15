@@ -81,9 +81,9 @@ const COMPETITION_DATA: Record<string, any> = {
     teamSize: "Up to 3 members", duration: "Event day competition", format: "On-campus arena",
     overview: "CodeRush 2026 hosts three proven robotics competition formats designed to attract participants of all skill levels — from beginners to advanced builders.",
     sections: [
-      { title: "Module 1 — RC Car Race", items: ["Teams build or modify a remote-controlled robot/car to race through a designed track.", "Skills Tested: Motor control, chassis design, speed vs. stability optimization.", "Most beginner-friendly format with high participation rate."] },
-      { title: "Module 2 — Line Following Robot (LFR)", items: ["An autonomous robot that follows a predefined line on the track using sensors.", "Skills Tested: Sensor calibration, control algorithms, embedded programming.", "Classic university competition format suitable for both beginners and advanced teams."] },
-      { title: "Module 3 — Robo Soccer", items: ["Two or more RC-based robots compete in a football-style arena to score goals.", "Skills Tested: Robot maneuverability, team coordination, mechanical robustness.", "More entertaining for spectators; RC-based for reliability."] },
+      { title: "Module 1 — RC Car Race", rulesPdf: "/modules/robotics/rc.pdf", items: ["Teams build or modify a remote-controlled robot/car to race through a designed track.", "Skills Tested: Motor control, chassis design, speed vs. stability optimization.", "Most beginner-friendly format with high participation rate."] },
+      { title: "Module 2 — Line Following Robot (LFR)", rulesPdf: "/modules/robotics/lfr.pdf", items: ["An autonomous robot that follows a predefined line on the track using sensors.", "Skills Tested: Sensor calibration, control algorithms, embedded programming.", "Classic university competition format suitable for both beginners and advanced teams."] },
+      { title: "Module 3 — Robo Soccer", rulesPdf: "/modules/robotics/robosoccer.pdf", items: ["Two or more RC-based robots compete in a football-style arena to score goals.", "Skills Tested: Robot maneuverability, team coordination, mechanical robustness.", "More entertaining for spectators; RC-based for reliability."] },
       { title: "Infrastructure", items: ["Arena/Track setup for each module.", "Power supply points and safety barriers provided.", "Stopwatch / timing system and judges on-site."] },
     ],
   },
@@ -326,6 +326,18 @@ export default function CompetitionDetailClient({ competition }: { competition: 
                       </li>
                     ))}
                   </ul>
+                  {section.rulesPdf && (
+                    <div className="px-6 pb-5">
+                      <a
+                        href={section.rulesPdf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-cr-green/25 bg-cr-green/[0.07] text-cr-green text-xs font-semibold hover:bg-cr-green/[0.14] transition-colors"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" /> View Rules
+                      </a>
+                    </div>
+                  )}
                 </div>
               </Reveal>
             ))}
