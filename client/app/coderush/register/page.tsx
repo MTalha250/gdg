@@ -50,8 +50,8 @@ const COMPETITIONS = [
     earlyBird: 2200,
   },
   { id: "ui-ux", name: "UI/UX Design", fee: 2000, earlyBird: 1700 },
-  { id: "robotics", name: "Robotics", fee: 1500, earlyBird: 1200 },
-  { id: "game-jam", name: "Game Jam", fee: 3000, earlyBird: 2700 },
+  { id: "robotics", name: "Robotics", fee: 2000, earlyBird: 1700 },
+  { id: "game-jam", name: "Game Jam", fee: 2500, earlyBird: 2200 },
   {
     id: "machine-learning",
     name: "Machine Learning",

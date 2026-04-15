@@ -15,11 +15,11 @@ const REGULAR_FEES = {
   "competitive-programming": 1800,
   "web-development": 2500,
   "app-development": 2500,
-  "ui-ux": 1500,
-  robotics: 1500,
-  "game-jam": 3000,
+  "ui-ux": 2000,
+  robotics: 2000,
+  "game-jam": 2500,
   "machine-learning": 2500,
-  ctf: 2500,
+  ctf: 1500,
 };
 
 const memberSchema = new mongoose.Schema({
