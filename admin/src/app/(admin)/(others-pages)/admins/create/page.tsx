@@ -113,7 +113,7 @@ const CreateAdmin = () => {
     const newErrors = { ...errors };
 
     // Validate required fields
-    const fieldsToValidate: (keyof AdminForm)[] = ['name', 'username', 'password', 'password_confirmation'];
+    const fieldsToValidate: (keyof ValidationState)[] = ['name', 'username', 'password', 'password_confirmation'];
     
     fieldsToValidate.forEach(fieldName => {
       const value = admin[fieldName];
@@ -166,7 +166,9 @@ const CreateAdmin = () => {
               const fieldName = key as keyof AdminForm;
               if (fieldName in newErrors) {
                 newErrors[fieldName] = serverErrors[key][0];
-                newValidation[fieldName] = false;
+                if (fieldName in newValidation) {
+                  newValidation[fieldName as keyof ValidationState] = false;
+                }
               }
             });
             
