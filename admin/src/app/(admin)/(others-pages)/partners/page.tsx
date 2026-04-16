@@ -38,7 +38,8 @@ const PartnersPage = () => {
   const [selectedPartner, setSelectedPartner] = useState<PartnerApplication | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { token } = useAuthStore();
+  const { token, user } = useAuthStore();
+  const isMarketer = user?.role === "marketer";
   const itemsPerPage = 10;
 
   const fetchPartners = async () => {
@@ -281,12 +282,14 @@ const PartnersPage = () => {
                               >
                                 <Eye className="w-4 h-4" />
                               </button>
-                              <button
-                                onClick={() => handleDelete(p._id, p.societyName)}
-                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-full dark:text-red-400 dark:hover:bg-red-900/20"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
+                              {!isMarketer && (
+                                <button
+                                  onClick={() => handleDelete(p._id, p.societyName)}
+                                  className="p-1.5 text-red-600 hover:bg-red-50 rounded-full dark:text-red-400 dark:hover:bg-red-900/20"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
                             </div>
                           </TableCell>
                         </TableRow>
@@ -385,36 +388,40 @@ const PartnersPage = () => {
               </div>
 
               {/* Status update */}
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                <h4 className="font-medium text-gray-800 dark:text-white mb-3">Update Status</h4>
-                <div className="flex flex-wrap gap-2">
-                  {(["new", "contacted", "confirmed", "rejected"] as PartnerStatus[]).map((s) => (
-                    <button
-                      key={s}
-                      onClick={() => handleStatusUpdate(selectedPartner._id, s)}
-                      className={`flex-1 px-3 py-2 rounded-lg font-medium text-sm transition-colors capitalize ${
-                        selectedPartner.status === s
-                          ? s === "confirmed" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                            : s === "rejected" ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                            : s === "contacted" ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                            : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                          : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500"
-                      }`}
-                    >
-                      {s.charAt(0).toUpperCase() + s.slice(1)}
-                    </button>
-                  ))}
+              {!isMarketer && (
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                  <h4 className="font-medium text-gray-800 dark:text-white mb-3">Update Status</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {(["new", "contacted", "confirmed", "rejected"] as PartnerStatus[]).map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => handleStatusUpdate(selectedPartner._id, s)}
+                        className={`flex-1 px-3 py-2 rounded-lg font-medium text-sm transition-colors capitalize ${
+                          selectedPartner.status === s
+                            ? s === "confirmed" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              : s === "rejected" ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                              : s === "contacted" ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                              : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                            : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500"
+                        }`}
+                      >
+                        {s.charAt(0).toUpperCase() + s.slice(1)}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Footer */}
               <div className="flex justify-between pt-4 border-t border-gray-200 dark:border-gray-600">
-                <button
-                  onClick={() => handleDelete(selectedPartner._id, selectedPartner.societyName)}
-                  className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg"
-                >
-                  <Trash2 className="w-4 h-4" /> Delete
-                </button>
+                {!isMarketer ? (
+                  <button
+                    onClick={() => handleDelete(selectedPartner._id, selectedPartner.societyName)}
+                    className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg"
+                  >
+                    <Trash2 className="w-4 h-4" /> Delete
+                  </button>
+                ) : <span />}
                 <button
                   onClick={() => { setIsModalOpen(false); setSelectedPartner(null); }}
                   className="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 rounded-lg"

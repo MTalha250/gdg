@@ -64,7 +64,8 @@ const CoderushPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const itemsPerPage = 10;
-  const { token } = useAuthStore();
+  const { token, user } = useAuthStore();
+  const isMarketer = user?.role === "marketer";
 
   const fetchRegistrations = async () => {
     try {
@@ -370,13 +371,15 @@ const CoderushPage = () => {
                                   >
                                     <Eye className="w-4 h-4" />
                                   </button>
-                                  <button
-                                    onClick={() => handleDelete(reg._id, reg.teamName)}
-                                    className="p-1.5 text-red-600 hover:bg-red-50 rounded-full dark:text-red-400 dark:hover:bg-red-900/20"
-                                    title="Delete"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </button>
+                                  {!isMarketer && (
+                                    <button
+                                      onClick={() => handleDelete(reg._id, reg.teamName)}
+                                      className="p-1.5 text-red-600 hover:bg-red-50 rounded-full dark:text-red-400 dark:hover:bg-red-900/20"
+                                      title="Delete"
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                    </button>
+                                  )}
                                 </div>
                               </TableCell>
                             </TableRow>
@@ -475,23 +478,25 @@ const CoderushPage = () => {
                   <h4 className="font-medium text-gray-800 dark:text-white">Status</h4>
                   {getStatusBadge(selectedRegistration.status)}
                 </div>
-                <div className="flex gap-2">
-                  {["submitted", "accepted", "rejected"].map((s) => (
-                    <button
-                      key={s}
-                      onClick={() => handleStatusUpdate(selectedRegistration._id, s)}
-                      className={`flex-1 px-3 py-2 rounded-lg font-medium text-sm transition-colors capitalize ${
-                        selectedRegistration.status === s
-                          ? s === "accepted" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                            : s === "rejected" ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                            : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                          : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500"
-                      }`}
-                    >
-                      {s.charAt(0).toUpperCase() + s.slice(1)}
-                    </button>
-                  ))}
-                </div>
+                {!isMarketer && (
+                  <div className="flex gap-2">
+                    {["submitted", "accepted", "rejected"].map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => handleStatusUpdate(selectedRegistration._id, s)}
+                        className={`flex-1 px-3 py-2 rounded-lg font-medium text-sm transition-colors capitalize ${
+                          selectedRegistration.status === s
+                            ? s === "accepted" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              : s === "rejected" ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                            : "bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500"
+                        }`}
+                      >
+                        {s.charAt(0).toUpperCase() + s.slice(1)}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Members */}
@@ -555,12 +560,14 @@ const CoderushPage = () => {
 
               {/* Footer actions */}
               <div className="flex justify-between pt-4 border-t border-gray-200 dark:border-gray-600">
-                <button
-                  onClick={() => handleDelete(selectedRegistration._id, selectedRegistration.teamName)}
-                  className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg"
-                >
-                  <Trash2 className="w-4 h-4" /> Delete
-                </button>
+                {!isMarketer ? (
+                  <button
+                    onClick={() => handleDelete(selectedRegistration._id, selectedRegistration.teamName)}
+                    className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg"
+                  >
+                    <Trash2 className="w-4 h-4" /> Delete
+                  </button>
+                ) : <span />}
                 <button
                   onClick={() => setModalOpen(false)}
                   className="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 rounded-lg"

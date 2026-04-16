@@ -8,7 +8,7 @@ import useAuthStore from "@/store/authStore";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-const MARKETER_ALLOWED_PREFIXES = ["/coderush", "/ambassadors", "/partners", "/profile"];
+const MARKETER_ALLOWED_PREFIXES = ["/coderush", "/ambassadors", "/partners"];
 
 export default function AdminLayout({
   children,

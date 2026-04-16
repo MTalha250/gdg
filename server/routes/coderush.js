@@ -22,9 +22,8 @@ router.get("/", verifyToken, verifyAdminOrMarketer, getRegistrations);
 router.get("/all", verifyToken, verifyAdminOrMarketer, getAllRegistrations);
 router.get("/stats", verifyToken, verifyAdminOrMarketer, getStats);
 router.get("/:id", verifyToken, verifyAdminOrMarketer, getRegistrationById);
-router.patch("/:id/status", verifyToken, verifyAdminOrMarketer, updateRegistrationStatus);
-
-// Admin only (destructive)
+// Admin only (mutations)
+router.patch("/:id/status", verifyToken, verifyAdmin, updateRegistrationStatus);
 router.delete("/:id", verifyToken, verifyAdmin, deleteRegistration);
 
 export default router;

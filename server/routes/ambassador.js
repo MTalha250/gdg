@@ -18,9 +18,8 @@ router.post("/", createAmbassador);
 // Admin or Marketer (read + status updates)
 router.get("/", verifyToken, verifyAdminOrMarketer, getAmbassadors);
 router.get("/:id", verifyToken, verifyAdminOrMarketer, getAmbassadorById);
-router.patch("/:id/status", verifyToken, verifyAdminOrMarketer, updateAmbassadorStatus);
-
-// Admin only (destructive)
+// Admin only (mutations)
+router.patch("/:id/status", verifyToken, verifyAdmin, updateAmbassadorStatus);
 router.delete("/:id", verifyToken, verifyAdmin, deleteAmbassador);
 
 export default router;

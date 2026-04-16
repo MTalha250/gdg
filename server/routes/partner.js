@@ -18,9 +18,8 @@ router.post("/", createPartner);
 // Admin or Marketer (read + status updates)
 router.get("/", verifyToken, verifyAdminOrMarketer, getPartners);
 router.get("/:id", verifyToken, verifyAdminOrMarketer, getPartnerById);
-router.patch("/:id/status", verifyToken, verifyAdminOrMarketer, updatePartnerStatus);
-
-// Admin only (destructive)
+// Admin only (mutations)
+router.patch("/:id/status", verifyToken, verifyAdmin, updatePartnerStatus);
 router.delete("/:id", verifyToken, verifyAdmin, deletePartner);
 
 export default router;
