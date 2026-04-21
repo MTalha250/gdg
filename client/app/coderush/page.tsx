@@ -290,7 +290,7 @@ export default function CoderushPage() {
             transition={{ duration: 0.7, delay: 0.42 }}
             className="text-white/35 text-base mb-8"
           >
-            7 competitions · 3 days · one chance to prove yourself
+            8 competitions · 3 days · one chance to prove yourself
           </motion.p>
 
           {/* Stat pills */}
@@ -410,7 +410,7 @@ export default function CoderushPage() {
                   </span>
                 </div>
                 <h2 className="text-4xl md:text-5xl font-space-grotesk font-black text-white">
-                  7 Competitions
+                  8 Competitions
                 </h2>
                 <p className="text-white/35 text-sm mt-2">
                   Teams of up to 3 · Multiple entries allowed · All universities
