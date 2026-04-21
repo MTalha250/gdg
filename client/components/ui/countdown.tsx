@@ -1,7 +1,7 @@
 import { useAnimate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-const COUNTDOWN_FROM = "2026-05-08";
+const COUNTDOWN_FROM = "2026-05-05";
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;

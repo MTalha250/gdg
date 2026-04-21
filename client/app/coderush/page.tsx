@@ -379,7 +379,7 @@ export default function CoderushPage() {
             <div className="flex items-center justify-center gap-3 mb-5">
               <div className="h-px flex-1 bg-cr-green/10" />
               <span className="text-cr-green/50 text-xs uppercase tracking-[0.25em] font-medium">
-                Event Starts In
+                Registrations Close In
               </span>
               <div className="h-px flex-1 bg-cr-green/10" />
             </div>
