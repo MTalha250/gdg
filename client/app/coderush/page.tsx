@@ -434,67 +434,97 @@ export default function CoderushPage() {
 
         {/* ── SCHEDULE ── */}
         <Reveal delay={0.2}>
-          <div className="mt-16 max-w-4xl mx-auto">
-            <div className="relative rounded-2xl overflow-hidden">
-              {/* Background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-cr-green/[0.06] via-black to-black" />
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cr-green/40 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cr-green/20 to-transparent" />
-
-              <div className="relative p-8 md:p-10 flex flex-col md:flex-row items-center gap-8">
-                <div className="flex-1">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cr-green/20 bg-cr-green/[0.08] mb-4">
-                    <Calendar className="w-3.5 h-3.5 text-cr-green" />
-                    <span className="text-xs text-cr-green/80 uppercase tracking-wider">
-                      May 8 – 10, 2026
-                    </span>
-                  </div>
-                  <h2 className="text-2xl md:text-3xl font-space-grotesk font-black text-white mb-2">
-                    Full Schedule
-                    <br />
-                    <span className="text-cr-green">Coming Soon</span>
-                  </h2>
-                  <p className="text-white/40 text-sm leading-relaxed">
-                    The detailed 3-day competition timeline is being finalised.
-                    Stay tuned.
-                  </p>
-                  <p className="text-white/25 text-xs mt-3">
-                    Follow{" "}
-                    <a
-                      href="https://www.instagram.com/coderush_itu/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-cr-green/50 hover:text-cr-green transition-colors"
-                    >
-                      @coderush_itu
-                    </a>{" "}
-                    for updates
-                  </p>
-                </div>
-
-                {/* Day blocks */}
-                <div className="flex gap-3 shrink-0">
-                  {["Day 1", "Day 2", "Day 3"].map((d, i) => (
-                    <div key={d} className="flex flex-col items-center gap-2">
-                      <div
-                        className={`w-16 h-20 rounded-xl border flex items-center justify-center ${i === 0 ? "border-cr-green/40 bg-cr-green/[0.08]" : "border-white/[0.06] bg-white/[0.02]"}`}
-                      >
-                        <span
-                          className={`text-xs font-bold uppercase tracking-wider ${i === 0 ? "text-cr-green" : "text-white/20"}`}
-                        >
-                          {d.split(" ")[0]}
-                          <br />
-                          {d.split(" ")[1]}
-                        </span>
-                      </div>
-                      <span className="text-[10px] text-white/20 uppercase tracking-wider">
-                        {["May 8", "May 9", "May 10"][i]}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+          <div className="mt-16 max-w-5xl mx-auto">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cr-green/20 bg-cr-green/[0.08] mb-4">
+                <Calendar className="w-3.5 h-3.5 text-cr-green" />
+                <span className="text-xs text-cr-green/80 uppercase tracking-wider">
+                  May 8 – 10, 2026
+                </span>
               </div>
+              <h2 className="text-3xl md:text-4xl font-space-grotesk font-black text-white mb-2">
+                3-Day <span className="text-cr-green">Timeline</span>
+              </h2>
+              <p className="text-white/40 text-sm">
+                Pick competitions carefully — tracks on the same day run simultaneously.
+              </p>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                {
+                  day: "Day 1",
+                  date: "Friday, May 8",
+                  label: "Parallel Tracks",
+                  note: "All three run simultaneously — pick one.",
+                  comps: ["Competitive Programming", "App Development", "Robotics"],
+                },
+                {
+                  day: "Day 2",
+                  date: "Saturday, May 9",
+                  label: "Parallel Tracks",
+                  note: "All three run simultaneously — pick one.",
+                  comps: ["Web Development", "Machine Learning", "UI/UX Design"],
+                },
+                {
+                  day: "Day 3",
+                  date: "Sunday, May 10",
+                  label: "Finals & Evaluations",
+                  note: "CP and Robotics grand finale + CTF + all judging.",
+                  comps: ["CP Finals", "Robotics Finals", "Capture The Flag", "All Evaluations"],
+                },
+              ].map((d, i) => (
+                <div
+                  key={d.day}
+                  className="relative rounded-2xl border border-cr-green/15 bg-gradient-to-br from-cr-green/[0.04] to-black/40 p-6 overflow-hidden"
+                >
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cr-green/40 to-transparent" />
+                  <div className="absolute -top-8 -right-8 w-32 h-32 bg-cr-green/[0.06] blur-3xl rounded-full" />
+                  <div className="relative">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <p className="text-[10px] text-cr-green/60 uppercase tracking-[0.2em] font-semibold mb-1">
+                          {d.day}
+                        </p>
+                        <p className="text-white font-bold text-sm">{d.date}</p>
+                      </div>
+                      <div className="w-10 h-10 rounded-xl border border-cr-green/20 bg-cr-green/[0.06] flex items-center justify-center shrink-0">
+                        <span className="text-cr-green font-black text-sm">{i + 1}</span>
+                      </div>
+                    </div>
+
+                    <div className="mb-4">
+                      <p className="text-xs text-cr-green/80 font-semibold uppercase tracking-wider mb-1">
+                        {d.label}
+                      </p>
+                      <p className="text-white/40 text-xs leading-relaxed">{d.note}</p>
+                    </div>
+
+                    <ul className="space-y-2">
+                      {d.comps.map((c) => (
+                        <li key={c} className="flex items-center gap-2.5 text-sm text-white/70">
+                          <span className="w-1.5 h-1.5 rounded-full bg-cr-green shrink-0" />
+                          <span>{c}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-white/30 text-xs text-center mt-6">
+              <span className="text-cr-green/60">Game Jam</span> runs throughout the week with on-campus finale. Follow{" "}
+              <a
+                href="https://www.instagram.com/coderush_itu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cr-green/60 hover:text-cr-green transition-colors"
+              >
+                @coderush_itu
+              </a>{" "}
+              for exact slot times.
+            </p>
           </div>
         </Reveal>
       </div>
