@@ -314,7 +314,7 @@ export default function CoderushPage() {
               {
                 icon: <Trophy className="w-3.5 h-3.5" />,
                 label: "Prize Pool",
-                value: "150,000+ PKR",
+                value: "300,000+ PKR",
               },
               {
                 icon: <Zap className="w-3.5 h-3.5" />,
