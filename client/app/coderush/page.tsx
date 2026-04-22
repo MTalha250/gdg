@@ -7,7 +7,6 @@ import {
   Users,
   Calendar,
   ChevronRight,
-  ArrowRight,
   Zap,
 } from "lucide-react";
 import Reveal from "@/components/ui/reveal";
@@ -173,19 +172,22 @@ const CompetitionCard = ({ comp }: { comp: (typeof COMPETITIONS)[0] }) => {
             {comp.tagline}
           </p>
           <div className="flex justify-between items-center bg-white/[0.05] rounded-lg px-3 py-2 mb-3">
-            <div className="text-center">
+            <div className="text-center flex-1">
               <div className="text-xs text-white/30">Regular</div>
               <div className="text-white font-semibold text-sm">
                 PKR {comp.fee.toLocaleString()}
               </div>
             </div>
             <div className="w-px h-8 bg-white/10" />
-            <div className="text-center">
-              <div className="text-xs text-cr-green font-medium">
+            <div className="text-center flex-1 relative">
+              <div className="text-[10px] text-white/25 line-through">
                 Early Bird
               </div>
-              <div className="text-cr-green font-semibold text-sm">
+              <div className="text-white/30 font-semibold text-sm line-through">
                 PKR {comp.earlyBird.toLocaleString()}
+              </div>
+              <div className="text-[9px] text-red-300/80 font-bold uppercase tracking-wider mt-0.5">
+                Expired
               </div>
             </div>
           </div>

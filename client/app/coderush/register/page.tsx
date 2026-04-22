@@ -452,15 +452,21 @@ function RegisterForm() {
                           PKR {selectedComp.fee.toLocaleString()}
                         </div>
                       </div>
-                      <div className="bg-cr-green/[0.06] border border-cr-green/20 rounded-xl p-3 text-center">
-                        <div className="text-cr-green/70 text-xs mb-1">
+                      <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3 text-center relative">
+                        <div className="text-white/25 text-xs mb-1 line-through">
                           Early Bird
                         </div>
-                        <div className="text-cr-green font-bold">
+                        <div className="text-white/30 font-bold line-through">
                           PKR {selectedComp.earlyBird.toLocaleString()}
+                        </div>
+                        <div className="absolute -top-2 right-2 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-red-500/20 text-red-300 border border-red-500/30">
+                          Expired
                         </div>
                       </div>
                     </div>
+                    <p className="text-white/40 text-xs mb-3 italic">
+                      Early bird pricing has ended. Regular fee applies.
+                    </p>
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border border-cr-green/25 bg-cr-green/[0.07] text-cr-green">
                       {selectedComp.name}
                     </span>
