@@ -37,7 +37,8 @@ const VouchersPage = () => {
   const [activeFilter, setActiveFilter] = useState("all");
 
   const itemsPerPage = 20;
-  const { token } = useAuthStore();
+  const { token, user } = useAuthStore();
+  const isMarketer = user?.role === "marketer";
 
   const fetchVouchers = async () => {
     try {
@@ -159,12 +160,14 @@ const VouchersPage = () => {
                   <option value="false">Inactive</option>
                 </select>
               </div>
-              <Link
-                href="/vouchers/create"
-                className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors text-sm"
-              >
-                <Plus className="w-4 h-4" /> Create Voucher
-              </Link>
+              {!isMarketer && (
+                <Link
+                  href="/vouchers/create"
+                  className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors text-sm"
+                >
+                  <Plus className="w-4 h-4" /> Create Voucher
+                </Link>
+              )}
             </div>
 
             {loading ? (
@@ -177,7 +180,7 @@ const VouchersPage = () => {
                   <Table>
                     <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                       <TableRow>
-                        {["Code", "Discount", "Scope", "Usage", "Expiry", "Status", "Actions"].map((h) => (
+                        {["Code", "Discount", "Scope", "Usage", "Expiry", "Status", ...(isMarketer ? [] : ["Actions"])].map((h) => (
                           <TableCell key={h} isHeader className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400">
                             {h}
                           </TableCell>
@@ -235,40 +238,42 @@ const VouchersPage = () => {
                                 <Badge color="error">{isExpired(v) ? "Expired" : "Inactive"}</Badge>
                               )}
                             </TableCell>
-                            <TableCell className="px-4 py-3 text-start">
-                              <div className="flex items-center gap-2">
-                                <Link
-                                  href={`/vouchers/edit/${v._id}`}
-                                  className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-full dark:text-blue-400 dark:hover:bg-blue-900/20"
-                                  title="Edit"
-                                >
-                                  <Pencil className="w-4 h-4" />
-                                </Link>
-                                <button
-                                  onClick={() => handleToggle(v._id)}
-                                  className={`p-1.5 rounded-full transition-colors ${
-                                    v.isActive
-                                      ? "text-yellow-600 hover:bg-yellow-50 dark:text-yellow-400 dark:hover:bg-yellow-900/20"
-                                      : "text-green-600 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/20"
-                                  }`}
-                                  title={v.isActive ? "Deactivate" : "Activate"}
-                                >
-                                  {v.isActive ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
-                                </button>
-                                <button
-                                  onClick={() => handleDelete(v._id, v.code)}
-                                  className="p-1.5 text-red-600 hover:bg-red-50 rounded-full dark:text-red-400 dark:hover:bg-red-900/20"
-                                  title="Delete"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                </button>
-                              </div>
-                            </TableCell>
+                            {!isMarketer && (
+                              <TableCell className="px-4 py-3 text-start">
+                                <div className="flex items-center gap-2">
+                                  <Link
+                                    href={`/vouchers/edit/${v._id}`}
+                                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-full dark:text-blue-400 dark:hover:bg-blue-900/20"
+                                    title="Edit"
+                                  >
+                                    <Pencil className="w-4 h-4" />
+                                  </Link>
+                                  <button
+                                    onClick={() => handleToggle(v._id)}
+                                    className={`p-1.5 rounded-full transition-colors ${
+                                      v.isActive
+                                        ? "text-yellow-600 hover:bg-yellow-50 dark:text-yellow-400 dark:hover:bg-yellow-900/20"
+                                        : "text-green-600 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/20"
+                                    }`}
+                                    title={v.isActive ? "Deactivate" : "Activate"}
+                                  >
+                                    {v.isActive ? <ToggleRight className="w-4 h-4" /> : <ToggleLeft className="w-4 h-4" />}
+                                  </button>
+                                  <button
+                                    onClick={() => handleDelete(v._id, v.code)}
+                                    className="p-1.5 text-red-600 hover:bg-red-50 rounded-full dark:text-red-400 dark:hover:bg-red-900/20"
+                                    title="Delete"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </TableCell>
+                            )}
                           </TableRow>
                         ))
                       ) : (
                         <TableRow>
-                          <TableCell colSpan={7} className="px-5 py-8 text-center text-gray-500 dark:text-gray-400">
+                          <TableCell colSpan={isMarketer ? 6 : 7} className="px-5 py-8 text-center text-gray-500 dark:text-gray-400">
                             No vouchers found.
                           </TableCell>
                         </TableRow>

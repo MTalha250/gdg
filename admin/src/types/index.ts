@@ -18,6 +18,7 @@ export const MARKETER_ALLOWED_PATHS = [
   "/coderush",
   "/ambassadors",
   "/partners",
+  "/vouchers",
 ];
 
 // Contact/Enquiry Types

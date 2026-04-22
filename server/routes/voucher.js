@@ -10,15 +10,18 @@ import {
 } from "../controllers/voucher.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import verifyAdmin from "../middlewares/verifyAdmin.js";
+import verifyAdminOrMarketer from "../middlewares/verifyAdminOrMarketer.js";
 
 const router = express.Router();
 
 // Public — called from registration form to preview discount
 router.post("/validate", validateVoucher);
 
-// Admin protected
-router.get("/", verifyToken, verifyAdmin, getVouchers);
-router.get("/:id", verifyToken, verifyAdmin, getVoucherById);
+// Admin or Marketer (read)
+router.get("/", verifyToken, verifyAdminOrMarketer, getVouchers);
+router.get("/:id", verifyToken, verifyAdminOrMarketer, getVoucherById);
+
+// Admin only (mutations)
 router.post("/", verifyToken, verifyAdmin, createVoucher);
 router.put("/:id", verifyToken, verifyAdmin, updateVoucher);
 router.patch("/:id/toggle", verifyToken, verifyAdmin, toggleVoucherStatus);
