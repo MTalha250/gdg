@@ -691,6 +691,52 @@ export const sendAmbassadorConfirmation = async (ambassador) => {
               <tr><td style="padding: 6px 0; color: #ffffff50;">Program</td><td style="color: #fff;">${ambassador.degree} · ${ambassador.yearOfStudy}</td></tr>
             </table>
           </div>
+          ${
+            ambassador.voucherCode10 && ambassador.voucherCode20
+              ? `
+          <div style="background: #0d0d0d; border: 1px solid #22c55e30; border-radius: 10px; padding: 20px; margin-bottom: 24px;">
+            <p style="margin: 0 0 14px; font-size: 11px; color: #22c55e; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Your Ambassador Voucher Codes</p>
+            <p style="margin: 0 0 16px; color: #ffffff70; font-size: 13px; line-height: 1.6;">
+              Share these codes with participants so they get a discount on registration. Both codes work on every competition.
+            </p>
+            <div style="background: #0a1a0a; border: 1px solid #22c55e40; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <div>
+                  <p style="margin: 0 0 4px; font-size: 11px; color: #22c55e90; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">10% Off · With Cashback</p>
+                  <p style="margin: 0; font-family: 'Courier New', monospace; font-size: 16px; color: #22c55e; font-weight: 700; letter-spacing: 1px;">${ambassador.voucherCode10}</p>
+                </div>
+              </div>
+              <p style="margin: 10px 0 0; color: #ffffff60; font-size: 12px; line-height: 1.5;">
+                You earn <strong style="color: #22c55e;">10% cashback</strong> on every registration that uses this code.
+              </p>
+            </div>
+            <div style="background: #0a1a0a; border: 1px solid #22c55e40; border-radius: 8px; padding: 14px 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <div>
+                  <p style="margin: 0 0 4px; font-size: 11px; color: #22c55e90; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">20% Off · No Cashback</p>
+                  <p style="margin: 0; font-family: 'Courier New', monospace; font-size: 16px; color: #22c55e; font-weight: 700; letter-spacing: 1px;">${ambassador.voucherCode20}</p>
+                </div>
+              </div>
+              <p style="margin: 10px 0 0; color: #ffffff60; font-size: 12px; line-height: 1.5;">
+                Bigger discount for participants, but <strong style="color: #ffffff90;">no cashback</strong> for you.
+              </p>
+            </div>
+            <p style="margin: 14px 0 0; color: #ffffff50; font-size: 12px; line-height: 1.5; text-align: center;">
+              Tip: the 10% code earns you money with every use — promote it first.
+            </p>
+          </div>
+          `
+              : ""
+          }
+          <div style="background: #0d1a0d; border: 1px solid #22c55e40; border-radius: 10px; padding: 20px; margin-bottom: 24px; text-align: center;">
+            <p style="margin: 0 0 10px; font-size: 11px; color: #22c55e; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Join the Ambassadors Community</p>
+            <p style="margin: 0 0 16px; color: #ffffff80; font-size: 14px; line-height: 1.6;">
+              Connect with the CodeRush team and other ambassadors on WhatsApp for updates, resources, and coordination.
+            </p>
+            <a href="https://chat.whatsapp.com/JfKWX4ot5CG80pAZsD4rGA?mode=gi_t" style="display: inline-block; background: #22c55e; color: #000; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px;">
+              Join WhatsApp Group
+            </a>
+          </div>
           <p style="color: #ffffff50; font-size: 13px; line-height: 1.6;">
             If you have any questions, feel free to reach out at <a href="mailto:${process.env.SMTP_EMAIL}" style="color: #22c55e;">${process.env.SMTP_EMAIL}</a> or follow us on Instagram <a href="https://www.instagram.com/coderush_itu/" style="color: #22c55e;">@coderush_itu</a>.
           </p>

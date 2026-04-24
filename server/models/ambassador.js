@@ -18,6 +18,9 @@ const ambassadorSchema = new mongoose.Schema(
     linkedIn: { type: String, required: true, trim: true },
     instagram: { type: String, trim: true, default: "" },
     agreesToResponsibilities: { type: Boolean, required: true },
+    // Vouchers issued to this ambassador
+    voucherCode10: { type: String, default: "" },
+    voucherCode20: { type: String, default: "" },
     // Admin
     status: {
       type: String,
