@@ -19,7 +19,7 @@ const REGULAR_FEES = {
   robotics: 2000,
   "game-jam": 2500,
   "machine-learning": 2500,
-  ctf: 1500,
+  ctf: 2500,
 };
 
 const memberSchema = new mongoose.Schema({
