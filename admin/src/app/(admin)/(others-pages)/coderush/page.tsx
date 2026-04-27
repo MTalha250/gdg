@@ -37,6 +37,7 @@ import {
   Competition,
   COMPETITION_LABELS,
   COMPETITION_COLORS,
+  ROBOTICS_MODULE_LABELS,
 } from "@/types/coderush";
 
 const COMPETITIONS: { value: string; label: string }[] = [
@@ -145,12 +146,16 @@ const CoderushPage = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const all: CoderushRegistration[] = response.data;
-      const headers = ["Team Name", "Competition", "Team Lead", "Email", "University", "Members", "Original Fee", "Discounted Fee", "Voucher", "Status", "Date"];
+      const headers = ["Team Name", "Competition", "Module", "Team Lead", "Email", "University", "Members", "Original Fee", "Discounted Fee", "Voucher", "Status", "Date"];
       const rows = all.map((r) => {
         const lead = r.members.find((m) => m.isTeamLead);
+        const moduleLabel = r.competition === "robotics" && r.roboticsModule
+          ? ROBOTICS_MODULE_LABELS[r.roboticsModule as keyof typeof ROBOTICS_MODULE_LABELS] || r.roboticsModule
+          : "";
         return [
           `"${r.teamName}"`,
           `"${COMPETITION_LABELS[r.competition] || r.competition}"`,
+          `"${moduleLabel}"`,
           `"${lead?.name || ""}"`,
           `"${lead?.email || ""}"`,
           `"${lead?.university || ""}"`,
@@ -334,7 +339,14 @@ const CoderushPage = () => {
                                 </div>
                               </TableCell>
                               <TableCell className="px-4 py-3 text-start">
-                                {getCompetitionBadge(reg.competition)}
+                                <div className="flex flex-col gap-1">
+                                  {getCompetitionBadge(reg.competition)}
+                                  {reg.competition === "robotics" && reg.roboticsModule && (
+                                    <span className="text-[10px] font-medium text-orange-600 dark:text-orange-400 uppercase tracking-wider">
+                                      → {ROBOTICS_MODULE_LABELS[reg.roboticsModule as keyof typeof ROBOTICS_MODULE_LABELS]}
+                                    </span>
+                                  )}
+                                </div>
                               </TableCell>
                               <TableCell className="px-4 py-3 text-start">
                                 <div className="font-medium text-gray-800 text-theme-sm dark:text-white/90">{lead?.name}</div>
@@ -440,8 +452,13 @@ const CoderushPage = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{selectedRegistration.teamName}</h3>
-                    <div className="flex items-center gap-2 mt-1">
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
                       {getCompetitionBadge(selectedRegistration.competition)}
+                      {selectedRegistration.competition === "robotics" && selectedRegistration.roboticsModule && (
+                        <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">
+                          {ROBOTICS_MODULE_LABELS[selectedRegistration.roboticsModule as keyof typeof ROBOTICS_MODULE_LABELS]}
+                        </span>
+                      )}
                       <span className="text-gray-500 text-sm dark:text-gray-400">
                         {formatDate(selectedRegistration.createdAt)}
                       </span>

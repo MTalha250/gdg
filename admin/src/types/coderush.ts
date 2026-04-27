@@ -40,10 +40,19 @@ export interface CoderushMember {
   isTeamLead: boolean;
 }
 
+export type RoboticsModule = "rc-car-race" | "line-following-robot" | "robo-soccer" | "";
+
+export const ROBOTICS_MODULE_LABELS: Record<Exclude<RoboticsModule, "">, string> = {
+  "rc-car-race": "RC Car Race",
+  "line-following-robot": "Line Following Robot",
+  "robo-soccer": "Robo Soccer",
+};
+
 export interface CoderushRegistration {
   _id: string;
   teamName: string;
   competition: Competition;
+  roboticsModule?: RoboticsModule;
   members: CoderushMember[];
   proofOfPayment: string;
   voucherCode: string | null;

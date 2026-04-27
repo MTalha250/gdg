@@ -9,7 +9,7 @@ import {
 // Create a new Coderush registration
 export const createRegistration = async (req, res) => {
   try {
-    const { teamName, competition, members, proofOfPayment, voucherCode } =
+    const { teamName, competition, members, proofOfPayment, voucherCode, roboticsModule } =
       req.body;
 
     // Validate team size
@@ -89,6 +89,7 @@ export const createRegistration = async (req, res) => {
     const registration = new Coderush({
       teamName,
       competition,
+      roboticsModule: competition === "robotics" ? roboticsModule || "" : "",
       members,
       proofOfPayment,
       voucherCode: appliedVoucherCode,
