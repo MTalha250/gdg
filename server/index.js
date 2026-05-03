@@ -40,7 +40,9 @@ const corsOptions = {
   credentials: true,
   origin: (origin, callback) => {
     if (isAllowedOrigin(origin)) return callback(null, true);
-    return callback(new Error(`Origin ${origin} not allowed by CORS`));
+    // Don't throw — silently deny so the client gets a clean CORS error
+    // instead of a 500 that Safari interprets as a network failure.
+    return callback(null, false);
   },
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
