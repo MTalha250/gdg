@@ -18,22 +18,43 @@ import partnerRoutes from "./routes/partner.js";
 dotenv.config();
 
 const app = express();
+
+const ALLOWED_ORIGINS = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "https://gdg-itu.vercel.app",
+  "https://gdg-itu-admin.vercel.app",
+  "https://gdg-itu.netlify.app",
+  "https://gdg.itu.edu.pk",
+];
+
+// Allow our explicit origins plus any Vercel/Netlify preview deployment for
+// the same projects (so preview URLs don't break preflight).
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true; // server-to-server / curl / mobile webviews
+  if (ALLOWED_ORIGINS.includes(origin)) return true;
+  return /^https:\/\/(gdg-itu|gdg-itu-admin)(-[a-z0-9-]+)?\.(vercel|netlify)\.app$/.test(
+    origin
+  );
+};
+
+const corsOptions = {
+  credentials: true,
+  origin: (origin, callback) => {
+    if (isAllowedOrigin(origin)) return callback(null, true);
+    return callback(new Error(`Origin ${origin} not allowed by CORS`));
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
+};
+
+// CORS must run before any body parser or route so preflight always succeeds.
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
-
-app.use(
-  cors({
-    credentials: true,
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://gdg-itu.vercel.app",
-      "https://gdg-itu-admin.vercel.app",
-      "https://gdg-itu.netlify.app",
-      "https://gdg.itu.edu.pk",
-    ],
-  })
-);
 
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGODB_URI);
