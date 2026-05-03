@@ -465,15 +465,15 @@ export default function CoderushPage() {
                   day: "Day 2",
                   date: "Saturday, May 9",
                   label: "Parallel Tracks",
-                  note: "All three run simultaneously — pick one.",
-                  comps: ["Web Development", "Machine Learning", "UI/UX Design"],
+                  note: "Both run simultaneously — pick one.",
+                  comps: ["Web Development", "UI/UX Design"],
                 },
                 {
                   day: "Day 3",
                   date: "Sunday, May 10",
                   label: "Finals & Evaluations",
-                  note: "CP and Robotics grand finale + CTF + all judging.",
-                  comps: ["CP Finals", "Robotics Finals", "Capture The Flag", "All Evaluations"],
+                  note: "CP and Robotics grand finale + CTF + ML evaluations.",
+                  comps: ["CP Finals", "Robotics Finals", "Capture The Flag", "ML Evaluations"],
                 },
               ].map((d, i) => (
                 <div
@@ -516,7 +516,7 @@ export default function CoderushPage() {
             </div>
 
             <p className="text-white/30 text-xs text-center mt-6">
-              <span className="text-cr-green/60">Game Jam</span> runs throughout the week with on-campus finale. Follow{" "}
+              <span className="text-cr-green/60">Game Jam</span> runs online from Tue May 5 night → Sat May 9 midnight, with on-campus evals on Sun May 10. <span className="text-cr-green/60">Machine Learning</span> runs online from Wed May 6 (submission Fri May 8 night, evals Sun May 10). Follow{" "}
               <a
                 href="https://www.instagram.com/coderush_itu/"
                 target="_blank"
