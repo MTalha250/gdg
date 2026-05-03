@@ -28,8 +28,6 @@ const ALLOWED_ORIGINS = [
   "https://gdg.itu.edu.pk",
 ];
 
-// Allow our explicit origins plus any Vercel/Netlify preview deployment for
-// the same projects (so preview URLs don't break preflight).
 const isAllowedOrigin = (origin) => {
   if (!origin) return true; // server-to-server / curl / mobile webviews
   if (ALLOWED_ORIGINS.includes(origin)) return true;
@@ -49,7 +47,6 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 
-// CORS must run before any body parser or route so preflight always succeeds.
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
