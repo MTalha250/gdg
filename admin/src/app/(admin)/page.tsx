@@ -2,6 +2,7 @@ import { Metrics } from "@/components/dashboard/Metrics";
 import { RecentApplications } from "@/components/dashboard/RecentApplications";
 import { RecruitmentAnalytics } from "@/components/dashboard/RecruitmentAnalytics";
 import { QuickStats } from "@/components/dashboard/QuickStats";
+import { CoderushSection } from "@/components/dashboard/CoderushSection";
 import React from "react";
 
 export default function Dashboard() {
@@ -22,15 +23,18 @@ export default function Dashboard() {
         <Metrics />
       </div>
 
+      {/* CodeRush Section */}
+      <CoderushSection />
+
       {/* Analytics Section */}
       <div className="space-y-6">
         <RecruitmentAnalytics />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <RecentApplications />
           </div>
-          
+
           <QuickStats />
         </div>
       </div>

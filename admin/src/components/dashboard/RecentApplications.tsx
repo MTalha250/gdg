@@ -1,37 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Clock, ExternalLink } from "lucide-react";
-import axios from "axios";
-import useAuthStore from "@/store/authStore";
-import { DashboardStats } from "@/types";
 import Badge from "@/components/ui/badge/Badge";
 import Link from "next/link";
+import { useDashboardStats } from "@/hooks/useDashboardStats";
 
 export const RecentApplications = () => {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [loading, setLoading] = useState(true);
-  const { token } = useAuthStore();
-
-  const fetchDashboardStats = async () => {
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setStats(response.data);
-    } catch (error) {
-      console.error("Error fetching dashboard stats:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (token) {
-      fetchDashboardStats();
-    }
-  }, [token]);
+  const { stats, loading } = useDashboardStats();
 
   const getStatusBadge = (status: string) => {
     const normalizedStatus = status?.toLowerCase();

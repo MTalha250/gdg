@@ -77,6 +77,11 @@ export interface DashboardStats {
   eventCount: number;
   recruitmentCount: number;
   brainGamesCount: number;
+  coderushCount: number;
+  voucherCount: number;
+  sponsorCount: number;
+  ambassadorCount: number;
+  partnerCount: number;
   recruitmentStats: {
     _id: string;
     count: number;
@@ -93,11 +98,28 @@ export interface DashboardStats {
     _id: string;
     count: number;
   }[];
+  coderushStats: {
+    _id: "submitted" | "accepted" | "rejected";
+    count: number;
+    totalAmount: number;
+    originalAmount: number;
+  }[];
+  coderushByCompetition: {
+    _id: string;
+    count: number;
+    totalAmount: number;
+    acceptedAmount: number;
+  }[];
+  coderushVoucherStats: {
+    count: number;
+    totalDiscount: number;
+  };
   recentActivity: {
     contacts: number;
     recruitments: number;
     events: number;
     brainGames: number;
+    coderush: number;
   };
   latestApplications: Recruitment[];
   latestContacts: Contact[];
