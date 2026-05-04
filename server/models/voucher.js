@@ -35,6 +35,7 @@ const voucherSchema = new mongoose.Schema(
         "robotics",
         "game-jam",
         "machine-learning",
+        "ctf",
       ],
       default: [],
     },
