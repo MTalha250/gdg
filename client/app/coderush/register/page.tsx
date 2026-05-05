@@ -51,7 +51,8 @@ const COMPETITIONS = [
   },
   { id: "ui-ux", name: "UI/UX Design", fee: 2000, earlyBird: 1700 },
   { id: "robotics", name: "Robotics", fee: 2000, earlyBird: 1700 },
-  { id: "game-jam", name: "Game Jam", fee: 2500, earlyBird: 2200 },
+  // Game Jam registration closed — competition has started
+  // { id: "game-jam", name: "Game Jam", fee: 2500, earlyBird: 2200 },
   {
     id: "machine-learning",
     name: "Machine Learning",
