@@ -44,6 +44,7 @@ export const getDashboardStats = async (req, res) => {
       coderushStats,
       coderushByCompetition,
       coderushVoucherStats,
+      topVouchers,
       // Latest items
       latestApplications,
       latestContacts,
@@ -110,6 +111,20 @@ export const getDashboardStats = async (req, res) => {
           },
         },
       ]),
+      Coderush.aggregate([
+        { $match: { voucherCode: { $nin: [null, ""] } } },
+        {
+          $group: {
+            _id: "$voucherCode",
+            usedCount: { $sum: 1 },
+            totalDiscount: {
+              $sum: { $subtract: ["$originalFee", "$discountedFee"] },
+            },
+          },
+        },
+        { $sort: { usedCount: -1 } },
+        { $limit: 10 },
+      ]),
 
       Recruitment.find()
         .sort({ createdAt: -1 })
@@ -148,6 +163,7 @@ export const getDashboardStats = async (req, res) => {
         count: 0,
         totalDiscount: 0,
       },
+      topVouchers,
 
       // Recent activity (last 7 days)
       recentActivity: {

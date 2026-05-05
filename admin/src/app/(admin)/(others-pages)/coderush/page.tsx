@@ -345,23 +345,23 @@ const CoderushPage = () => {
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={handleExportCSV}
-                  className="flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
                   title="One row per team"
                 >
-                  <Download className="w-4 h-4" /> Export Teams
+                  <Download className="w-4 h-4" /> Teams
                 </button>
                 <button
                   onClick={handleExportMembersCSV}
-                  className="flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
                   title="One row per participant"
                 >
-                  <Download className="w-4 h-4" /> Export Members
+                  <Download className="w-4 h-4" /> Members
                 </button>
                 <button
                   onClick={handleCopyEmails}
-                  className="flex items-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
                 >
-                  <Copy className="w-4 h-4" /> Copy Emails
+                  <Copy className="w-4 h-4" /> Emails
                 </button>
               </div>
             </div>

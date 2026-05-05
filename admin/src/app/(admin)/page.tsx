@@ -3,6 +3,7 @@ import { RecentApplications } from "@/components/dashboard/RecentApplications";
 import { RecruitmentAnalytics } from "@/components/dashboard/RecruitmentAnalytics";
 import { QuickStats } from "@/components/dashboard/QuickStats";
 import { CoderushSection } from "@/components/dashboard/CoderushSection";
+import { TopVouchersChart } from "@/components/dashboard/TopVouchersChart";
 import React from "react";
 
 export default function Dashboard() {
@@ -25,6 +26,9 @@ export default function Dashboard() {
 
       {/* CodeRush Section */}
       <CoderushSection />
+
+      {/* Top Vouchers Bar Chart */}
+      <TopVouchersChart />
 
       {/* Analytics Section */}
       <div className="space-y-6">

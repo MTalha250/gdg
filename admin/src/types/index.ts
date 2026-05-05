@@ -114,6 +114,11 @@ export interface DashboardStats {
     count: number;
     totalDiscount: number;
   };
+  topVouchers: {
+    _id: string;
+    usedCount: number;
+    totalDiscount: number;
+  }[];
   recentActivity: {
     contacts: number;
     recruitments: number;
