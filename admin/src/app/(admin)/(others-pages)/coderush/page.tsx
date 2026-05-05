@@ -139,6 +139,9 @@ const CoderushPage = () => {
     }
   };
 
+  const csvCell = (value: string | number | null | undefined) =>
+    `"${String(value ?? "").replace(/"/g, '""')}"`;
+
   const handleExportCSV = async () => {
     try {
       const response = await axios.get(
@@ -153,16 +156,16 @@ const CoderushPage = () => {
           ? ROBOTICS_MODULE_LABELS[r.roboticsModule as keyof typeof ROBOTICS_MODULE_LABELS] || r.roboticsModule
           : "";
         return [
-          `"${r.teamName}"`,
-          `"${COMPETITION_LABELS[r.competition] || r.competition}"`,
-          `"${moduleLabel}"`,
-          `"${lead?.name || ""}"`,
-          `"${lead?.email || ""}"`,
-          `"${lead?.university || ""}"`,
+          csvCell(r.teamName),
+          csvCell(COMPETITION_LABELS[r.competition] || r.competition),
+          csvCell(moduleLabel),
+          csvCell(lead?.name),
+          csvCell(lead?.email),
+          csvCell(lead?.university),
           r.members.length,
           r.originalFee,
           r.discountedFee,
-          r.voucherCode || "",
+          csvCell(r.voucherCode),
           r.status,
           new Date(r.createdAt).toLocaleDateString(),
         ].join(",");
@@ -178,6 +181,59 @@ const CoderushPage = () => {
       toast.success("CSV exported");
     } catch {
       toast.error("Failed to export CSV");
+    }
+  };
+
+  const handleExportMembersCSV = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/coderush/all`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const all: CoderushRegistration[] = response.data;
+      const headers = [
+        "Team Name", "Competition", "Module", "Status",
+        "Member Name", "Role", "Email", "Phone", "Roll Number", "University", "CNIC",
+        "Original Fee", "Discounted Fee", "Voucher", "Date",
+      ];
+      const rows: string[] = [];
+      all.forEach((r) => {
+        const moduleLabel = r.competition === "robotics" && r.roboticsModule
+          ? ROBOTICS_MODULE_LABELS[r.roboticsModule as keyof typeof ROBOTICS_MODULE_LABELS] || r.roboticsModule
+          : "";
+        const compLabel = COMPETITION_LABELS[r.competition] || r.competition;
+        const dateStr = new Date(r.createdAt).toLocaleDateString();
+        r.members.forEach((m) => {
+          rows.push([
+            csvCell(r.teamName),
+            csvCell(compLabel),
+            csvCell(moduleLabel),
+            r.status,
+            csvCell(m.name),
+            m.isTeamLead ? "Team Lead" : "Member",
+            csvCell(m.email),
+            csvCell(m.phone),
+            csvCell(m.rollNumber),
+            csvCell(m.university),
+            csvCell(m.cnic),
+            r.originalFee,
+            r.discountedFee,
+            csvCell(r.voucherCode),
+            dateStr,
+          ].join(","));
+        });
+      });
+      const csv = [headers.join(","), ...rows].join("\n");
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `coderush-members-${new Date().toISOString().split("T")[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success(`Exported ${rows.length} members`);
+    } catch {
+      toast.error("Failed to export members CSV");
     }
   };
 
@@ -290,8 +346,16 @@ const CoderushPage = () => {
                 <button
                   onClick={handleExportCSV}
                   className="flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm"
+                  title="One row per team"
                 >
-                  <Download className="w-4 h-4" /> Export CSV
+                  <Download className="w-4 h-4" /> Export Teams
+                </button>
+                <button
+                  onClick={handleExportMembersCSV}
+                  className="flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm"
+                  title="One row per participant"
+                >
+                  <Download className="w-4 h-4" /> Export Members
                 </button>
                 <button
                   onClick={handleCopyEmails}
