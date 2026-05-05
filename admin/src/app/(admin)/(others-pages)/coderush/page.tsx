@@ -437,13 +437,13 @@ const CoderushPage = () => {
                 >
                   <Copy className="w-4 h-4" /> Emails
                 </button>
-                <button
+                {/* <button
                   onClick={handleShowDuplicates}
                   className="flex items-center gap-1.5 px-3 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
                   title="Participants in multiple teams"
                 >
                   <Users className="w-4 h-4" /> Duplicates
-                </button>
+                </button> */}
               </div>
             </div>
 
