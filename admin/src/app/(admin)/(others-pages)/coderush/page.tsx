@@ -25,11 +25,11 @@ import {
   Building2,
   CreditCard,
   Download,
-  Copy,
   Tag,
   Zap,
 } from "lucide-react";
 import axios from "axios";
+import Link from "next/link";
 import useAuthStore from "@/store/authStore";
 import toast from "react-hot-toast";
 import {
@@ -150,101 +150,6 @@ const CoderushPage = () => {
   const csvCell = (value: string | number | null | undefined) =>
     `"${String(value ?? "").replace(/"/g, '""')}"`;
 
-  const handleExportCSV = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/coderush/all`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const all: CoderushRegistration[] = response.data;
-      const headers = ["Team Name", "Competition", "Module", "Team Lead", "Email", "University", "Members", "Original Fee", "Discounted Fee", "Voucher", "Status", "Date"];
-      const rows = all.map((r) => {
-        const lead = r.members.find((m) => m.isTeamLead);
-        const moduleLabel = r.competition === "robotics" && r.roboticsModule
-          ? ROBOTICS_MODULE_LABELS[r.roboticsModule as keyof typeof ROBOTICS_MODULE_LABELS] || r.roboticsModule
-          : "";
-        return [
-          csvCell(r.teamName),
-          csvCell(COMPETITION_LABELS[r.competition] || r.competition),
-          csvCell(moduleLabel),
-          csvCell(lead?.name),
-          csvCell(lead?.email),
-          csvCell(lead?.university),
-          r.members.length,
-          r.originalFee,
-          r.discountedFee,
-          csvCell(r.voucherCode),
-          r.status,
-          new Date(r.createdAt).toLocaleDateString(),
-        ].join(",");
-      });
-      const csv = [headers.join(","), ...rows].join("\n");
-      const blob = new Blob([csv], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `coderush-registrations-${new Date().toISOString().split("T")[0]}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-      toast.success("CSV exported");
-    } catch {
-      toast.error("Failed to export CSV");
-    }
-  };
-
-  const handleExportMembersCSV = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/coderush/all`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const all: CoderushRegistration[] = response.data;
-      const headers = [
-        "Team Name", "Competition", "Module", "Status",
-        "Member Name", "Role", "Email", "Phone", "Roll Number", "University", "CNIC",
-        "Original Fee", "Discounted Fee", "Voucher", "Date",
-      ];
-      const rows: string[] = [];
-      all.forEach((r) => {
-        const moduleLabel = r.competition === "robotics" && r.roboticsModule
-          ? ROBOTICS_MODULE_LABELS[r.roboticsModule as keyof typeof ROBOTICS_MODULE_LABELS] || r.roboticsModule
-          : "";
-        const compLabel = COMPETITION_LABELS[r.competition] || r.competition;
-        const dateStr = new Date(r.createdAt).toLocaleDateString();
-        r.members.forEach((m) => {
-          rows.push([
-            csvCell(r.teamName),
-            csvCell(compLabel),
-            csvCell(moduleLabel),
-            r.status,
-            csvCell(m.name),
-            m.isTeamLead ? "Team Lead" : "Member",
-            csvCell(m.email),
-            csvCell(m.phone),
-            csvCell(m.rollNumber),
-            csvCell(m.university),
-            csvCell(m.cnic),
-            r.originalFee,
-            r.discountedFee,
-            csvCell(r.voucherCode),
-            dateStr,
-          ].join(","));
-        });
-      });
-      const csv = [headers.join(","), ...rows].join("\n");
-      const blob = new Blob([csv], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `coderush-members-${new Date().toISOString().split("T")[0]}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-      toast.success(`Exported ${rows.length} members`);
-    } catch {
-      toast.error("Failed to export members CSV");
-    }
-  };
-
   const handleShowDuplicates = async () => {
     try {
       setLoadingDuplicates(true);
@@ -309,29 +214,6 @@ const CoderushPage = () => {
     a.click();
     URL.revokeObjectURL(url);
     toast.success(`Exported ${duplicates.length} duplicate participants`);
-  };
-
-  const handleCopyEmails = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/coderush/all`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const all: CoderushRegistration[] = response.data;
-      const emails = all.flatMap((r) => r.members.map((m) => m.email)).filter(Boolean);
-      const text = [...new Set(emails)].join(", ");
-      navigator.clipboard.writeText(text).catch(() => {
-        const el = document.createElement("textarea");
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand("copy");
-        document.body.removeChild(el);
-      });
-      toast.success(`Copied ${[...new Set(emails)].length} emails`);
-    } catch {
-      toast.error("Failed to copy emails");
-    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -417,33 +299,13 @@ const CoderushPage = () => {
                 </select>
               </div>
               <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={handleExportCSV}
+                <Link
+                  href="/coderush/export"
                   className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
-                  title="One row per team"
+                  title="Build a custom CSV or email list"
                 >
-                  <Download className="w-4 h-4" /> Teams
-                </button>
-                <button
-                  onClick={handleExportMembersCSV}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
-                  title="One row per participant"
-                >
-                  <Download className="w-4 h-4" /> Members
-                </button>
-                <button
-                  onClick={handleCopyEmails}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
-                >
-                  <Copy className="w-4 h-4" /> Emails
-                </button>
-                {/* <button
-                  onClick={handleShowDuplicates}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
-                  title="Participants in multiple teams"
-                >
-                  <Users className="w-4 h-4" /> Duplicates
-                </button> */}
+                  <Download className="w-4 h-4" /> Export…
+                </Link>
               </div>
             </div>
 

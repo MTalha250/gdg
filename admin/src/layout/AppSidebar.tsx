@@ -81,7 +81,7 @@ const navItems: NavItem[] = [
   },
 ];
 
-const MARKETER_PATHS = new Set(["/coderush", "/ambassadors", "/partners", "/vouchers"]);
+const MARKETER_PATHS = new Set(["/coderush", "/coderush/export", "/ambassadors", "/partners", "/vouchers"]);
 
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
