@@ -472,8 +472,15 @@ export default function CoderushPage() {
                   day: "Day 3",
                   date: "Sunday, May 10",
                   label: "Finals & Evaluations",
-                  note: "CP and Robotics grand finale + CTF + ML evaluations.",
-                  comps: ["CP Finals", "Robotics Finals", "Capture The Flag", "ML Evaluations"],
+                  note: "All grand finales, CTF live event, and online-track evaluations.",
+                  comps: [
+                    "CP Finals",
+                    "Robotics Finals",
+                    "Capture The Flag",
+                    "Web / App / UI-UX Evaluations",
+                    "ML Evaluations",
+                    "Game Jam Showcase",
+                  ],
                 },
               ].map((d, i) => (
                 <div
