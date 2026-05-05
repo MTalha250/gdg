@@ -19,7 +19,6 @@ interface ColumnDef {
   label: string;
   default: boolean;
 }
-
 const TEAM_COLUMNS: ColumnDef[] = [
   { id: "teamName", label: "Team Name", default: true },
   { id: "competition", label: "Competition", default: true },
