@@ -63,6 +63,14 @@ const CoderushPage = () => {
   const [competitionFilter, setCompetitionFilter] = useState("all");
   const [selectedRegistration, setSelectedRegistration] = useState<CoderushRegistration | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [duplicatesModalOpen, setDuplicatesModalOpen] = useState(false);
+  const [duplicates, setDuplicates] = useState<{
+    email: string;
+    name: string;
+    phone: string;
+    teams: { teamName: string; competition: string; isTeamLead: boolean; status: string }[];
+  }[]>([]);
+  const [loadingDuplicates, setLoadingDuplicates] = useState(false);
 
   const itemsPerPage = 10;
   const { token, user } = useAuthStore();
@@ -237,6 +245,72 @@ const CoderushPage = () => {
     }
   };
 
+  const handleShowDuplicates = async () => {
+    try {
+      setLoadingDuplicates(true);
+      setDuplicatesModalOpen(true);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/coderush/all`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const all: CoderushRegistration[] = response.data;
+      const byEmail = new Map<string, typeof duplicates[0]>();
+      all.forEach((r) => {
+        r.members.forEach((m) => {
+          const email = (m.email || "").toLowerCase().trim();
+          if (!email) return;
+          if (!byEmail.has(email)) {
+            byEmail.set(email, { email, name: m.name, phone: m.phone, teams: [] });
+          }
+          byEmail.get(email)!.teams.push({
+            teamName: r.teamName,
+            competition: COMPETITION_LABELS[r.competition] || r.competition,
+            isTeamLead: !!m.isTeamLead,
+            status: r.status,
+          });
+        });
+      });
+      const list = Array.from(byEmail.values())
+        .filter((p) => p.teams.length > 1)
+        .sort((a, b) => b.teams.length - a.teams.length);
+      setDuplicates(list);
+    } catch {
+      toast.error("Failed to load duplicates");
+      setDuplicatesModalOpen(false);
+    } finally {
+      setLoadingDuplicates(false);
+    }
+  };
+
+  const handleExportDuplicatesCSV = () => {
+    if (!duplicates.length) {
+      toast.error("No duplicates to export");
+      return;
+    }
+    const headers = ["Name", "Email", "Phone", "Teams Count", "Teams (team — competition — role — status)"];
+    const rows = duplicates.map((p) => {
+      const teamsStr = p.teams
+        .map((t) => `${t.teamName} — ${t.competition} — ${t.isTeamLead ? "Lead" : "Member"} — ${t.status}`)
+        .join(" | ");
+      return [
+        csvCell(p.name),
+        csvCell(p.email),
+        csvCell(p.phone),
+        p.teams.length,
+        csvCell(teamsStr),
+      ].join(",");
+    });
+    const csv = [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `coderush-duplicate-participants-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success(`Exported ${duplicates.length} duplicate participants`);
+  };
+
   const handleCopyEmails = async () => {
     try {
       const response = await axios.get(
@@ -362,6 +436,13 @@ const CoderushPage = () => {
                   className="flex items-center gap-1.5 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
                 >
                   <Copy className="w-4 h-4" /> Emails
+                </button>
+                <button
+                  onClick={handleShowDuplicates}
+                  className="flex items-center gap-1.5 px-3 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
+                  title="Participants in multiple teams"
+                >
+                  <Users className="w-4 h-4" /> Duplicates
                 </button>
               </div>
             </div>
@@ -656,6 +737,86 @@ const CoderushPage = () => {
                   Close
                 </button>
               </div>
+            </div>
+          )}
+        </div>
+      </Modal>
+
+      {/* Duplicates Modal */}
+      <Modal isOpen={duplicatesModalOpen} onClose={() => setDuplicatesModalOpen(false)} className="max-w-4xl">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-h-[90vh] overflow-y-auto">
+          <div className="flex items-start justify-between mb-4 gap-4">
+            <div>
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">Duplicate Participants</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                {loadingDuplicates
+                  ? "Scanning all registrations..."
+                  : `${duplicates.length} participant${duplicates.length === 1 ? " is" : "s are"} in more than one team.`}
+              </p>
+            </div>
+            {duplicates.length > 0 && !loadingDuplicates && (
+              <button
+                onClick={handleExportDuplicatesCSV}
+                className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm whitespace-nowrap shrink-0"
+              >
+                <Download className="w-4 h-4" /> CSV
+              </button>
+            )}
+          </div>
+
+          {loadingDuplicates ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
+            </div>
+          ) : duplicates.length === 0 ? (
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+              No duplicates found.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {duplicates.map((p) => (
+                <div
+                  key={p.email}
+                  className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900/40"
+                >
+                  <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
+                    <div>
+                      <p className="font-semibold text-gray-800 dark:text-white">{p.name}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{p.email}</p>
+                      {p.phone && (
+                        <p className="text-xs text-gray-400 dark:text-gray-500">{p.phone}</p>
+                      )}
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 shrink-0">
+                      {p.teams.length} teams
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    {p.teams.map((t, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-2 flex-wrap text-sm"
+                      >
+                        <span className="font-medium text-gray-700 dark:text-gray-200">{t.teamName}</span>
+                        <span className="text-gray-400">·</span>
+                        <span className="text-gray-600 dark:text-gray-300">{t.competition}</span>
+                        <span className="text-gray-400">·</span>
+                        <span className={`text-xs font-medium ${t.isTeamLead ? "text-blue-600 dark:text-blue-400" : "text-gray-500"}`}>
+                          {t.isTeamLead ? "Lead" : "Member"}
+                        </span>
+                        <span className="text-gray-400">·</span>
+                        <span className={`text-xs font-medium capitalize ${
+                          t.status === "accepted" ? "text-green-600 dark:text-green-400"
+                          : t.status === "rejected" ? "text-red-600 dark:text-red-400"
+                          : "text-yellow-600 dark:text-yellow-400"
+                        }`}>
+                          {t.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
