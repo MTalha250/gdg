@@ -941,12 +941,11 @@ function RegistrationsClosed() {
           already registered, check the venue and report time below.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <InteractiveHoverButton
-            href="/coderush#schedule"
-            className="bg-black border-cr-green/40 text-white"
-          >
-            View Schedule
-          </InteractiveHoverButton>
+          <Link href="/coderush#schedule">
+            <InteractiveHoverButton className="bg-black border-cr-green/40 text-white">
+              View Schedule
+            </InteractiveHoverButton>
+          </Link>
           <Link
             href="/coderush"
             className="px-5 py-3 text-sm text-white/60 hover:text-white transition-colors"
