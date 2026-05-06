@@ -344,11 +344,12 @@ export default function CoderushPage() {
             transition={{ duration: 0.6, delay: 0.58 }}
             className="flex flex-col items-center justify-center gap-4"
           >
-            <Link href="/coderush/register">
-              <InteractiveHoverButton className="bg-cr-green/20 border-cr-green/40 text-white">
-                Register Now
-              </InteractiveHoverButton>
-            </Link>
+            <div className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-red-500/30 bg-red-500/[0.06]">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+              <span className="text-red-200 text-sm font-semibold uppercase tracking-wider">
+                Registrations Closed
+              </span>
+            </div>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 href="/coderush/sponsor"
@@ -419,11 +420,12 @@ export default function CoderushPage() {
                   welcome
                 </p>
               </div>
-              <Link href="/coderush/register" className="shrink-0">
-                <InteractiveHoverButton className="bg-black border-cr-green/40 text-white !text-sm">
-                  Register Now
-                </InteractiveHoverButton>
-              </Link>
+              <div className="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-red-500/30 bg-red-500/[0.06]">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                <span className="text-red-200 text-xs font-semibold uppercase tracking-wider">
+                  Registrations Closed
+                </span>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -436,94 +438,137 @@ export default function CoderushPage() {
 
         {/* ── SCHEDULE ── */}
         <Reveal delay={0.2}>
-          <div className="mt-16 max-w-5xl mx-auto">
+          <div id="schedule" className="mt-16 max-w-6xl mx-auto scroll-mt-24">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cr-green/20 bg-cr-green/[0.08] mb-4">
                 <Calendar className="w-3.5 h-3.5 text-cr-green" />
                 <span className="text-xs text-cr-green/80 uppercase tracking-wider">
-                  May 8 – 10, 2026
+                  May 8 – 10, 2026 · ITU Lahore
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-space-grotesk font-black text-white mb-2">
-                3-Day <span className="text-cr-green">Timeline</span>
+                Event <span className="text-cr-green">Schedule</span>
               </h2>
               <p className="text-white/40 text-sm">
-                Pick competitions carefully — tracks on the same day run simultaneously.
+                Reach your venue at the report time — you'll be marked late after that.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-6">
               {[
                 {
                   day: "Day 1",
                   date: "Friday, May 8",
-                  label: "Parallel Tracks",
-                  note: "All three run simultaneously — pick one.",
-                  comps: ["Competitive Programming", "App Development", "Robotics"],
+                  events: [
+                    { name: "Competitive Programming", venue: "Programming / Computer / Embedded Lab", report: "12:30 PM", duration: "3:00 PM – 6:45 PM" },
+                    { name: "App Development", venue: "Control Lab", report: "9:30 AM", duration: "10:00 AM – 6:00 PM" },
+                    { name: "Robotics — RC Car Race", venue: "LT / Electronics Lab", report: "10:00 AM", duration: "11:00 AM – 12:30 PM" },
+                    { name: "Robotics — Line Following Robot (LFR)", venue: "LT / Electronics Lab", report: "2:00 PM", duration: "2:30 PM – 5:30 PM" },
+                  ],
                 },
                 {
                   day: "Day 2",
                   date: "Saturday, May 9",
-                  label: "Parallel Tracks",
-                  note: "Both run simultaneously — pick one.",
-                  comps: ["Web Development", "UI/UX Design"],
+                  events: [
+                    { name: "Web Development", venue: "Computer / Programming Lab", report: "9:30 AM", duration: "10:00 AM – 6:00 PM" },
+                    { name: "UI/UX Design", venue: "Embedded Lab", report: "9:30 AM", duration: "10:00 AM – 6:00 PM" },
+                  ],
                 },
                 {
                   day: "Day 3",
                   date: "Sunday, May 10",
-                  label: "Finals & Evaluations",
-                  note: "All grand finales, CTF live event, and online-track evaluations.",
-                  comps: [
-                    "CP Finals",
-                    "Robotics Finals",
-                    "Capture The Flag",
-                    "Web / App / UI-UX Evaluations",
-                    "ML Evaluations",
-                    "Game Jam Showcase",
+                  events: [
+                    { name: "Web Dev Presentations", venue: "Computer Lab", report: "8:45 AM", duration: "Starts 9:00 AM" },
+                    { name: "CP Final", venue: "Programming Lab", report: "10:00 AM", duration: "11:00 AM – 1:00 PM" },
+                    { name: "CTF — Capture The Flag", venue: "Machine Lab", report: "10:00 AM", duration: "11:00 AM – 3:00 PM" },
+                    { name: "App Dev Presentations", venue: "LT-2", report: "10:00 AM", duration: "Starts 11:00 AM" },
+                    { name: "UI/UX Presentations", venue: "LT-3", report: "10:00 AM", duration: "Starts 11:00 AM" },
+                    { name: "ML Evaluations", venue: "LT-5", report: "10:00 AM", duration: "Starts 11:00 AM" },
+                    { name: "Robotics Final", venue: "TBD", report: "11:30 AM", duration: "12:30 PM (2 hrs)" },
+                    { name: "Game Jam Showcase", venue: "Embedded Lab", report: "11:00 AM", duration: "Starts 12:00 PM" },
                   ],
                 },
               ].map((d, i) => (
                 <div
                   key={d.day}
-                  className="relative rounded-2xl border border-cr-green/15 bg-gradient-to-br from-cr-green/[0.04] to-black/40 p-6 overflow-hidden"
+                  className="relative rounded-2xl border border-cr-green/15 bg-gradient-to-br from-cr-green/[0.04] to-black/40 overflow-hidden"
                 >
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cr-green/40 to-transparent" />
-                  <div className="absolute -top-8 -right-8 w-32 h-32 bg-cr-green/[0.06] blur-3xl rounded-full" />
                   <div className="relative">
-                    <div className="flex items-center justify-between mb-4">
-                      <div>
-                        <p className="text-[10px] text-cr-green/60 uppercase tracking-[0.2em] font-semibold mb-1">
-                          {d.day}
-                        </p>
-                        <p className="text-white font-bold text-sm">{d.date}</p>
+                    {/* Day header */}
+                    <div className="flex items-center justify-between gap-3 px-6 py-4 border-b border-white/[0.05] bg-cr-green/[0.03]">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl border border-cr-green/20 bg-cr-green/[0.08] flex items-center justify-center shrink-0">
+                          <span className="text-cr-green font-black text-sm">{i + 1}</span>
+                        </div>
+                        <div>
+                          <p className="text-[10px] text-cr-green/60 uppercase tracking-[0.2em] font-semibold">
+                            {d.day}
+                          </p>
+                          <p className="text-white font-bold text-sm">{d.date}</p>
+                        </div>
                       </div>
-                      <div className="w-10 h-10 rounded-xl border border-cr-green/20 bg-cr-green/[0.06] flex items-center justify-center shrink-0">
-                        <span className="text-cr-green font-black text-sm">{i + 1}</span>
-                      </div>
+                      <span className="text-xs text-white/30">
+                        {d.events.length} event{d.events.length === 1 ? "" : "s"}
+                      </span>
                     </div>
 
-                    <div className="mb-4">
-                      <p className="text-xs text-cr-green/80 font-semibold uppercase tracking-wider mb-1">
-                        {d.label}
-                      </p>
-                      <p className="text-white/40 text-xs leading-relaxed">{d.note}</p>
-                    </div>
-
-                    <ul className="space-y-2">
-                      {d.comps.map((c) => (
-                        <li key={c} className="flex items-center gap-2.5 text-sm text-white/70">
-                          <span className="w-1.5 h-1.5 rounded-full bg-cr-green shrink-0" />
-                          <span>{c}</span>
-                        </li>
+                    {/* Events table — desktop */}
+                    <div className="hidden md:block">
+                      <div className="grid grid-cols-12 gap-4 px-6 py-3 border-b border-white/[0.04] text-[10px] text-white/30 uppercase tracking-wider font-semibold">
+                        <div className="col-span-5">Event</div>
+                        <div className="col-span-4">Venue</div>
+                        <div className="col-span-1">Report</div>
+                        <div className="col-span-2">Duration</div>
+                      </div>
+                      {d.events.map((e, j) => (
+                        <div
+                          key={j}
+                          className="grid grid-cols-12 gap-4 px-6 py-3 border-b border-white/[0.03] last:border-b-0 hover:bg-white/[0.02] transition-colors text-sm"
+                        >
+                          <div className="col-span-5 flex items-center gap-2.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-cr-green/70 shrink-0" />
+                            <span className="text-white/85 font-medium">{e.name}</span>
+                          </div>
+                          <div className="col-span-4 text-white/55">{e.venue}</div>
+                          <div className="col-span-1 text-cr-green font-semibold whitespace-nowrap">{e.report}</div>
+                          <div className="col-span-2 text-white/55 whitespace-nowrap">{e.duration}</div>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
+
+                    {/* Events list — mobile */}
+                    <div className="md:hidden divide-y divide-white/[0.04]">
+                      {d.events.map((e, j) => (
+                        <div key={j} className="px-5 py-4">
+                          <div className="flex items-start gap-2.5 mb-2">
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-cr-green/70 shrink-0" />
+                            <span className="text-white/90 font-semibold text-sm">{e.name}</span>
+                          </div>
+                          <div className="ml-4 space-y-1 text-xs">
+                            <div className="flex items-center gap-2">
+                              <span className="text-white/30 uppercase tracking-wider w-16 shrink-0">Venue</span>
+                              <span className="text-white/70">{e.venue}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-white/30 uppercase tracking-wider w-16 shrink-0">Report</span>
+                              <span className="text-cr-green font-semibold">{e.report}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-white/30 uppercase tracking-wider w-16 shrink-0">Time</span>
+                              <span className="text-white/70">{e.duration}</span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
 
             <p className="text-white/30 text-xs text-center mt-6">
-              <span className="text-cr-green/60">Game Jam</span> runs online from Tue May 5 night → Sat May 9 midnight, with on-campus evals on Sun May 10. <span className="text-cr-green/60">Machine Learning</span> runs online from Wed May 6 (submission Fri May 8 night, evals Sun May 10). Follow{" "}
+              Reach the venue 10–15 min before the report time. Bring your CNIC and team registration confirmation. Follow{" "}
               <a
                 href="https://www.instagram.com/coderush_itu/"
                 target="_blank"
@@ -532,7 +577,7 @@ export default function CoderushPage() {
               >
                 @coderush_itu
               </a>{" "}
-              for exact slot times.
+              for last-minute updates.
             </p>
           </div>
         </Reveal>

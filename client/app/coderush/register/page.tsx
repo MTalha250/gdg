@@ -913,7 +913,58 @@ function RegisterForm() {
   );
 }
 
+function RegistrationsClosed() {
+  return (
+    <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center px-4 py-16">
+      {/* Glow + grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(34,197,94,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,197,94,0.05)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cr-green/[0.04] blur-3xl rounded-full pointer-events-none" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 max-w-xl w-full text-center"
+      >
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/25 bg-red-500/[0.06] mb-6">
+          <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+          <span className="text-red-300 text-xs uppercase tracking-[0.2em] font-semibold">
+            Registrations Closed
+          </span>
+        </div>
+        <h1 className="text-3xl md:text-5xl font-space-grotesk font-black text-white mb-4 leading-tight">
+          The deadline has passed.
+        </h1>
+        <p className="text-white/50 text-base md:text-lg mb-10 leading-relaxed">
+          CodeRush 2026 registrations are now closed. The event runs{" "}
+          <span className="text-cr-green font-semibold">May 8 – 10</span>. If you've
+          already registered, check the venue and report time below.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <InteractiveHoverButton
+            href="/coderush#schedule"
+            className="bg-black border-cr-green/40 text-white"
+          >
+            View Schedule
+          </InteractiveHoverButton>
+          <Link
+            href="/coderush"
+            className="px-5 py-3 text-sm text-white/60 hover:text-white transition-colors"
+          >
+            ← Back to CodeRush
+          </Link>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+const REGISTRATIONS_OPEN = false;
+
 export default function CoderushRegisterPage() {
+  if (!REGISTRATIONS_OPEN) {
+    return <RegistrationsClosed />;
+  }
   return (
     <Suspense
       fallback={

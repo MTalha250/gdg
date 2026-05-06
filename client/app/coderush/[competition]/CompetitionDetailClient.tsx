@@ -367,16 +367,17 @@ export default function CompetitionDetailClient({ competition }: { competition: 
               */}
 
               {/* Register CTA */}
-              <div className="relative rounded-2xl border border-cr-green/25 bg-cr-green/[0.05] p-6 overflow-hidden flex items-center gap-4">
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cr-green/40 to-transparent" />
-                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-cr-green/10 blur-2xl rounded-full" />
+              <div className="relative rounded-2xl border border-red-500/20 bg-red-500/[0.04] p-6 overflow-hidden flex items-center gap-4">
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
+                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-red-500/[0.08] blur-2xl rounded-full" />
                 <div className="flex-1 min-w-0 relative z-10">
-                  <p className="text-white font-bold">Ready to compete?</p>
-                  <p className="text-white/35 text-xs mt-0.5">PKR {comp.earlyBird.toLocaleString()} early bird · {comp.teamSize}</p>
+                  <p className="text-white font-bold">Registrations Closed</p>
+                  <p className="text-white/35 text-xs mt-0.5">The deadline has passed. See the schedule for venue + report time.</p>
                 </div>
-                <Link href={`/coderush/register?competition=${competition}`} className="relative z-10 shrink-0">
-                  <InteractiveHoverButton className="bg-black border-cr-green/40 text-white">Register</InteractiveHoverButton>
-                </Link>
+                <div className="relative z-10 shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-red-500/30 bg-red-500/[0.08]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                  <span className="text-red-200 text-xs font-semibold uppercase tracking-wider">Closed</span>
+                </div>
               </div>
             </div>
           </Reveal>
