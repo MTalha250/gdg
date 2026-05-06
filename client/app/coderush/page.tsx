@@ -443,7 +443,7 @@ export default function CoderushPage() {
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cr-green/20 bg-cr-green/[0.08] mb-4">
                 <Calendar className="w-3.5 h-3.5 text-cr-green" />
                 <span className="text-xs text-cr-green/80 uppercase tracking-wider">
-                  May 8 – 10, 2026 · ITU Lahore
+                  May 8 – 10, 2026 · ITU Barki Campus, Lahore
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-space-grotesk font-black text-white mb-2">

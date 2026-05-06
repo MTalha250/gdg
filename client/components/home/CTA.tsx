@@ -34,7 +34,7 @@ export default function CTASection() {
           <WrapButton href="/coderush#schedule" className="mt-1 w-fit">
             View Schedule
           </WrapButton>
-          <p className="text-xs text-white/40">May 8 – 10 · ITU Lahore</p>
+          <p className="text-xs text-white/40">May 8 – 10 · ITU Barki Campus, Lahore</p>
         </div>
       </Reveal>
     </section>

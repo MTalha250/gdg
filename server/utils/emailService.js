@@ -742,7 +742,7 @@ export const sendAmbassadorConfirmation = async (ambassador) => {
           </p>
         </div>
         <div style="padding: 20px 40px; border-top: 1px solid #ffffff08; text-align: center;">
-          <p style="margin: 0; color: #ffffff25; font-size: 12px;">CodeRush 2026 · May 8–10 · Information Technology University, Lahore</p>
+          <p style="margin: 0; color: #ffffff25; font-size: 12px;">CodeRush 2026 · May 8–10 · ITU Barki Campus, Lahore</p>
         </div>
       </div>
     `,
@@ -838,7 +838,7 @@ export const sendPartnerConfirmation = async (partner) => {
           </p>
         </div>
         <div style="padding: 20px 40px; border-top: 1px solid #ffffff08; text-align: center;">
-          <p style="margin: 0; color: #ffffff25; font-size: 12px;">CodeRush 2026 · May 8–10 · Information Technology University, Lahore</p>
+          <p style="margin: 0; color: #ffffff25; font-size: 12px;">CodeRush 2026 · May 8–10 · ITU Barki Campus, Lahore</p>
         </div>
       </div>
     `,
@@ -927,7 +927,7 @@ export const sendSponsorConfirmation = async (sponsor) => {
           </p>
         </div>
         <div style="padding: 20px 40px; border-top: 1px solid #ffffff08; text-align: center;">
-          <p style="margin: 0; color: #ffffff25; font-size: 12px;">CodeRush 2026 · May 8–10 · Information Technology University, Lahore</p>
+          <p style="margin: 0; color: #ffffff25; font-size: 12px;">CodeRush 2026 · May 8–10 · ITU Barki Campus, Lahore</p>
         </div>
       </div>
     `,
