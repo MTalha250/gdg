@@ -382,7 +382,7 @@ export default function CoderushPage() {
             <div className="flex items-center justify-center gap-3 mb-5">
               <div className="h-px flex-1 bg-cr-green/10" />
               <span className="text-cr-green/50 text-xs uppercase tracking-[0.25em] font-medium">
-                Registrations Close In
+                Event Begins In
               </span>
               <div className="h-px flex-1 bg-cr-green/10" />
             </div>
@@ -462,7 +462,7 @@ export default function CoderushPage() {
                   events: [
                     { name: "Competitive Programming", venue: "Programming / Computer / Embedded Lab", report: "12:30 PM", duration: "3:00 PM – 6:45 PM" },
                     { name: "App Development", venue: "Control Lab", report: "9:30 AM", duration: "10:00 AM – 6:00 PM" },
-                    { name: "Robotics — RC Car Race", venue: "LT / Electronics Lab", report: "10:00 AM", duration: "11:00 AM – 12:30 PM" },
+                    { name: "Robotics — RC Car Race", venue: "LT / Electronics Lab", report: "10:00 AM", duration: "11:00 AM – 1:30 PM" },
                     { name: "Robotics — Line Following Robot (LFR)", venue: "LT / Electronics Lab", report: "2:00 PM", duration: "2:30 PM – 5:30 PM" },
                   ],
                 },
@@ -479,13 +479,14 @@ export default function CoderushPage() {
                   date: "Sunday, May 10",
                   events: [
                     { name: "Web Dev Presentations", venue: "Computer Lab", report: "8:45 AM", duration: "Starts 9:00 AM" },
-                    { name: "CP Final", venue: "Programming Lab", report: "10:00 AM", duration: "11:00 AM – 1:00 PM" },
+                    { name: "CP Final", venue: "Programming Lab", report: "10:00 AM", duration: "11:00 AM – 2:00 PM" },
+                    { name: "Robotics Final — RC Car Race", venue: "TBD", report: "10:00 AM", duration: "11:00 AM – 1:00 PM" },
                     { name: "CTF — Capture The Flag", venue: "Machine Lab", report: "10:00 AM", duration: "11:00 AM – 3:00 PM" },
                     { name: "App Dev Presentations", venue: "LT-2", report: "10:00 AM", duration: "Starts 11:00 AM" },
                     { name: "UI/UX Presentations", venue: "LT-3", report: "10:00 AM", duration: "Starts 11:00 AM" },
                     { name: "ML Evaluations", venue: "LT-5", report: "10:00 AM", duration: "Starts 11:00 AM" },
-                    { name: "Robotics Final", venue: "TBD", report: "11:30 AM", duration: "12:30 PM (2 hrs)" },
                     { name: "Game Jam Showcase", venue: "Embedded Lab", report: "11:00 AM", duration: "Starts 12:00 PM" },
+                    { name: "Robotics Final — Line Following Robot (LFR)", venue: "TBD", report: "1:00 PM", duration: "1:45 PM – 3:45 PM" },
                   ],
                 },
               ].map((d, i) => (

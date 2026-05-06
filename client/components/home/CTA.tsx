@@ -28,13 +28,13 @@ export default function CTASection() {
               <ShiftingCountdown />
             </div>
           </div>
-          <p className="text-white/65 text-base sm:text-lg md:text-xl leading-relaxed">
-            Don’t miss your chance to compete at GDG on Campus ITU’s flagship event.
+          <p className="text-white/65 text-base sm:text-lg md:text-xl leading-relaxed text-center">
+            Registrations are closed. Already signed up? Check your venue and report time below.
           </p>
-          <WrapButton href="/coderush" className="mt-1 w-fit">
-            Register Now
+          <WrapButton href="/coderush#schedule" className="mt-1 w-fit">
+            View Schedule
           </WrapButton>
-          <p className="text-xs text-white/40">It takes less than 5 minutes.</p>
+          <p className="text-xs text-white/40">May 8 – 10 · ITU Lahore</p>
         </div>
       </Reveal>
     </section>
