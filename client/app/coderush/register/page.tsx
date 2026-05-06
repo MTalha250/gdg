@@ -53,12 +53,13 @@ const COMPETITIONS = [
   { id: "robotics", name: "Robotics", fee: 2000, earlyBird: 1700 },
   // Game Jam registration closed — competition has started
   // { id: "game-jam", name: "Game Jam", fee: 2500, earlyBird: 2200 },
-  {
-    id: "machine-learning",
-    name: "Machine Learning",
-    fee: 2500,
-    earlyBird: 2200,
-  },
+  // Machine Learning registration closed — competition has started
+  // {
+  //   id: "machine-learning",
+  //   name: "Machine Learning",
+  //   fee: 2500,
+  //   earlyBird: 2200,
+  // },
   { id: "ctf", name: "Capture The Flag", fee: 2500, earlyBird: 2200 },
 ];
 
