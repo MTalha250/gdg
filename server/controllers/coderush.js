@@ -6,6 +6,113 @@ import {
   sendCoderushAdminNotification,
 } from "../utils/emailService.js";
 
+const buildRegistration = async ({
+  teamName,
+  competition,
+  members,
+  proofOfPayment,
+  voucherCode,
+  roboticsModule,
+}) => {
+  if (!members || members.length < 1 || members.length > 3) {
+    const err = new Error("Team must have between 1 and 3 members");
+    err.status = 400;
+    throw err;
+  }
+
+  members[0].isTeamLead = true;
+
+  const originalFee = REGULAR_FEES[competition];
+  if (!originalFee) {
+    const err = new Error("Invalid competition selected");
+    err.status = 400;
+    throw err;
+  }
+
+  let discountedFee = originalFee;
+  let appliedVoucherCode = null;
+
+  if (voucherCode) {
+    const voucher = await Voucher.findOne({
+      code: voucherCode.toUpperCase().trim(),
+      isActive: true,
+    });
+    if (!voucher) {
+      const err = new Error("Invalid or inactive voucher code");
+      err.status = 400;
+      throw err;
+    }
+    if (voucher.expiryDate && new Date() > new Date(voucher.expiryDate)) {
+      const err = new Error("Voucher has expired");
+      err.status = 400;
+      throw err;
+    }
+    if (
+      voucher.usageLimit !== null &&
+      voucher.usedCount >= voucher.usageLimit
+    ) {
+      const err = new Error("Voucher usage limit has been reached");
+      err.status = 400;
+      throw err;
+    }
+    if (voucher.scope === "specific" && !voucher.competitions.includes(competition)) {
+      const err = new Error(`This voucher is not valid for ${competition}`);
+      err.status = 400;
+      throw err;
+    }
+    if (voucher.discountType === "flat") {
+      discountedFee = Math.max(0, originalFee - voucher.discountValue);
+    } else {
+      discountedFee = Math.max(
+        0,
+        originalFee - Math.round((originalFee * voucher.discountValue) / 100)
+      );
+    }
+    appliedVoucherCode = voucher.code;
+    await Voucher.findByIdAndUpdate(voucher._id, { $inc: { usedCount: 1 } });
+  }
+
+  return {
+    teamName,
+    competition,
+    roboticsModule: competition === "robotics" ? roboticsModule || "" : "",
+    members,
+    proofOfPayment,
+    voucherCode: appliedVoucherCode,
+    originalFee,
+    discountedFee,
+  };
+};
+
+// Admin — manually create a registration after the public form has closed
+export const createRegistrationAdmin = async (req, res) => {
+  try {
+    const { status, ...payload } = req.body;
+    const built = await buildRegistration(payload);
+    const initialStatus = ["submitted", "accepted", "rejected"].includes(status)
+      ? status
+      : "submitted";
+    const registration = new Coderush({ ...built, status: initialStatus });
+    await registration.save();
+
+    try {
+      await sendCoderushConfirmation(registration);
+    } catch (e) {
+      console.error("Failed to send confirmation email:", e);
+    }
+    try {
+      await sendCoderushAdminNotification(registration);
+    } catch (e) {
+      console.error("Failed to send admin notification:", e);
+    }
+
+    res.status(201).json({ message: "Registration created", registration });
+  } catch (error) {
+    const status = error.status || 500;
+    res.status(status).json({ message: error.message });
+  }
+};
+
 // Create a new Coderush registration
 export const createRegistration = async (req, res) => {
   try {

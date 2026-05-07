@@ -25,6 +25,7 @@ import {
   Building2,
   CreditCard,
   Download,
+  Plus,
   Tag,
   Zap,
 } from "lucide-react";
@@ -299,6 +300,13 @@ const CoderushPage = () => {
                 </select>
               </div>
               <div className="flex flex-wrap gap-2">
+                <Link
+                  href="/coderush/create"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"
+                  title="Manually add a registration"
+                >
+                  <Plus className="w-4 h-4" /> New
+                </Link>
                 <Link
                   href="/coderush/export"
                   className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm whitespace-nowrap"

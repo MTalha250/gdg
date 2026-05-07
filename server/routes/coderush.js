@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createRegistration,
+  createRegistrationAdmin,
   getRegistrations,
   getAllRegistrations,
   getRegistrationById,
@@ -16,6 +17,9 @@ const router = express.Router();
 
 // Public
 router.post("/", createRegistration);
+
+// Admin/Marketer — manually create a registration (post-deadline)
+router.post("/admin", verifyToken, verifyAdminOrMarketer, createRegistrationAdmin);
 
 // Admin or Marketer (read + status updates)
 router.get("/", verifyToken, verifyAdminOrMarketer, getRegistrations);
