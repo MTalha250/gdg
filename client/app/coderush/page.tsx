@@ -377,7 +377,7 @@ export default function CoderushPage() {
         <Marquee />
 
         {/* ── COUNTDOWN ── */}
-        <Reveal delay={0.2}>
+        {/* <Reveal delay={0.2}>
           <div className="max-w-2xl mx-auto mb-24">
             <div className="flex items-center justify-center gap-3 mb-5">
               <div className="h-px flex-1 bg-cr-green/10" />
@@ -387,7 +387,6 @@ export default function CoderushPage() {
               <div className="h-px flex-1 bg-cr-green/10" />
             </div>
             <div className="relative">
-              {/* Corner accents */}
               <div className="absolute -top-px -left-px w-6 h-6 border-t-2 border-l-2 border-cr-green/50 rounded-tl-xl" />
               <div className="absolute -top-px -right-px w-6 h-6 border-t-2 border-r-2 border-cr-green/50 rounded-tr-xl" />
               <div className="absolute -bottom-px -left-px w-6 h-6 border-b-2 border-l-2 border-cr-green/50 rounded-bl-xl" />
@@ -399,7 +398,7 @@ export default function CoderushPage() {
               </div>
             </div>
           </div>
-        </Reveal>
+        </Reveal> */}
 
         {/* ── COMPETITIONS ── */}
         <Reveal delay={0.15}>
