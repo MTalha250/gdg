@@ -253,22 +253,22 @@ export default function CompetitionDetailClient({ competition }: { competition: 
 
           {/* Fee + Prize cards */}
           <Reveal delay={0.1}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-10">
+            <div className="grid grid-cols-1 gap-4 my-10">
               {/* Regular fee */}
-              <div className="relative rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 text-center overflow-hidden">
+              {/* <div className="relative rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 text-center overflow-hidden">
                 <div className="text-white/25 text-xs uppercase tracking-wider mb-3">Regular Fee</div>
                 <div className="text-3xl font-black text-white font-space-grotesk">PKR {comp.fee.toLocaleString()}</div>
                 <div className="text-white/25 text-xs mt-1">per team</div>
-              </div>
+              </div> */}
 
               {/* Early bird — featured */}
-              <div className="relative rounded-2xl border border-cr-green/30 bg-cr-green/[0.06] p-6 text-center overflow-hidden">
+              {/* <div className="relative rounded-2xl border border-cr-green/30 bg-cr-green/[0.06] p-6 text-center overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cr-green/50 to-transparent" />
                 <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-24 h-12 bg-cr-green/20 blur-2xl" />
                 <div className="text-cr-green text-xs uppercase tracking-wider font-semibold mb-3">Early Bird</div>
                 <div className="text-3xl font-black text-cr-green font-space-grotesk">PKR {comp.earlyBird.toLocaleString()}</div>
                 <div className="text-cr-green/40 text-xs mt-1">save PKR {(comp.fee - comp.earlyBird).toLocaleString()}</div>
-              </div>
+              </div> */}
 
               {/* Prizes */}
               <div className="relative rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 overflow-hidden">

@@ -171,7 +171,7 @@ const CompetitionCard = ({ comp }: { comp: (typeof COMPETITIONS)[0] }) => {
           <p className="text-white/40 text-sm text-center mb-4">
             {comp.tagline}
           </p>
-          <div className="flex justify-between items-center bg-white/[0.05] rounded-lg px-3 py-2 mb-3">
+          {/* <div className="flex justify-between items-center bg-white/[0.05] rounded-lg px-3 py-2 mb-3">
             <div className="text-center flex-1">
               <div className="text-xs text-white/30">Regular</div>
               <div className="text-white font-semibold text-sm">
@@ -190,7 +190,7 @@ const CompetitionCard = ({ comp }: { comp: (typeof COMPETITIONS)[0] }) => {
                 Expired
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2 justify-center mb-4">
             <Trophy className="w-3.5 h-3.5 text-cr-green shrink-0" />
             <span className="text-cr-green text-sm font-medium">
