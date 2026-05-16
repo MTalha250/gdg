@@ -978,3 +978,70 @@ export const sendSponsorAdminNotification = async (sponsor) => {
     throw error;
   }
 };
+
+// ─── CERTIFICATE EMAILS ───────────────────────────────────────────────────────
+
+export const sendCertificateEmail = async ({
+  name,
+  email,
+  category,
+  pdfBuffer,
+  subject,
+  message,
+}) => {
+  const transporter = createTransporter();
+  const safeName = name.replace(/[^\w\s-]/g, "").trim() || "certificate";
+  const filename = `${safeName.replace(/\s+/g, "-")}-certificate.pdf`;
+
+  const defaultSubject = "Your Certificate of Participation — CodeRush 2026";
+  const defaultMessage = `
+    <p style="color: #475569; line-height: 1.6; margin: 0 0 16px;">
+      Hi <strong>${name}</strong>,
+    </p>
+    <p style="color: #475569; line-height: 1.6; margin: 0 0 16px;">
+      Congratulations! Please find attached your <strong>Certificate of Participation</strong>
+      for <strong>${category}</strong> at CodeRush 2026, organized by GDG on Campus ITU.
+    </p>
+    <p style="color: #475569; line-height: 1.6; margin: 0;">
+      Thank you for being part of our event. We hope to see you at future GDG activities!
+    </p>
+  `;
+
+  const mailOptions = {
+    from: {
+      name: "GDG on Campus ITU",
+      address: process.env.SMTP_EMAIL,
+    },
+    to: email,
+    subject: subject?.trim() || defaultSubject,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <h1 style="color: #1c4ed8; margin: 0;">GDG on Campus ITU</h1>
+          <p style="color: #64748b; margin: 8px 0 0;">Certificate of Participation</p>
+        </div>
+        <div style="background: #f8fafc; padding: 28px; border-radius: 10px; border-left: 4px solid #22c55e;">
+          ${message?.trim() || defaultMessage}
+        </div>
+        <p style="color: #94a3b8; font-size: 12px; margin-top: 24px; text-align: center;">
+          GDG on Campus · Information Technology University
+        </p>
+      </div>
+    `,
+    attachments: [
+      {
+        filename,
+        content: pdfBuffer,
+        contentType: "application/pdf",
+      },
+    ],
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Certificate email sent to ${email}`);
+  } catch (error) {
+    console.error(`Error sending certificate email to ${email}:`, error);
+    throw error;
+  }
+};

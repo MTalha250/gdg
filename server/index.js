@@ -14,6 +14,7 @@ import voucherRoutes from "./routes/voucher.js";
 import sponsorRoutes from "./routes/sponsor.js";
 import ambassadorRoutes from "./routes/ambassador.js";
 import partnerRoutes from "./routes/partner.js";
+import certificateRoutes from "./routes/certificates.js";
 
 dotenv.config();
 
@@ -52,7 +53,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 
 mongoose.set("strictQuery", false);
@@ -87,6 +88,7 @@ app.use("/api/vouchers", voucherRoutes);
 app.use("/api/sponsors", sponsorRoutes);
 app.use("/api/ambassadors", ambassadorRoutes);
 app.use("/api/partners", partnerRoutes);
+app.use("/api/certificates", certificateRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
