@@ -31,9 +31,9 @@ import {
   parseCertificateCsv,
 } from "@/lib/certificateGenerator";
 
-const PREVIEW_NAME = "Team Alpha";
+const PREVIEW_NAME = "John Doe";
 const PREVIEW_CATEGORY = "Web Development";
-const PREVIEW_POSITION = "1st Place";
+const PREVIEW_POSITION = "1st";
 
 const defaultSubjectFor = (v: CertificateVariant) =>
   v === "top_team"
@@ -329,7 +329,7 @@ const CertificatesPage = () => {
                 value={previewName}
                 onChange={(e) => setPreviewName(e.target.value)}
                 className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 focus:border-brand-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-white"
-                placeholder={variant === "top_team" ? "Team Alpha" : "John Doe"}
+                placeholder="John Doe"
               />
             </div>
             {variant === "top_team" && (

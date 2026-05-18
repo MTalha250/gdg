@@ -28,14 +28,8 @@ export const PARTICIPATION_LAYOUT = {
  */
 export const TOP_TEAM_LAYOUT = {
   name: { y: 275, fontSize: 28, maxWidth: 620 },
-  position: {
-    cover: { x: 518, y: 356, width: 175, height: 30 },
-    draw: { x: 522, y: 364, fontSize: 14, maxWidth: 168 },
-  },
-  category: {
-    cover: { x: 436, y: 394, width: 130, height: 26 },
-    draw: { x: 440, y: 406, fontSize: 14, maxWidth: 125 },
-  },
+  position:{ x: 560, y: 230, fontSize: 20, maxWidth: 168 },
+  category: { x: 250, y: 195, fontSize: 20, maxWidth: 200 },
 } as const;
 
 export type CertificateRecipient = {
@@ -144,45 +138,29 @@ export async function generateCertificatePdf(
       color: ACCENT,
     });
   } else {
-    const { cover: posCover, draw: posDraw } = TOP_TEAM_LAYOUT.position;
-    page.drawRectangle({
-      x: posCover.x,
-      y: posCover.y,
-      width: posCover.width,
-      height: posCover.height,
-      color: rgb(1, 1, 1),
-    });
     const posSize = fitFontSize(
       displayPosition,
       bodyFont,
-      posDraw.maxWidth,
-      posDraw.fontSize
+      TOP_TEAM_LAYOUT.position.maxWidth,
+      TOP_TEAM_LAYOUT.position.fontSize
     );
     page.drawText(displayPosition, {
-      x: posDraw.x,
-      y: posDraw.y,
+      x: TOP_TEAM_LAYOUT.position.x,
+      y: TOP_TEAM_LAYOUT.position.y,
       size: posSize,
       font: bodyFont,
       color: ACCENT,
     });
 
-    const { cover: catCover, draw: catDraw } = TOP_TEAM_LAYOUT.category;
-    page.drawRectangle({
-      x: catCover.x,
-      y: catCover.y,
-      width: catCover.width,
-      height: catCover.height,
-      color: rgb(1, 1, 1),
-    });
     const catSize = fitFontSize(
       displayCategory,
       bodyFont,
-      catDraw.maxWidth,
-      catDraw.fontSize
+      TOP_TEAM_LAYOUT.category.maxWidth,
+      TOP_TEAM_LAYOUT.category.fontSize
     );
     page.drawText(displayCategory, {
-      x: catDraw.x,
-      y: catDraw.y,
+      x: TOP_TEAM_LAYOUT.category.x,
+      y: TOP_TEAM_LAYOUT.category.y,
       size: catSize,
       font: bodyFont,
       color: ACCENT,
