@@ -1,6 +1,9 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont } from "pdf-lib";
 
-export const TEMPLATE_URL = "/certificates/Template.pdf";
+export type CertificateVariant = "participation" | "top_team";
+
+export const PARTICIPATION_TEMPLATE_URL = "/certificates/Template.pdf";
+export const TOP_TEAM_TEMPLATE_URL = "/certificates/Template-2.pdf";
 
 function hexToRgb(hex: string) {
   const n = parseInt(hex.replace("#", ""), 16);
@@ -11,15 +14,27 @@ function hexToRgb(hex: string) {
   );
 }
 
+const ACCENT = hexToRgb("#FFBA5B");
 
-/** Layout tuned to admin/public/certificates/Template.pdf (A4 landscape, 842×595 pt) */
-export const CERT_LAYOUT = {
-  name: { y: 275, fontSize: 28, maxWidth: 620,color: rgb(0, 0, 0) },
+/** Participation — admin/public/certificates/Template.pdf (A4 landscape, 842×595 pt) */
+export const PARTICIPATION_LAYOUT = {
+  name: { y: 275, fontSize: 28, maxWidth: 620 },
+  category: { x: 250, y: 195, fontSize: 20, maxWidth: 200 },
+} as const;
+
+/**
+ * Top teams / appreciation — admin/public/certificates/Template-2.pdf
+ * Placeholders from PDF text layer: "position" (line 1) and "category" (line 2).
+ */
+export const TOP_TEAM_LAYOUT = {
+  name: { y: 275, fontSize: 28, maxWidth: 620 },
+  position: {
+    cover: { x: 518, y: 356, width: 175, height: 30 },
+    draw: { x: 522, y: 364, fontSize: 14, maxWidth: 168 },
+  },
   category: {
-    x: 250,
-    y: 195,
-    fontSize: 20,
-    maxWidth: 200,
+    cover: { x: 436, y: 394, width: 130, height: 26 },
+    draw: { x: 440, y: 406, fontSize: 14, maxWidth: 125 },
   },
 } as const;
 
@@ -27,16 +42,26 @@ export type CertificateRecipient = {
   name: string;
   email: string;
   category: string;
+  /** Required when variant is `top_team` */
+  position?: string;
 };
 
-let templateBytesCache: ArrayBuffer | null = null;
+const templateCache: Partial<Record<CertificateVariant, ArrayBuffer>> = {};
 
-export async function loadTemplateBytes(): Promise<ArrayBuffer> {
-  if (templateBytesCache) return templateBytesCache;
-  const res = await fetch(TEMPLATE_URL);
-  if (!res.ok) throw new Error("Failed to load certificate template");
-  templateBytesCache = await res.arrayBuffer();
-  return templateBytesCache;
+export async function loadTemplateBytes(
+  variant: CertificateVariant
+): Promise<ArrayBuffer> {
+  const url =
+    variant === "top_team"
+      ? TOP_TEAM_TEMPLATE_URL
+      : PARTICIPATION_TEMPLATE_URL;
+  const cached = templateCache[variant];
+  if (cached) return cached;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to load certificate template (${variant})`);
+  const buf = await res.arrayBuffer();
+  templateCache[variant] = buf;
+  return buf;
 }
 
 function fitFontSize(
@@ -52,53 +77,117 @@ function fitFontSize(
   return size;
 }
 
-function centerX(text: string, font: PDFFont, size: number, pageWidth: number): number {
+function centerX(
+  text: string,
+  font: PDFFont,
+  size: number,
+  pageWidth: number
+): number {
   const w = font.widthOfTextAtSize(text, size);
   return (pageWidth - w) / 2;
 }
 
+export type GenerateCertificateOptions = {
+  variant?: CertificateVariant;
+  /** e.g. "1st Place", "Runner-up" — required when variant is `top_team` */
+  position?: string;
+};
+
 export async function generateCertificatePdf(
   name: string,
-  category: string
+  category: string,
+  options: GenerateCertificateOptions = {}
 ): Promise<Uint8Array> {
-  const templateBytes = await loadTemplateBytes();
+  const variant = options.variant ?? "participation";
+  const displayName = name.trim();
+  const displayCategory = category.trim();
+  const displayPosition = (options.position ?? "").trim();
+
+  if (variant === "top_team" && !displayPosition) {
+    throw new Error("Position is required for top team certificates");
+  }
+
+  const templateBytes = await loadTemplateBytes(variant);
   const pdfDoc = await PDFDocument.load(templateBytes);
   const page = pdfDoc.getPages()[0];
   const { width } = page.getSize();
 
   const nameFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-  const categoryFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-
-  const displayName = name.trim();
-  const displayCategory = category.trim();
+  const bodyFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
 
   const nameSize = fitFontSize(
     displayName,
     nameFont,
-    CERT_LAYOUT.name.maxWidth,
-    CERT_LAYOUT.name.fontSize
+    PARTICIPATION_LAYOUT.name.maxWidth,
+    PARTICIPATION_LAYOUT.name.fontSize
   );
   page.drawText(displayName, {
     x: centerX(displayName, nameFont, nameSize, width),
-    y: CERT_LAYOUT.name.y,
+    y: PARTICIPATION_LAYOUT.name.y,
     size: nameSize,
     font: nameFont,
-    color: hexToRgb("#FFBA5B"),
+    color: ACCENT,
   });
 
-  const categorySize = fitFontSize(
-    displayCategory,
-    categoryFont,
-    CERT_LAYOUT.category.maxWidth,
-    CERT_LAYOUT.category.fontSize
-  );
-  page.drawText(displayCategory, {
-    x: CERT_LAYOUT.category.x,
-    y: CERT_LAYOUT.category.y,
-    size: categorySize,
-    font: categoryFont,
-    color: hexToRgb("#FFBA5B"),
-  });
+  if (variant === "participation") {
+    const categorySize = fitFontSize(
+      displayCategory,
+      bodyFont,
+      PARTICIPATION_LAYOUT.category.maxWidth,
+      PARTICIPATION_LAYOUT.category.fontSize
+    );
+    page.drawText(displayCategory, {
+      x: PARTICIPATION_LAYOUT.category.x,
+      y: PARTICIPATION_LAYOUT.category.y,
+      size: categorySize,
+      font: bodyFont,
+      color: ACCENT,
+    });
+  } else {
+    const { cover: posCover, draw: posDraw } = TOP_TEAM_LAYOUT.position;
+    page.drawRectangle({
+      x: posCover.x,
+      y: posCover.y,
+      width: posCover.width,
+      height: posCover.height,
+      color: rgb(1, 1, 1),
+    });
+    const posSize = fitFontSize(
+      displayPosition,
+      bodyFont,
+      posDraw.maxWidth,
+      posDraw.fontSize
+    );
+    page.drawText(displayPosition, {
+      x: posDraw.x,
+      y: posDraw.y,
+      size: posSize,
+      font: bodyFont,
+      color: ACCENT,
+    });
+
+    const { cover: catCover, draw: catDraw } = TOP_TEAM_LAYOUT.category;
+    page.drawRectangle({
+      x: catCover.x,
+      y: catCover.y,
+      width: catCover.width,
+      height: catCover.height,
+      color: rgb(1, 1, 1),
+    });
+    const catSize = fitFontSize(
+      displayCategory,
+      bodyFont,
+      catDraw.maxWidth,
+      catDraw.fontSize
+    );
+    page.drawText(displayCategory, {
+      x: catDraw.x,
+      y: catDraw.y,
+      size: catSize,
+      font: bodyFont,
+      color: ACCENT,
+    });
+  }
 
   return pdfDoc.save();
 }
@@ -116,9 +205,15 @@ export function certificatePdfToBlob(bytes: Uint8Array): Blob {
   return new Blob([copy], { type: "application/pdf" });
 }
 
-/** Parse CSV with required columns: name, email, category (header row, case-insensitive) */
-export function parseCertificateCsv(text: string): CertificateRecipient[] {
-  const lines = text.trim().split(/\r?\n/).filter(Boolean);
+/** Parse CSV; `position` column required when variant is `top_team` */
+export function parseCertificateCsv(
+  text: string,
+  variant: CertificateVariant = "participation"
+): CertificateRecipient[] {
+  const lines = text
+    .trim()
+    .split(/\r?\n/)
+    .filter(Boolean);
   if (lines.length < 2) {
     throw new Error("CSV must include a header row and at least one data row");
   }
@@ -147,29 +242,55 @@ export function parseCertificateCsv(text: string): CertificateRecipient[] {
     return cells;
   };
 
-  const headers = parseRow(lines[0]).map((h) => h.toLowerCase().replace(/^\ufeff/, ""));
+  const headers = parseRow(lines[0]).map((h) =>
+    h.toLowerCase().replace(/^\ufeff/, "")
+  );
   const nameIdx = headers.indexOf("name");
   const emailIdx = headers.indexOf("email");
   const categoryIdx = headers.indexOf("category");
+  const positionIdx = headers.indexOf("position");
 
   if (nameIdx === -1 || emailIdx === -1 || categoryIdx === -1) {
-    throw new Error('CSV must have columns: name, email, category');
+    throw new Error("CSV must have columns: name, email, category");
+  }
+
+  if (variant === "top_team" && positionIdx === -1) {
+    throw new Error(
+      "Top team CSV must also include a position column (e.g. 1st Place, Runner-up)"
+    );
   }
 
   const recipients: CertificateRecipient[] = [];
   for (let i = 1; i < lines.length; i++) {
     const cols = parseRow(lines[i]);
-    const name = cols[nameIdx]?.trim();
+    const rowName = cols[nameIdx]?.trim();
     const email = cols[emailIdx]?.trim();
     const category = cols[categoryIdx]?.trim();
-    if (!name && !email && !category) continue;
-    if (!name || !email || !category) {
+    const position =
+      positionIdx >= 0 ? cols[positionIdx]?.trim() : undefined;
+
+    if (!rowName && !email && !category && !position) continue;
+
+    if (!rowName || !email || !category) {
       throw new Error(`Row ${i + 1}: name, email, and category are all required`);
     }
+
+    if (variant === "top_team") {
+      if (!position) {
+        throw new Error(`Row ${i + 1}: position is required for top team certificates`);
+      }
+    }
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       throw new Error(`Row ${i + 1}: invalid email "${email}"`);
     }
-    recipients.push({ name, email, category });
+
+    recipients.push({
+      name: rowName,
+      email,
+      category,
+      ...(variant === "top_team" && position ? { position } : {}),
+    });
   }
 
   if (recipients.length === 0) {

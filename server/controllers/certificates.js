@@ -4,7 +4,12 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const sendCertificates = async (req, res) => {
   try {
-    const { recipients, subject, message } = req.body;
+    const {
+      recipients,
+      subject,
+      message,
+      certificateVariant = "participation",
+    } = req.body;
 
     if (!Array.isArray(recipients) || recipients.length === 0) {
       return res.status(400).json({ message: "recipients array is required" });
@@ -14,16 +19,28 @@ export const sendCertificates = async (req, res) => {
       return res.status(400).json({ message: "Maximum 200 certificates per batch" });
     }
 
+    const variant =
+      certificateVariant === "top_team" ? "top_team" : "participation";
+
     const results = [];
 
     for (const item of recipients) {
-      const { name, email, category, pdfBase64 } = item;
+      const { name, email, category, position, pdfBase64 } = item;
 
       if (!name?.trim() || !email?.trim() || !category?.trim() || !pdfBase64) {
         results.push({
           email: email || "unknown",
           success: false,
           error: "Missing name, email, category, or pdfBase64",
+        });
+        continue;
+      }
+
+      if (variant === "top_team" && !position?.trim()) {
+        results.push({
+          email: email || "unknown",
+          success: false,
+          error: "Missing position for top team certificate",
         });
         continue;
       }
@@ -38,6 +55,8 @@ export const sendCertificates = async (req, res) => {
           name: name.trim(),
           email: email.trim(),
           category: category.trim(),
+          position: position?.trim(),
+          certificateVariant: variant,
           pdfBuffer,
           subject,
           message,

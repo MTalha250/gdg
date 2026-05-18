@@ -985,16 +985,37 @@ export const sendCertificateEmail = async ({
   name,
   email,
   category,
+  position,
+  certificateVariant = "participation",
   pdfBuffer,
   subject,
   message,
 }) => {
   const transporter = createTransporter();
   const safeName = name.replace(/[^\w\s-]/g, "").trim() || "certificate";
-  const filename = `${safeName.replace(/\s+/g, "-")}-certificate.pdf`;
+  const isTopTeam = certificateVariant === "top_team";
+  const suffix = isTopTeam ? "appreciation" : "participation";
+  const filename = `${safeName.replace(/\s+/g, "-")}-${suffix}-certificate.pdf`;
 
-  const defaultSubject = "Your Certificate of Participation — CodeRush 2026";
-  const defaultMessage = `
+  const defaultSubject = isTopTeam
+    ? "Your Certificate of Appreciation — CodeRush 2026"
+    : "Your Certificate of Participation — CodeRush 2026";
+
+  const defaultMessage = isTopTeam
+    ? `
+    <p style="color: #475569; line-height: 1.6; margin: 0 0 16px;">
+      Hi <strong>${name}</strong>,
+    </p>
+    <p style="color: #475569; line-height: 1.6; margin: 0 0 16px;">
+      Congratulations on your outstanding performance! Please find attached your
+      <strong>Certificate of Appreciation</strong> for placing <strong>${position}</strong>
+      in <strong>${category}</strong> at CodeRush 2026, organized by GDG on Campus ITU.
+    </p>
+    <p style="color: #475569; line-height: 1.6; margin: 0;">
+      Thank you for raising the bar — we hope to see you at future GDG activities!
+    </p>
+  `
+    : `
     <p style="color: #475569; line-height: 1.6; margin: 0 0 16px;">
       Hi <strong>${name}</strong>,
     </p>
@@ -1007,6 +1028,10 @@ export const sendCertificateEmail = async ({
     </p>
   `;
 
+  const certLabel = isTopTeam
+    ? "Certificate of Appreciation"
+    : "Certificate of Participation";
+
   const mailOptions = {
     from: {
       name: "GDG on Campus ITU",
@@ -1018,7 +1043,7 @@ export const sendCertificateEmail = async ({
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="text-align: center; margin-bottom: 24px;">
           <h1 style="color: #1c4ed8; margin: 0;">GDG on Campus ITU</h1>
-          <p style="color: #64748b; margin: 8px 0 0;">Certificate of Participation</p>
+          <p style="color: #64748b; margin: 8px 0 0;">${certLabel}</p>
         </div>
         <div style="background: #f8fafc; padding: 28px; border-radius: 10px; border-left: 4px solid #22c55e;">
           ${message?.trim() || defaultMessage}
