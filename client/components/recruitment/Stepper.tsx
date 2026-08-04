@@ -38,6 +38,17 @@ export default function Stepper({ steps, currentStep }: StepperProps) {
         return <ShieldCheck className="size-4" />;
       case "review":
         return <FileText className="size-4" />;
+      // Core leadership form
+      case "position":
+        return <Crown className="size-4" />;
+      case "personal":
+        return <User className="size-4" />;
+      case "common":
+        return <Info className="size-4" />;
+      case "role":
+        return <UsersIcon className="size-4" />;
+      case "commitment":
+        return <ShieldCheck className="size-4" />;
       default:
         return <User className="size-4" />;
     }

@@ -29,7 +29,7 @@ export const PARTICIPATION_LAYOUT = {
 export const TOP_TEAM_LAYOUT = {
   name: { y: 275, fontSize: 28, maxWidth: 620 },
   position:{ x: 560, y: 230, fontSize: 20, maxWidth: 168 },
-  category: { x: 250, y: 195, fontSize: 20, maxWidth: 200 },
+  category: { x: 280, y: 195, fontSize: 20, maxWidth: 200 },
 } as const;
 
 export type CertificateRecipient = {

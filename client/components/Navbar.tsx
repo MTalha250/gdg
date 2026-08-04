@@ -49,8 +49,8 @@ const Navbar = () => {
           </Link>
         </li>
       </ul>
-      <Link href="/coderush">
-        <InteractiveHoverButton>Register Now</InteractiveHoverButton>
+      <Link href="/core-team">
+        <InteractiveHoverButton>Apply Now</InteractiveHoverButton>
       </Link>
     </motion.div>
   );

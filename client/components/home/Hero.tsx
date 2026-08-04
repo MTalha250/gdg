@@ -204,9 +204,9 @@ const Hero = () => {
             initial="hidden"
             animate="visible"
           >
-            <WrapButton href="/coderush">
+            <WrapButton href="/core-team">
               <Users className="mx-1 animate-pulse" />
-              CodeRush 2026
+              Join the Core Team
             </WrapButton>
           </motion.div>
         </div>
