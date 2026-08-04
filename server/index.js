@@ -15,6 +15,7 @@ import sponsorRoutes from "./routes/sponsor.js";
 import ambassadorRoutes from "./routes/ambassador.js";
 import partnerRoutes from "./routes/partner.js";
 import certificateRoutes from "./routes/certificates.js";
+import coreApplicationRoutes from "./routes/coreApplication.js";
 
 dotenv.config();
 
@@ -89,6 +90,7 @@ app.use("/api/sponsors", sponsorRoutes);
 app.use("/api/ambassadors", ambassadorRoutes);
 app.use("/api/partners", partnerRoutes);
 app.use("/api/certificates", certificateRoutes);
+app.use("/api/core-team", coreApplicationRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

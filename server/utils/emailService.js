@@ -1070,3 +1070,159 @@ export const sendCertificateEmail = async ({
     throw error;
   }
 };
+
+// ─── Core Leadership recruitment emails ──────────────────────────────────────
+
+const coreFullName = (a) =>
+  [a.firstName, a.middleName, a.lastName].filter(Boolean).join(" ");
+
+export const sendCoreApplicationConfirmation = async (application) => {
+  const transporter = createTransporter();
+  const name = coreFullName(application);
+
+  const mailOptions = {
+    from: {
+      name: "GDG on Campus ITU — Core Team",
+      address: process.env.SMTP_EMAIL,
+    },
+    to: application.email,
+    subject: `Application Received — ${application.position} | GDG on Campus ITU`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">
+        <div style="text-align:center;margin-bottom:30px;">
+          <h1 style="color:#1c4ed8;margin:0;">GDG on Campus ITU</h1>
+          <p style="color:#666;margin:5px 0;">Core Leadership Recruitment</p>
+        </div>
+        <div style="background:#dbeafe;padding:30px;border-radius:10px;border-left:4px solid #1c4ed8;">
+          <h2 style="color:#1e293b;margin-top:0;">Application Received ✅</h2>
+          <p style="color:#475569;line-height:1.6;">Hi <strong>${name}</strong>,</p>
+          <p style="color:#475569;line-height:1.6;">
+            Thanks for applying to the GDG on Campus ITU core team. We've received your
+            application for <strong>${application.position}</strong> and our team will
+            review it shortly.
+          </p>
+          <div style="background:white;padding:20px;border-radius:8px;margin:20px 0;border:1px solid #e5e7eb;">
+            <h3 style="color:#1e293b;margin-top:0;">📋 Your Application</h3>
+            <p style="margin:8px 0;color:#475569;"><strong>Position:</strong> ${application.position}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Roll Number:</strong> ${application.rollNumber}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Department:</strong> ${application.department}${application.departmentOther ? ` (${application.departmentOther})` : ""}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Semester:</strong> ${application.semester}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Weekly Commitment:</strong> ${application.hoursPerWeek}</p>
+          </div>
+          <div style="margin:20px 0;padding:15px;background:#f0fdf4;border-radius:8px;border-left:3px solid #16803c;">
+            <p style="margin:0;color:#16803c;font-weight:600;">What happens next</p>
+            <p style="margin:8px 0 0 0;color:#475569;font-size:14px;">
+              Shortlisted applicants will be contacted for an interview. Keep an eye on
+              this inbox.
+            </p>
+          </div>
+          <p style="color:#475569;line-height:1.6;font-size:14px;">
+            Applying for more than one position? Submit a separate application for each —
+            you can do that from the same form.
+          </p>
+        </div>
+        <div style="text-align:center;margin-top:30px;padding-top:20px;border-top:1px solid #e2e8f0;">
+          <p style="color:#64748b;font-size:14px;margin:0;">Best regards,<br><strong>GDG on Campus ITU Team</strong></p>
+          <p style="color:#94a3b8;font-size:12px;margin:10px 0 0 0;">This is an automated email. Please do not reply.</p>
+        </div>
+      </div>`,
+  };
+
+  await transporter.sendMail(mailOptions);
+  console.log(`Core application confirmation sent to ${application.email}`);
+};
+
+export const sendCoreApplicationAdminNotification = async (application) => {
+  const transporter = createTransporter();
+  const name = coreFullName(application);
+
+  const mailOptions = {
+    from: { name: "GDG on Campus ITU", address: process.env.SMTP_EMAIL },
+    to: process.env.SMTP_EMAIL,
+    subject: `New Core Team Application — ${name} (${application.position})`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">
+        <div style="text-align:center;margin-bottom:30px;">
+          <h1 style="color:#1c4ed8;margin:0;">GDG on Campus ITU</h1>
+          <p style="color:#666;margin:5px 0;">Core Leadership Recruitment — Admin Notification</p>
+        </div>
+        <div style="background:#dbeafe;padding:30px;border-radius:10px;border-left:4px solid #1c4ed8;">
+          <h2 style="color:#1e293b;margin-top:0;">New Application 🚀</h2>
+          <div style="background:white;padding:20px;border-radius:8px;margin:20px 0;border:1px solid #e5e7eb;">
+            <p style="margin:8px 0;color:#475569;"><strong>Name:</strong> ${name}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Position:</strong> ${application.position}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Email:</strong> ${application.email}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Phone:</strong> ${application.phone}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Roll Number:</strong> ${application.rollNumber}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Department:</strong> ${application.department}${application.departmentOther ? ` (${application.departmentOther})` : ""} — ${application.semester} semester</p>
+            <p style="margin:8px 0;color:#475569;"><strong>Commitment:</strong> ${application.hoursPerWeek}, weekends: ${application.weekendAvailability ? "Yes" : "No"}</p>
+            <p style="margin:8px 0;color:#475569;"><strong>LinkedIn:</strong> ${application.linkedin}</p>
+            ${application.github ? `<p style="margin:8px 0;color:#475569;"><strong>GitHub:</strong> ${application.github}</p>` : ""}
+          </div>
+          <div style="text-align:center;margin-top:20px;">
+            <a href="${process.env.ADMIN_URL || "http://localhost:3001"}/core-team"
+               style="display:inline-block;background:#1c4ed8;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">
+              Review Application
+            </a>
+          </div>
+        </div>
+      </div>`,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+export const sendCoreApplicationStatusUpdate = async (application) => {
+  const transporter = createTransporter();
+  const name = coreFullName(application);
+  const isAccepted = application.status === "accepted";
+  const statusColor = isAccepted ? "#16803c" : "#dc2626";
+  const statusBgColor = isAccepted ? "#f0fdf4" : "#fef2f2";
+
+  const mailOptions = {
+    from: {
+      name: "GDG on Campus ITU — Core Team",
+      address: process.env.SMTP_EMAIL,
+    },
+    to: application.email,
+    subject: `Core Team Application Update — ${application.position}`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">
+        <div style="text-align:center;margin-bottom:30px;">
+          <h1 style="color:#1c4ed8;margin:0;">GDG on Campus ITU</h1>
+          <p style="color:#666;margin:5px 0;">Core Leadership Recruitment</p>
+        </div>
+        <div style="background:${statusBgColor};padding:30px;border-radius:10px;border-left:4px solid ${statusColor};">
+          <h2 style="color:#1e293b;margin-top:0;">${isAccepted ? "Welcome to the Core Team! 🎉" : "Application Update"}</h2>
+          <p style="color:#475569;line-height:1.6;">Hi <strong>${name}</strong>,</p>
+          ${
+            isAccepted
+              ? `<p style="color:#475569;line-height:1.6;">
+                   Congratulations! You've been selected as <strong>${application.position}</strong>
+                   for GDG on Campus ITU. We were impressed by your application and we're
+                   excited to have you on the core team.
+                 </p>
+                 <p style="color:#475569;line-height:1.6;">
+                   We'll be in touch shortly with onboarding details and your first team meeting.
+                 </p>`
+              : `<p style="color:#475569;line-height:1.6;">
+                   Thank you for applying for <strong>${application.position}</strong>. After careful
+                   review, we're unable to offer you this position at this time.
+                 </p>
+                 <p style="color:#475569;line-height:1.6;">
+                   This was a competitive round and the decision was a difficult one. We'd genuinely
+                   encourage you to stay involved with GDG on Campus ITU — attend our events, join a
+                   team, and apply again next cycle.
+                 </p>`
+          }
+        </div>
+        <div style="text-align:center;margin-top:30px;padding-top:20px;border-top:1px solid #e2e8f0;">
+          <p style="color:#64748b;font-size:14px;margin:0;">Best regards,<br><strong>GDG on Campus ITU Team</strong></p>
+          <p style="color:#94a3b8;font-size:12px;margin:10px 0 0 0;">This is an automated email. Please do not reply.</p>
+        </div>
+      </div>`,
+  };
+
+  await transporter.sendMail(mailOptions);
+  console.log(`Core application status update sent to ${application.email}`);
+};
